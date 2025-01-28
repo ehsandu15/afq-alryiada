@@ -149,9 +149,45 @@ function handleSelectService(service: ServiceType) {
 .embla {
   overflow: hidden;
   width: 100%;
+  position: relative;
 }
 .embla__container {
   display: flex;
+}
+@media (max-width: 768px) {
+  .embla {
+    padding-inline: 1rem;
+  }
+}
+.embla::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 1rem;
+  width: 16px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgb(81 81 81 / 25%),
+    rgb(255 255 255 / 40%)
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+.embla::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  width: 16px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgb(255 255 255 / 40%),
+    rgb(81 81 81 / 25%)
+  );
+  pointer-events: none;
+  z-index: 1;
 }
 .embla__slide {
   flex: 0 0 fit-content;
