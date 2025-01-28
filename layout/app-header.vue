@@ -45,16 +45,18 @@ import closeIcon from "~/assets/images/shared/close-icon.svg";
 import { PATHS } from "~/constants/paths";
 import { APP_HEADER_HEIGHT, NAV_LINKS } from "~/constants/app-data";
 
+const appHeaderHeight = ref(APP_HEADER_HEIGHT);
 const isOpenNavLinks = ref(false);
+
 const router = useRoute();
 </script>
 <style scoped>
 @media (min-width: 768px) {
   .app-header {
-    height: v-bind(`${APP_HEADER_HEIGHT.MOBILE}px`);
+    height: v-bind(`${appHeaderHeight.MOBILE}px`);
   }
 }
 .app-header {
-  height: v-bind(`${APP_HEADER_HEIGHT.DESKTOP}px`);
+  height: v-bind(`${appHeaderHeight.DESKTOP}px`);
 }
 </style>

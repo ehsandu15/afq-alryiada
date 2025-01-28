@@ -14,39 +14,57 @@
 
       <!-- End Circle Waves animations -->
       <span
-        class="item-center z-[5] mb-2 flex max-h-[60px] w-fit items-center justify-center gap-3 rounded-full border border-[#C7C7CC] px-6 py-3"
+        class="item-center z-[5] mb-2 flex max-h-[60px] w-min items-center justify-center gap-3 rounded-full border border-[#C7C7CC] px-6 py-3 transition-[width] duration-500"
       >
-        <span class="item-center flex size-10 rounded-[8px] bg-secondary p-2.5">
+        <span
+          class="item-center ms-5 flex size-10 shrink-0 rounded-[8px] bg-secondary p-2.5"
+        >
           <img :src="flagIcon" alt="flag-icon.svd" />
         </span>
-        <p class="font-semi-bold text-[22px] text-secondary">مرحباً بكم</p>
-        <span
-          v-motion="{
-            initial: {
-              opacity: 0,
-              width: 0,
-              overflow: 'hidden',
-              transformOrigin: 'right',
-            },
-            envisibleOnceter: {
-              opacity: 1,
-              width: 'auto',
-            },
-          }"
-          :duration="MOTION_DURATION"
-          :delay="SHARED_DELAY"
-          class="font-semi-bold text-[22px] transition-[width] duration-500"
-        >
-          <p class="hidden shrink-0 md:flex">
+        <p class="font-semi-bold shrink-0 text-[22px] text-secondary">
+          مرحباً بكم
+        </p>
+        <span class="me-5 w-min transition-[width] duration-500">
+          <p
+            class="hero-heading hidden shrink-0 md:flex"
+            v-motion="{
+              initial: { opacity: 0, x: -150, width: '0%', maxWidth: '100%' },
+              visibleOnce: {
+                opacity: 1,
+                x: 0,
+                width: '100%',
+                maxWidth: '100%',
+              },
+              leave: { opacity: 0, x: -150, width: '0%', maxWidth: '100%' },
+            }"
+            :duration="MOTION_DURATION"
+            :delay="SHARED_DELAY"
+          >
             في أفق الريادة : حيث تلتقي الابتكار بالتميز!
           </p>
-          <p class="flex shrink-0 md:hidden">في أفق الريادة</p>
+          <p
+            class="hero-heading flex shrink-0 md:hidden"
+            v-motion="{
+              initial: { opacity: 0, x: -150, width: '0%', maxWidth: '100%' },
+              visibleOnce: {
+                opacity: 1,
+                x: 0,
+                width: '100%',
+                maxWidth: '100%',
+              },
+              leave: { opacity: 0, x: -150, width: '0%', maxWidth: '100%' },
+            }"
+            :duration="MOTION_DURATION"
+            :delay="SHARED_DELAY"
+          >
+            في أفق الريادة
+          </p>
         </span>
       </span>
       <h2
         v-motion="{
-          initial: $config.public.motion.directives['pop-down'].initial,
-          visibleOnce: $config.public.motion.directives['pop-down'].visible,
+          initial: { opacity: 0, y: -100 },
+          visibleOnce: { opacity: 1, y: 0 },
         }"
         :duration="MOTION_DURATION"
         class="item-center isolate mb-8 max-w-[80%] text-center text-5xl font-extrabold leading-[69px] text-app-black-secondary md:max-w-[700px] md:text-[56px] md:font-bold md:leading-[81px] lg:max-w-[766px]"
@@ -55,8 +73,8 @@
 
       <p
         v-motion="{
-          initial: $config.public.motion.directives['pop-down'].initial,
-          visibleOnce: $config.public.motion.directives['pop-down'].visible,
+          initial: { opacity: 0, y: -60 },
+          visibleOnce: { opacity: 1, y: 0 },
         }"
         :duration="MOTION_DURATION"
         class="text-black-secondary z-[5] mb-5 max-w-[350px] text-center md:max-w-[692px]"
@@ -66,8 +84,9 @@
       </p>
       <NuxtLink
         v-motion="{
-          initial: $config.public.motion.directives['pop-down'].initial,
-          visibleOnce: $config.public.motion.directives['pop-down'].visible,
+          initial: { opacity: 0, x: -80 },
+          visibleOnce: { opacity: 1, x: 0 },
+          leave: { opacity: 0, x: -80 },
         }"
         href="#contact"
         :duration="MOTION_DURATION"
@@ -89,8 +108,9 @@
 import flagIcon from "~/assets/images/shared/flag-icon.svg";
 import contactIcon from "~/assets/images/contact-us/contact-us-icon.svg";
 import { SECTIONS_IDS } from "~/constants/sections-ids";
+import type { _maxWidth } from "#tailwind-config/theme";
+import { MOTION_DURATION } from "~/constants/motion-config";
 
-const MOTION_DURATION = 750;
 const SHARED_DELAY = 800;
 
 const headingTitle = computed(() =>
@@ -102,6 +122,21 @@ const headingTitle = computed(() =>
 );
 </script>
 <style scoped lang="css">
+.hero-heading {
+  font-size: 22px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  margin: 0;
+  width: 0;
+  max-width: 100%;
+  animation: expand 3s forwards;
+  transition:
+    width 0.7s ease-in-out,
+    opacity 0.5s ease-in-out;
+  animation-delay: 0.8s;
+}
+
 .wave {
   --waves-duration: 3s;
   --waves-fill-mode: both;

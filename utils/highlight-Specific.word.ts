@@ -6,34 +6,30 @@ export const highlightSpecificWord = (props: {
   classNames: string;
 }) => {
   const { classNames, text, word } = props;
-  const regex = new RegExp(`\\b${word}\\b`, "gi");
+  const joinedClassNames = Array.isArray(classNames)
+    ? classNames.join(" ")
+    : classNames;
+  const ELEMENT = `<span class="${clsx(joinedClassNames)}">${word}</span>`;
 
   if (typeof window === "undefined") return text;
-
-  // TODO: Fix this
-  // `<span class="${classNames}">${word}</span>`;
 
   if (Array.isArray(word)) {
     return text
       .split(" ")
       .map((item) => {
-        const spanElem = document.createElement("span");
-        spanElem.className = clsx(classNames);
-        spanElem.textContent = item;
+        const ELEMENT = `<span class="${clsx(joinedClassNames)}">${item}</span>`;
+
         if (word.includes(item)) {
-          return spanElem.outerHTML;
+          return ELEMENT;
         } else {
           return item;
         }
       })
       .join(" ");
   } else {
-    const spanElem = document.createElement("span");
-    spanElem.className = clsx(classNames);
-    spanElem.textContent = word;
     return text
       .split(" ")
-      .map((item) => (item === word ? spanElem.outerHTML : item))
+      .map((item) => (item === word ? ELEMENT : item))
       .join(" ");
   }
 };

@@ -61,7 +61,7 @@
         <img
           :src="selectedService?.image"
           :alt="selectedService.title"
-          class="h-full rounded-app-radius object-cover md:max-w-full"
+          class="h-full w-full rounded-app-radius object-cover md:max-w-full"
         />
       </figure>
     </div>

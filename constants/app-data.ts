@@ -7,6 +7,11 @@ import internalSystemIcon from "~/assets/images/services/internal-system-develop
 import webDevelopIcon from "~/assets/images/services/web-development.svg";
 import noCodeDevelopIcon from "~/assets/images/services/no-code-develop.svg";
 import webDevelopmentImage from "~/assets/images/services/3f117151c89d179309ea7e1634932d7f.png";
+import cyberSecurityImage from "~/assets/images/services/cyber-security.jpeg";
+import aiDevelopImage from "~/assets/images/services/ai.webp";
+import spacialDevelopImage from "~/assets/images/services/spicial-programming.png";
+import internalSystemsProgrammingImage from "~/assets/images/services/Internal-systems-programming.jpg";
+import appDevelopImage from "~/assets/images/services/app-develop.jpg";
 import type { ServiceType } from "~/types/services";
 import facebookIcon from "~/assets/images/shared/social-media/facebook.svg";
 import instagramIcon from "~/assets/images/shared/social-media/instagram.svg";
@@ -35,7 +40,7 @@ export const services: Array<ServiceType> = [
     id: 0,
     title: "برمجة المواقع",
     description:
-      "هي خدمة متطورة مصممة خصيصًا لتلبية احتياجات الشركات في المملكة العربية السعودية وهذه الخدمة ستساعدك في تسريع عملية التشغيل، ومزودة بشات بوت سيساعدك في المبيعات والتقارير والتحليلات، وقادر على مراقبة المصانع Voice Assistant والمستشفيات والشركات لضمان سير العمل، وأيضا سيقوم بعمل خدمة العملاء تيلفونيا على أكمل وجه, وكل هذا بلغة عربية بسيطة، مما سيساعدك في كل هذا بكل سهولة, وتتميز هذه الخدمة بالأمان وسرية بيانات العملاء, ونُقدمها بأسعار تنافسية تُناسب جميع الميزانيات.",
+      "تعمل علي تحويل افكار العملاء الي حقيقة رقمية مبتكرة, عن طريق فريقنا المتخصص من المطورين و المصممين الذين يمتلكون خبرة واسعة في تصميم و برمجة مواقع الويب بأحدث التقنيات, و نستخدم لغات برمجة متعددة لبناء هيكل المواقع و تحقيق التفاعلات المرغوبة,بجانب ذلك نفوم بتنفيذ قواعد البيانات و تكامل التقنيت الخادمية لضمان أداء الموقع بكفاءة،",
     image: webDevelopmentImage,
     icon: webDevelopIcon,
   },
@@ -43,40 +48,40 @@ export const services: Array<ServiceType> = [
     id: 1,
     title: "برمجة التطبيقات",
     description:
-      "هي خدمة متطورة مصممة خصيصًا لتلبية احتياجات الشركات في المملكة العربية السعودية وهذه ال",
-    image: webDevelopmentImage,
+      "تتميز بثيرة واسعة في استخدام أحدث التقنيات والذوات، ونعمل محك لفهم احتياجاتك لتصميم وتطوير تطبيقات عالية الجودة وسلسة االستخدام. لتلبي متطلباتك الخاصة، ومن أهم مميزاتنا تقديم دعمًا فنيًا متميزًا على مدار الساعة طوال أيام األسبوع",
+    image: appDevelopImage,
     icon: appDevelopIcon,
   },
   {
     id: 2,
     title: "البرمجة الخاصة",
     description:
-      "هي خدمة متطورة مصممة خصيصًا لتلبية احتياجات الشركات في المملكة العربية السعودية وهذه ال",
-    image: webDevelopmentImage,
+      "تركز البرمجة الخاصة على فهم احتياجاتك بدقة وتصميم حلول تناسبها بشكل مثالي، وتمنحك البرمجة الخاصة ميزة تنافسية قوية في السوق من خلال توفير مميزات ومطاقف غير متوفرة في البرامج الجاهزة. وبساعدك في تحديث مواقفك وتطبيقاتك بسهولة لتلبية احتياجاتك المتغيرة.",
+    image: spacialDevelopImage,
     icon: noCodeDevelopIcon,
   },
   {
     id: 3,
     title: "الذكاء الإصطناعي",
     description:
-      "هي خدمة متطورة مصممة خصيصًا لتلبية احتياجات الشركات في المملكة العربية السعودية وهذه ال",
-    image: webDevelopmentImage,
+      "|تلبية لتابيا ةحيرصلا ةيبرعلا ةكلملا يف تارشلا تايلجناو توب ثلاثب ةدرومو ،ليغشتلا ةيلعم عيرست يف تاحلستلا ةدمخلا هذهو عمانملا ةيفارم ىلع ردامتو ،تيلابجلتلاو رايزاقتلاو تايعيبلا يف تاحلسيس Voice Assistant ،لمعلا ريبس نامضل تارشلاو تايفشتسلامو ةيرع ةغل اذه لكو ،هجوم لما أ ىلع اينوفلتب ءاطعلا ةمدخ لمعب موقيس ناملأل ةمدخلا ددحيتمزيتت و ،ةلواس لكيد ادخلا لكي كي يف تاحلسيس ام،طبيعب تابلازيملا عيمج بسانتُ ةيسلفن اربعأب اههاكشو ،ىلعمللا تانايب ةيررس|",
+    image: aiDevelopImage,
     icon: aiDevelopIcon,
   },
   {
     id: 4,
     title: "برمجة الأنظمة الداخلية",
     description:
-      "هي خدمة متطورة مصممة خصيصًا لتلبية احتياجات الشركات في المملكة العربية السعودية وهذه ال",
-    image: webDevelopmentImage,
+      "عملية إنشاء قواعد البيانات والأنظمة الداخلية باستخدام Odoo و Oracle. وهما أنظمة إدارة المحتوى (CMS)، مما يتبع لك استضافة وبناء قواعد البيانات والأنظمة الداخلية. ويتميز أوالكل وأودو بـ بأدائهما العالي وقدرتهما على معالجة كميات كبيرة من البيانات بكفاءة، ونقدم لك التدريب والدعم اللازمين لضمان استخدامك الأمثل لنظامك",
+    image: internalSystemsProgrammingImage,
     icon: internalSystemIcon,
   },
   {
     id: 5,
     title: "الأمن السيبراني وحلول الأمن الإلكتروني",
     description:
-      "هي خدمة متطورة مصممة خصيصًا لتلبية احتياجات الشركات في المملكة العربية السعودية وهذه ال",
-    image: webDevelopmentImage,
+      "توفــر حلولنــا المتكاملــة ميزات متقدمــة مثــل جــدار الحمايــة، ومكافحــة الفيروســات، ومنــع البريــد العنــتوائي. والتجكــم فــي المحتــوى، ممــا يضمــن حمايــة شاملــة لشبكاتــك وأجهزتــك. مــع خبرتنا الواســعة وسمعتنا المتصينــة، حيــث نساعــدك علــى ضمــان أمــان بياناتــك وسلامــة عملك فــي بيئــة رقميــة آمنــة",
+    image: cyberSecurityImage,
     icon: cyberSecurityIcon,
   },
 ];
