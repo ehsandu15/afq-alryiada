@@ -4,7 +4,7 @@
     class="relative flex min-h-screen w-full flex-col items-center justify-center bg-app-white-main"
   >
     <div
-      class="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden"
+      class="relative mt-20 flex min-h-screen w-full flex-col items-center justify-start overflow-hidden px-3 md:mt-0 md:justify-center lg:px-0"
     >
       <!-- Circle Waves animations -->
       <div class="wave delay-1"></div>
@@ -67,7 +67,7 @@
           visibleOnce: { opacity: 1, y: 0 },
         }"
         :duration="MOTION_DURATION"
-        class="item-center isolate mb-8 max-w-[80%] text-center text-5xl font-extrabold leading-[69px] text-app-black-secondary md:max-w-[700px] md:text-[56px] md:font-bold md:leading-[81px] lg:max-w-[766px]"
+        class="item-center isolate mb-8 max-w-full text-center text-[44px] font-extrabold leading-[69px] text-app-black-secondary md:max-w-[700px] md:text-[56px] md:font-bold md:leading-[81px] lg:max-w-[766px]"
         v-html="headingTitle"
       ></h2>
 
@@ -77,7 +77,7 @@
           visibleOnce: { opacity: 1, y: 0 },
         }"
         :duration="MOTION_DURATION"
-        class="text-black-secondary z-[5] mb-5 max-w-[350px] text-center md:max-w-[692px]"
+        class="text-black-secondary z-[5] mb-5 max-w-full text-center text-[16px] font-semibold md:max-w-[692px] md:text-xl"
       >
         أفق الريادة هو وجهتكم الشاملة للحصول على خدمات التكنولوجيا المتقدمة.
         نقدم لكم نتائج مصممة خصيصاً لتلبية احتياجاتكم الفريدة.
@@ -88,7 +88,7 @@
           visibleOnce: { opacity: 1, x: 0 },
           leave: { opacity: 0, x: -80 },
         }"
-        href="#contact"
+        :href="PATHS.CONTACT"
         :duration="MOTION_DURATION"
         :delay="SHARED_DELAY"
         class="btn btn-primary isolate"
@@ -110,6 +110,7 @@ import contactIcon from "~/assets/images/contact-us/contact-us-icon.svg";
 import { SECTIONS_IDS } from "~/constants/sections-ids";
 import type { _maxWidth } from "#tailwind-config/theme";
 import { MOTION_DURATION } from "~/constants/motion-config";
+import { PATHS } from "~/constants/paths";
 
 const SHARED_DELAY = 800;
 

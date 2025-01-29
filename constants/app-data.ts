@@ -35,6 +35,8 @@ export const NAV_LINKS = [
   // { name: "blogs", href: `/#${SECTIONS_IDS.BLOG}` },
 ];
 
+export const WHATSAPP_NUMBER = "+966553441377";
+
 export const services: Array<ServiceType> = [
   {
     id: 0,

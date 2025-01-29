@@ -6,12 +6,16 @@
       class="app-container container mt-[93px] grid grid-cols-2 items-center justify-center lg:grid-cols-3"
     >
       <figure
-        class="flex items-center justify-start max-lg:order-1 lg:justify-start lg:justify-center"
+        class="flex items-center justify-start max-lg:order-1 lg:justify-start"
       >
-        <img :src="logo" alt="full-logo.svg" class="max-w-[157px] md:w-fit" />
+        <img
+          :src="logo"
+          alt="full-logo.svg"
+          class="max-w-[calc(100%-2.5rem)] md:w-fit"
+        />
       </figure>
       <nav
-        class="flex items-center justify-end gap-3 max-lg:order-3 max-lg:col-span-2 max-lg:mt-11 md:gap-6 lg:justify-center"
+        class="flex items-center justify-center gap-3 max-lg:order-3 max-lg:col-span-2 max-lg:mt-11 md:gap-6"
       >
         <NuxtLink
           v-for="link of NAV_LINKS"
@@ -20,9 +24,7 @@
           >{{ link.name }}</NuxtLink
         >
       </nav>
-      <div
-        class="flex items-center justify-end max-lg:order-2 lg:justify-end lg:justify-center"
-      >
+      <div class="flex items-center justify-end max-lg:order-2 lg:justify-end">
         <NuxtLink :href="PATHS.CONTACT" class="btn btn-primary">
           <p
             class="text-lg font-semibold text-white md:text-[22px] md:font-bold"

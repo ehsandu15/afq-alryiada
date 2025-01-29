@@ -11,8 +11,6 @@ export const highlightSpecificWord = (props: {
     : classNames;
   const ELEMENT = `<span class="${clsx(joinedClassNames)}">${word}</span>`;
 
-  if (typeof window === "undefined") return text;
-
   if (Array.isArray(word)) {
     return text
       .split(" ")

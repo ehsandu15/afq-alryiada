@@ -119,11 +119,11 @@ import { MOTION_DURATION as GLOBAL_MOTION_DURATION } from "~/constants/motion-co
 const DELAY = 350;
 const MOTION_DURATION = GLOBAL_MOTION_DURATION + 250;
 const SCROLL_FADING_TOP = {
-  initial: { opacity: 0, y: -400 },
+  initial: { opacity: 0, y: -250 },
   visibleOnce: { opacity: 1, y: 0 },
 };
 const SCROLL_FADING_BOTTOM = {
-  initial: { opacity: 0, y: 400 },
+  initial: { opacity: 0, y: 250 },
   visibleOnce: { opacity: 1, y: 0 },
 };
 const headingTitle = computed(() =>

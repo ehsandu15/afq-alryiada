@@ -18,39 +18,22 @@
     >
       لدى أفق الريادة امتيازات خاصة لضمان نمو خدماتك بصورة صحيحة وبخبرات متراكمة
     </p>
-    <div class="embla py-8" ref="emblaRef">
+    <div class="app-container embla container py-8" ref="emblaRef">
       <ul class="embla__container">
-        <li
-          class="embla__slide"
+        <HomeServicesServiceCard
           v-for="(service, index) of services"
           :key="service.id"
           :class="clsx({ active: service.id === selectedService.id })"
           @click="handleSelectService(service)"
-          v-motion="{
-            initial: { opacity: 0, x: -500 },
-            visibleOnce: { opacity: 1, x: 0 },
-            leave: { opacity: 0, x: 500 },
-          }"
-          :duration="MOTION_DURATION"
-          :delay="index * 50"
+          :service="service"
+          :is-embla-ref="Boolean(emblaRef)"
+          :index="index"
         >
-          <span class="icon-wrapper bg-secondary p-2">
-            <img
-              :src="service.icon"
-              :alt="service.title"
-              class="object-contain"
-            />
-          </span>
-          <p
-            class="px-[17px] pb-7 text-center text-xl font-semibold leading-9 text-app-black-secondary md:px-5"
-          >
-            {{ service.title }}
-          </p>
-        </li>
+        </HomeServicesServiceCard>
       </ul>
     </div>
     <div
-      class="app-container container mb-12 flex flex-col-reverse items-start justify-between gap-5 lg:flex-row"
+      class="app-container container mb-12 flex flex-col-reverse items-start justify-between gap-5 px-0 lg:flex-row"
     >
       <p class="w-full text-xl font-semibold leading-[37.48px] lg:w-1/2">
         {{ selectedService?.description }}
@@ -92,7 +75,7 @@
       </p>
       <NuxtLink
         class="btn btn-primary"
-        href="#contact-us"
+        :href="PATHS.CONTACT"
         v-motion="{
           initial: { opacity: 0, y: 100 },
           visibleOnce: { opacity: 1, y: 0 },
@@ -112,17 +95,18 @@ import type { ServiceType } from "~/types/services";
 import { SECTIONS_IDS } from "~/constants/sections-ids";
 import { MOTION_DURATION } from "~/constants/motion-config";
 import { services as _services } from "~/constants/app-data";
+import { PATHS } from "~/constants/paths";
 
 const { appDir } = useAppDir();
-
 const [emblaRef] = emblaCarouselVue({
   loop: false,
   direction: appDir.value || "rtl",
   align: "start",
+  containScroll: false,
 });
 
 const services = ref<Array<ServiceType>>(_services);
-const selectedService = ref<ServiceType>(services.value[0]);
+const selectedService = ref<ServiceType>(_services[0]);
 
 const headingTitle = computed(() =>
   highlightSpecificWord({
@@ -159,7 +143,7 @@ function handleSelectService(service: ServiceType) {
     padding-inline: 1rem;
   }
 }
-.embla::before {
+/* .embla::before {
   content: "";
   position: absolute;
   top: 0;
@@ -188,53 +172,5 @@ function handleSelectService(service: ServiceType) {
   );
   pointer-events: none;
   z-index: 1;
-}
-.embla__slide {
-  flex: 0 0 fit-content;
-  max-width: 100%;
-  user-select: none;
-  border: 1px solid #d1d1d6;
-  border-radius: 20px;
-  cursor: grab;
-  transition:
-    background-color 0.4s ease-in-out,
-    box-shadow 0.3s ease-in-out;
-}
-.embla__slide .icon-wrapper {
-  margin: 23px;
-  margin-bottom: 12px;
-  margin-top: 27px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  justify-self: center;
-  align-self: center;
-  border-radius: 16px;
-  width: 40px;
-  height: 40px;
-}
-
-@media (min-width: 768px) {
-  .embla__slide .icon-wrapper {
-    width: 48px;
-    height: 48px;
-    margin: 26px;
-  }
-}
-.embla__slide:not(.active) .icon-wrapper {
-  background-color: #aeaeb2;
-}
-.embla__slide p {
-  color: #aeaeb2;
-}
-.embla__slide.active p {
-  color: #1f1f1f;
-}
-.embla__slide.active {
-  box-shadow: 0 4px 48px 0 #50505033;
-  background-color: #fff;
-}
-.embla__slide {
-  margin-right: 32px;
-}
+} */
 </style>

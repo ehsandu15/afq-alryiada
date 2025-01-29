@@ -27,16 +27,12 @@
       v-html="headingTitle"
       class="mb-[60px] mt-4 max-w-[572px] text-center text-4xl font-extrabold capitalize text-app-black-secondary max-md:px-4 md:text-5xl"
     ></h3>
-    <div class="embla mb-8" ref="emblaFirstSliderRef">
-      <ul
-        v-motion="{
-          initial: { opacity: 0, x: 250 },
-          visibleOnce: { opacity: 1, x: 0 },
-          leave: { opacity: 0, x: 250 },
-        }"
-        :duration="MOTION_DURATION"
-        class="embla__container"
-      >
+    <div
+      class="embla mb-8"
+      ref="emblaFirstSliderRef"
+      :duration="MOTION_DURATION"
+    >
+      <ul class="embla__container">
         <HomeTestimonialsTestimonialCard
           v-for="(comment, index) of COMMENTS.slice(0, 3)"
           v-bind:comment
@@ -46,16 +42,8 @@
         />
       </ul>
     </div>
-    <div class="embla" ref="emblaSecondSliderRef">
-      <ul
-        v-motion="{
-          initial: { opacity: 0, x: -250 },
-          visibleOnce: { opacity: 1, x: 0 },
-          leave: { opacity: 0, x: -250 },
-        }"
-        :duration="MOTION_DURATION"
-        class="embla__container"
-      >
+    <div class="embla" ref="emblaSecondSliderRef" :duration="MOTION_DURATION">
+      <ul class="embla__container">
         <HomeTestimonialsTestimonialCard
           v-for="comment of COMMENTS.slice(4)"
           v-bind:comment
@@ -74,6 +62,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { MOTION_DURATION } from "~/constants/motion-config";
 import { SECTIONS_IDS } from "~/constants/sections-ids";
 import { COMMENTS } from "~/constants/app-data";
+import type { MotionVariants } from "@vueuse/motion";
 
 const { appDir } = useAppDir();
 
@@ -93,6 +82,24 @@ const [emblaSecondSliderRef, secondSliderEmblaOptions] = emblaCarouselVue(
     slidesToScroll: "auto",
   },
   [Autoplay({ stopOnFocusIn: true })],
+);
+
+const FIRST_SLIDER_MOTIONS_VARIANTS = ref<MotionVariants<any>>({
+  initial: { opacity: 0, x: 250 },
+  visibleOnce: { opacity: 1, x: 0 },
+});
+const SECOND_SLIDER_MOTIONS_VARIANTS = ref<MotionVariants<any>>({
+  initial: { opacity: 0, x: -250 },
+  visibleOnce: { opacity: 1, x: 0 },
+});
+
+const motionFirstSlider = useMotion(
+  emblaFirstSliderRef,
+  FIRST_SLIDER_MOTIONS_VARIANTS,
+);
+const motionSecondSlider = useMotion(
+  emblaSecondSliderRef,
+  SECOND_SLIDER_MOTIONS_VARIANTS,
 );
 
 const headingTitle = computed(() =>

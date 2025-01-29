@@ -83,6 +83,12 @@
     </div>
   </section>
   <ScrollTopButton :button-visible-position="520" />
+  <a
+    :href="`https://wa.me/${WHATSAPP_NUMBER}`"
+    class="fixed bottom-10 left-6 isolate z-30 flex size-[54px] items-center justify-center rounded-full shadow-2xl md:bottom-14 md:left-12 md:size-[64px]"
+  >
+    <img src="~/assets/images/shared/whatsapp.svg" alt="whatsapp.svg" />
+  </a>
 </template>
 <script setup lang="ts">
 import fullLogo from "~/assets/images/shared/full-logo.svg";
@@ -92,6 +98,7 @@ import twitterIcon from "~/assets/images/shared/social-media/twitter.svg";
 import youtubeIcon from "~/assets/images/shared/social-media/youtube.svg";
 import backgroundPatterns from "~/assets/images/about/bg.svg";
 import { PATHS } from "~/constants/paths";
+import { WHATSAPP_NUMBER } from "~/constants/app-data";
 
 const SOCIAL_LINKS = [
   {

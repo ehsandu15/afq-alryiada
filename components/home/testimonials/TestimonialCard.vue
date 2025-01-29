@@ -31,7 +31,7 @@ defineProps<{
 </script>
 <style scoped>
 .testimonials-card {
-  @apply flex min-h-[190px] min-w-[470px] max-w-[470px] shrink-0 flex-col gap-6 rounded-app-radius bg-white p-6 md:min-h-[136px] md:min-w-[336px] md:max-w-[336px];
+  @apply flex min-h-[190px] min-w-[calc(100%-1rem)] max-w-[calc(100%-1rem)] shrink-0 flex-col gap-6 rounded-app-radius bg-white p-6 md:min-h-[136px] md:min-w-[336px] md:max-w-[336px];
 }
 .testimonials-card.active {
   @apply bg-secondary;
