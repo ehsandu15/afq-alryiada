@@ -12,7 +12,7 @@
         v-html="headingTitle"
         class="z-10 mb-3 max-w-[350px] text-center text-[40px] font-extrabold leading-[75px] text-app-black-secondary md:max-w-fit md:font-bold"
         v-motion="{
-          initial: { opacity: 0, scale: 3.1, y: 700 },
+          initial: { opacity: 0, scale: 3.1, y: 65 },
           visibleOnce: { opacity: 1, scale: 1, y: 0 },
         }"
         :duration="MOTION_DURATION"
