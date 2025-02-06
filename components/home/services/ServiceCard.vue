@@ -7,7 +7,11 @@
     :duration="MOTION_DURATION"
   >
     <span class="icon-wrapper bg-secondary p-2">
-      <img :src="service.icon" :alt="service.title" class="object-contain" />
+      <img
+        :src="service.icon?.url"
+        :alt="service.icon?.alternativeText"
+        class="object-contain"
+      />
     </span>
     <p
       class="px-[17px] pb-7 text-center text-xl font-semibold leading-9 text-app-black-secondary md:px-5"

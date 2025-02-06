@@ -1,7 +1,9 @@
-export type ServiceType = {
+import type { ImageType, StrapiType } from "./shared";
+
+export type ServiceType = StrapiType & {
   id: number;
   title: string;
-  description: string;
-  image: string;
-  icon: string;
+  content: string;
+  icon: ImageType;
+  cover: ImageType;
 };

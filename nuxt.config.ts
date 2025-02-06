@@ -2,7 +2,12 @@
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
-  modules: ["@vueuse/motion/nuxt", "@nuxtjs/tailwindcss", "@nuxt/fonts"],
+  modules: [
+    "@vueuse/motion/nuxt",
+    "@nuxtjs/tailwindcss",
+    "@nuxt/fonts",
+    "@nuxtjs/strapi",
+  ],
   css: ["~/assets/css/tailwind.css"],
   app: {
     head: {
@@ -35,7 +40,18 @@ export default defineNuxtConfig({
   tailwindcss: {
     exposeConfig: true,
   },
+  strapi: {
+    url: process.env.STRAPI_URL || "http://localhost:1337",
+    prefix: "/api",
+    admin: "/admin",
+    version: "v5",
+    cookie: {},
+    cookieName: "strapi_jwt",
+  },
   runtimeConfig: {
+    strapi: {
+      url: "http://localhost:1337",
+    },
     public: {
       motion: {
         directives: {
@@ -48,6 +64,9 @@ export default defineNuxtConfig({
             visible: { scale: 1, opacity: 1, y: 0 },
           },
         },
+      },
+      strapi: {
+        url: "http://localhost:1337",
       },
     },
   },

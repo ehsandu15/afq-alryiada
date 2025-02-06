@@ -4,21 +4,22 @@
     :id="SECTIONS_IDS.TESTIMONIALS"
   >
     <div
-      class="absolute left-0 top-0 flex w-full items-center justify-between overflow-x-hidden py-[60px]"
+      class="absolute left-0 top-0 grid w-full grid-cols-3 items-center justify-between overflow-x-hidden py-[60px]"
     >
       <img
-        :src="backgroundPeoples"
-        alt="bg-patterns.svg"
+        :src="content.testimonialsPeoplesPatternImg?.url"
+        :alt="content.testimonialsPeoplesPatternImg?.alternativeText"
         class="translate-x-[25%]"
       />
+      <span></span>
       <img
-        :src="backgroundPeoples"
-        alt="bg-patterns.svg"
+        :src="content.testimonialsPeoplesPatternImg?.url"
+        :alt="content.testimonialsPeoplesPatternImg?.alternativeText"
         class="-translate-x-[25%]"
       />
     </div>
     <AdvancedSectionHeading
-      title="أرآء العملاء"
+      :title="content.testimonialsSectionTitle.title"
       icon-color-class="bg-[#FF9500]"
       class="mt-[60px] border-app-black-third"
       text-color-class="text-app-black-secondary"
@@ -27,27 +28,23 @@
       v-html="headingTitle"
       class="mb-[60px] mt-4 max-w-[572px] text-center text-4xl font-extrabold capitalize text-app-black-secondary max-md:px-4 md:text-5xl"
     ></h3>
-    <div
-      class="embla mb-8"
-      ref="emblaFirstSliderRef"
-      :duration="MOTION_DURATION"
-    >
+    <div class="embla mb-8" ref="emblaFirstSliderRef">
       <ul class="embla__container">
         <HomeTestimonialsTestimonialCard
-          v-for="(comment, index) of COMMENTS.slice(0, 3)"
+          v-for="(comment, index) of content.testimonials_lists.slice(0, 3)"
           v-bind:comment
-          :key="comment.id"
+          :key="comment.documentId"
           class="embla__slide"
           :class="clsx({ active: index === 1 })"
         />
       </ul>
     </div>
-    <div class="embla" ref="emblaSecondSliderRef" :duration="MOTION_DURATION">
+    <div class="embla" ref="emblaSecondSliderRef">
       <ul class="embla__container">
         <HomeTestimonialsTestimonialCard
-          v-for="comment of COMMENTS.slice(4)"
+          v-for="comment of content.testimonials_lists.slice(4)"
           v-bind:comment
-          :key="comment.id"
+          :key="comment.documentId"
           class="embla__slide"
         />
       </ul>
@@ -55,34 +52,52 @@
   </section>
 </template>
 <script setup lang="ts">
-import backgroundPeoples from "~/assets/images/testimonials/bg-peoples.svg";
+// import { COMMENTS } from "~/constants/app-data";
+// import backgroundPeoples from "~/assets/images/testimonials/bg-peoples.svg";
 import emblaCarouselVue from "embla-carousel-vue";
 import clsx from "clsx";
 import Autoplay from "embla-carousel-autoplay";
-import { MOTION_DURATION } from "~/constants/motion-config";
 import { SECTIONS_IDS } from "~/constants/sections-ids";
-import { COMMENTS } from "~/constants/app-data";
 import type { MotionVariants } from "@vueuse/motion";
+import type { TestimonialsSectionType } from "~/types/home-page";
 
 const { appDir } = useAppDir();
 
-const [emblaFirstSliderRef, firstSliderEmblaOptions] = emblaCarouselVue({
-  loop: true,
-  align: "center",
-  active: true,
-  direction: appDir.value,
-  duration: 3000,
-});
+const [emblaFirstSliderRef, firstSliderEmblaOptions] = emblaCarouselVue(
+  {
+    loop: true,
+    align: "start",
+    active: true,
+    direction: "ltr",
+    duration: 3000,
+    containScroll: false,
+  },
+  [
+    Autoplay({
+      stopOnMouseEnter: true,
+      active: true,
+      playOnInit: true,
+    }),
+  ],
+);
 const [emblaSecondSliderRef, secondSliderEmblaOptions] = emblaCarouselVue(
   {
     loop: true,
     align: "end",
     direction: appDir.value,
-    duration: 7000,
-    slidesToScroll: "auto",
+    duration: 3000,
+    containScroll: false,
   },
-  [Autoplay({ stopOnFocusIn: true })],
+  [
+    Autoplay({
+      stopOnMouseEnter: true,
+      active: true,
+      playOnInit: true,
+    }),
+  ],
 );
+
+const props = defineProps<{ content: TestimonialsSectionType }>();
 
 const FIRST_SLIDER_MOTIONS_VARIANTS = ref<MotionVariants<any>>({
   initial: { opacity: 0, x: 250 },
@@ -104,7 +119,7 @@ const motionSecondSlider = useMotion(
 
 const headingTitle = computed(() =>
   highlightSpecificWord({
-    text: "بعض من أراء العملاء عن ادائنا معهم",
+    text: props.content.testimonialsHeadingTitle,
     word: ["أراء", "العملاء"],
     classNames: "text-app-black-third",
   }),

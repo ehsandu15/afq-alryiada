@@ -1,73 +1,109 @@
 <template>
-  <div class="mouse-waves-layer">
-    <div>
-      <div class="wave delay-1"></div>
-      <div class="wave delay-2"></div>
-      <div class="wave delay-3"></div>
-      <div class="wave delay-4"></div>
-    </div>
-  </div>
+  <div
+    class="waves-component_list"
+    id="waves-component_list"
+    ref="wavesList"
+  ></div>
 </template>
 <script setup lang="ts">
+import { useMouse } from "@vueuse/core";
 import { onWatcherCleanup } from "vue";
 import { SECTIONS_IDS } from "~/constants/sections-ids";
 
-const { xCoordinate, yCoordinate } = useMouseLocation();
-const mouseWaveElementHide = ref<"none" | "block">("none");
-const waveDuration = ref(7);
+// USED IN CSS !!
+const wavesList = ref<HTMLDivElement | null>(null);
+const { x: xCoordinate, y: yCoordinate } = useMouse();
+const waveDuration = ref(5);
+const WAVES_ELEMENT = () => {
+  const MOUSE_WAVES_LAYER_HEIGHT = 300;
+  const MOUSE_WAVES_LAYER_WIDTH = 300;
+
+  const mouseWavesLayer = document.createElement("div");
+  mouseWavesLayer.style.top = `${yCoordinate.value - MOUSE_WAVES_LAYER_HEIGHT / 5}px`;
+  mouseWavesLayer.style.left = `${xCoordinate.value}px`;
+  mouseWavesLayer.style.height = `${MOUSE_WAVES_LAYER_HEIGHT}px`;
+  mouseWavesLayer.style.width = `${MOUSE_WAVES_LAYER_WIDTH}px`;
+  mouseWavesLayer.className = "waves-component__layer";
+
+  const mouseWavesItemContainer = document.createElement("ul");
+  mouseWavesLayer.appendChild(mouseWavesItemContainer);
+  const mouseWavesItemDelayOne = document.createElement("li");
+  mouseWavesItemDelayOne.className =
+    "waves-component__layer__wave waves-component__layer__delay_1";
+  const mouseWavesItemDelayTwo = document.createElement("li");
+  mouseWavesItemDelayTwo.className =
+    "waves-component__layer__wave waves-component__layer__delay_2";
+  const mouseWavesItemDelayThree = document.createElement("li");
+  mouseWavesItemDelayThree.className =
+    "waves-component__layer__wave waves-component__layer__delay_3";
+  const mouseWavesItemDelayFour = document.createElement("li");
+  mouseWavesItemDelayFour.className =
+    "waves-component__layer__wave waves-component__layer__delay_4";
+
+  mouseWavesItemContainer.appendChild(mouseWavesItemDelayOne);
+  mouseWavesItemContainer.appendChild(mouseWavesItemDelayTwo);
+  mouseWavesItemContainer.appendChild(mouseWavesItemDelayThree);
+  mouseWavesItemContainer.appendChild(mouseWavesItemDelayFour);
+
+  return mouseWavesLayer;
+};
+
+const timeoutRefs = ref<Set<NodeJS.Timeout>>(new Set());
 
 const handleDocumentClick = (ev: MouseEvent) => {
-  const heroSection = (ev.target as HTMLElement).closest(
-    `#${SECTIONS_IDS.HERO}`,
-  );
+  const sectionId = (ev.target as HTMLElement).closest("section")?.id;
+  if (sectionId !== SECTIONS_IDS.HERO) return;
 
-  if (heroSection) {
-    mouseWaveElementHide.value = "block";
+  if (!wavesList.value) {
+    console.error("Error Waves list is not available");
     return;
   }
+
+  const wavesElement = WAVES_ELEMENT();
+  wavesList.value.appendChild(wavesElement);
+
+  const timeoutId = setTimeout(() => {
+    wavesElement.remove();
+    timeoutRefs.value.delete(timeoutId);
+  }, waveDuration.value * 1000);
+
+  timeoutRefs.value.add(timeoutId);
 };
 
 onMounted(() => {
-  window.document.addEventListener("click", handleDocumentClick);
+  document.addEventListener("click", handleDocumentClick, { passive: true });
 });
 
-onUnmounted(() => {
-  window.document.removeEventListener("click", handleDocumentClick);
+onBeforeUnmount(() => {
+  document.removeEventListener("click", handleDocumentClick);
+  // Clear all timeouts
+  timeoutRefs.value.forEach(clearTimeout);
+  timeoutRefs.value.clear();
 });
-
-watch(
-  () => [mouseWaveElementHide.value],
-  () => {
-    const timeoutId = setTimeout(() => {
-      mouseWaveElementHide.value = "none";
-    }, waveDuration.value * 1000);
-
-    onWatcherCleanup(() => {
-      clearTimeout(timeoutId);
-    });
-  },
-);
 </script>
-<style scoped lang="css">
-.mouse-waves-layer {
-  --width: 300px;
-  --height: 300px;
+
+<style lang="css">
+.waves-component_list {
   position: absolute;
-  width: var(--width);
-  height: var(--height);
-  top: v-bind(`calc(${yCoordinate}px - (var(--height) / 4)) `);
-  left: v-bind(`calc(${xCoordinate}px) `);
-  display: v-bind(mouseWaveElementHide);
+  display: flex;
+  inset: 0;
+  pointer-events: none;
+}
+.waves-component__layer {
+  position: absolute;
+  /* top: v-bind(`calc(${yCoordinate}px - (var(--height) / 4)) `);
+  left: v-bind(`calc(${xCoordinate}px) `); */
+  display: block;
   transform: translate(-50%, -50%);
 }
 
-.mouse-waves-layer > div {
+.waves-component__layer > div {
   position: relative;
   width: 100%;
   height: 100%;
 }
 
-.mouse-waves-layer > :first-child > .wave {
+.waves-component__layer > :first-child > .waves-component__layer__wave {
   --waves-duration: v-bind(waveDuration + "s");
   --waves-fill-mode: both;
   --wave-direction: alternate;
@@ -85,7 +121,7 @@ watch(
   transition: 5s ease-in-out;
 }
 
-.delay-1 {
+.waves-component__layer__delay_1 {
   animation-name: waves;
   animation-duration: var(--waves-duration);
   animation-timing-function: var(--wave-timing-function);
@@ -93,7 +129,7 @@ watch(
   animation-fill-mode: var(--waves-fill-mode);
   animation-direction: (--wave-direction);
 }
-.delay-2 {
+.waves-component__layer__delay_2 {
   animation-name: waves-1;
   animation-duration: var(--waves-duration);
   animation-timing-function: var(--wave-timing-function);
@@ -101,7 +137,7 @@ watch(
   animation-fill-mode: var(--waves-fill-mode);
   animation-direction: var(--wave-direction);
 }
-.delay-3 {
+.waves-component__layer__delay_3 {
   animation-name: waves-2;
   animation-duration: var(--waves-duration);
   animation-timing-function: var(--wave-timing-function);
@@ -109,7 +145,7 @@ watch(
   animation-fill-mode: var(--waves-fill-mode);
   animation-direction: var(--wave-direction);
 }
-.delay-4 {
+.waves-component__layer__delay_4 {
   animation-name: waves-3;
   animation-duration: var(--waves-duration);
   animation-timing-function: var(--wave-timing-function);

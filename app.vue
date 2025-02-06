@@ -1,15 +1,10 @@
 <template>
-  <main class="flex min-h-screen flex-col items-center justify-center">
-    <AppHeader />
+  <NuxtLayout>
     <NuxtPage />
-    <AppFooter />
-  </main>
+  </NuxtLayout>
 </template>
 
-<script setup lang="ts">
-import AppFooter from "./layout/app-footer.vue";
-import AppHeader from "./layout/app-header.vue";
-</script>
+<script setup lang="ts"></script>
 
 <style>
 .page-enter-active,

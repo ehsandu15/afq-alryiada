@@ -7,73 +7,73 @@
       class="absolute inset-0 flex h-full w-full -translate-y-4 items-start justify-center gap-[25px] opacity-[0.03]"
     >
       <img
-        :src="backgroundPatterns"
-        alt="background-patterns"
+        :src="content?.privilegePatternImage?.url"
+        :alt="content?.privilegePatternImage?.alternativeText"
         class="object-cover"
         v-motion="SCROLL_FADING_TOP"
         :duration="MOTION_DURATION"
         :delay="DELAY"
       />
       <img
-        :src="backgroundPatterns"
-        alt="background-patterns"
+        :src="content?.privilegePatternImage?.url"
+        :alt="content?.privilegePatternImage?.alternativeText"
         class="object-cover"
         v-motion="SCROLL_FADING_BOTTOM"
         :duration="MOTION_DURATION + 250"
-        :delay="DELAY"
+        :delay="DELAY * 2"
       />
       <img
-        :src="backgroundPatterns"
-        alt="background-patterns"
+        :src="content?.privilegePatternImage?.url"
+        :alt="content?.privilegePatternImage?.alternativeText"
         class="object-cover"
         v-motion="SCROLL_FADING_TOP"
         :duration="MOTION_DURATION"
         :delay="DELAY"
       />
       <img
-        :src="backgroundPatterns"
-        alt="background-patterns"
+        :src="content?.privilegePatternImage?.url"
+        :alt="content?.privilegePatternImage?.alternativeText"
         class="object-cover"
         v-motion="SCROLL_FADING_BOTTOM"
         :duration="MOTION_DURATION"
-        :delay="DELAY"
+        :delay="DELAY * 2"
       />
       <img
-        :src="backgroundPatterns"
-        alt="background-patterns"
+        :src="content?.privilegePatternImage?.url"
+        :alt="content?.privilegePatternImage?.alternativeText"
         class="object-cover"
         v-motion="SCROLL_FADING_TOP"
         :duration="MOTION_DURATION"
         :delay="DELAY"
       />
       <img
-        :src="backgroundPatterns"
-        alt="background-patterns"
+        :src="content?.privilegePatternImage?.url"
+        :alt="content?.privilegePatternImage?.alternativeText"
         class="object-cover"
         v-motion="SCROLL_FADING_BOTTOM"
         :duration="MOTION_DURATION"
-        :delay="DELAY"
+        :delay="DELAY * 2"
       />
       <img
-        :src="backgroundPatterns"
-        alt="background-patterns"
+        :src="content?.privilegePatternImage?.url"
+        :alt="content?.privilegePatternImage?.alternativeText"
         class="object-cover"
         v-motion="SCROLL_FADING_TOP"
         :duration="MOTION_DURATION"
         :delay="DELAY"
       />
       <img
-        :src="backgroundPatterns"
-        alt="background-patterns"
+        :src="content?.privilegePatternImage?.url"
+        :alt="content?.privilegePatternImage?.alternativeText"
         class="object-cover"
         v-motion="SCROLL_FADING_BOTTOM"
         :duration="MOTION_DURATION"
-        :delay="DELAY"
+        :delay="DELAY * 2"
       />
     </div>
     <AdvancedSectionHeading
-      title="امتيازاتنا"
-      icon-color-class="bg-secondary"
+      :title="content.privilegeSectionTitle.title"
+      :icon-color-class="clsx(`bg-[#ED4136]`)"
       class="isolate"
     />
     <div class="mb-20 flex w-fit flex-col items-center justify-center gap-4">
@@ -95,8 +95,7 @@
         }"
         :duration="GLOBAL_MOTION_DURATION"
       >
-        لدى أفق الريادة امتيازات خاصة لضمان نمو خدماتك بصورة صحيحة وبخبرات
-        متراكمة
+        {{ content.privilegeDescription }}
       </p>
     </div>
     <div
@@ -107,15 +106,21 @@
       }"
       :duration="MOTION_DURATION"
     >
-      <img :src="menPrivileges" alt="man-and-privileges-img.svg" />
+      <img
+        :src="content?.privilegePersonImage?.url"
+        :alt="content?.privilegePersonImage?.alternativeText"
+      />
     </div>
   </section>
 </template>
 <script setup lang="ts">
-import menPrivileges from "~/assets/images/privileges/man-and-privileges-img.svg";
-import backgroundPatterns from "~/assets/images/privileges/bg-patterns.svg";
+// import menPrivileges from "~/assets/images/privileges/man-and-privileges-img.svg";
+// import backgroundPatterns from "~/assets/images/privileges/bg-patterns.svg";
 import { MOTION_DURATION as GLOBAL_MOTION_DURATION } from "~/constants/motion-config";
+import type { PrivilegeSectionType } from "~/types/home-page";
+import clsx from "clsx";
 
+const props = defineProps<{ content: PrivilegeSectionType }>();
 const DELAY = 350;
 const MOTION_DURATION = GLOBAL_MOTION_DURATION + 250;
 const SCROLL_FADING_TOP = {
@@ -128,7 +133,7 @@ const SCROLL_FADING_BOTTOM = {
 };
 const headingTitle = computed(() =>
   highlightSpecificWord({
-    text: "ما تمتاز به أعمالنا",
+    text: props.content.privilegeHeadingTitle,
     word: ["تمتاز", "به"],
     classNames: "opacity-60",
   }),

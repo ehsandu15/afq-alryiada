@@ -5,9 +5,9 @@
   >
     <AdvancedSectionHeading
       icon-color-class="bg-secondary"
-      title="خدماتنا"
+      :title="content.servicesSectionTitle.title"
       text-color-class="text-app-black-secondary"
-      class="!border-[#C7C7CC]"
+      :class="clsx(`!border-[#C7C7CC]`)"
     />
     <h3
       v-html="headingTitle"
@@ -16,14 +16,14 @@
     <p
       class="mb-11 max-w-[350px] text-center text-[20px] font-medium leading-[32px] text-app-black-secondary md:max-w-full md:text-lg"
     >
-      لدى أفق الريادة امتيازات خاصة لضمان نمو خدماتك بصورة صحيحة وبخبرات متراكمة
+      {{ content.servicesDescription }}
     </p>
     <div class="app-container embla container py-8" ref="emblaRef">
       <ul class="embla__container">
         <HomeServicesServiceCard
-          v-for="(service, index) of services"
+          v-for="(service, index) of content.services_lists"
           :key="service.id"
-          :class="clsx({ active: service.id === selectedService.id })"
+          :class="clsx({ active: service.id === selectedService?.id })"
           @click="handleSelectService(service)"
           :service="service"
           :is-embla-ref="Boolean(emblaRef)"
@@ -33,17 +33,17 @@
       </ul>
     </div>
     <div
-      class="app-container container mb-12 flex flex-col-reverse items-start justify-between gap-5 px-0 lg:flex-row"
+      class="app-container container mb-12 flex flex-col-reverse items-start justify-between gap-5 px-4 md:px-0 lg:flex-row"
     >
       <p class="w-full text-xl font-semibold leading-[37.48px] lg:w-1/2">
-        {{ selectedService?.description }}
+        {{ selectedService?.content }}
       </p>
       <figure
         class="flex h-96 w-full items-center justify-center overflow-hidden rounded-app-radius lg:h-80 lg:w-1/2"
       >
         <img
-          :src="selectedService?.image"
-          :alt="selectedService.title"
+          :src="selectedService?.cover?.url"
+          :alt="selectedService?.cover?.url"
           class="h-full w-full rounded-app-radius object-cover md:max-w-full"
         />
       </figure>
@@ -69,13 +69,11 @@
         :delay="100"
         :duration="MOTION_DURATION"
       >
-        هل أنتم مستعدون لتحويل أعمالكم؟ تواصلوا معنا لاكتشاف الإمكانيات الكاملة
-        للتكنولوجيا. سواء كنتم ترغبون في التطوير، الابتكار، أو تأمين أنظمتكم،
-        نحن هنا لدعمكم في كل خطوة على الطريق.
+        {{ content.servicesSecondaryDescription }}
       </p>
       <NuxtLink
         class="btn btn-primary"
-        :href="PATHS.CONTACT"
+        :href="content.servicesContactBtn.href"
         v-motion="{
           initial: { opacity: 0, y: 100 },
           visibleOnce: { opacity: 1, y: 0 },
@@ -83,7 +81,7 @@
         :delay="130"
         :duration="MOTION_DURATION"
       >
-        <p>تواصل معنا</p>
+        <p>{{ content.servicesContactBtn.title }}</p>
       </NuxtLink>
     </div>
   </section>
@@ -94,9 +92,10 @@ import clsx from "clsx";
 import type { ServiceType } from "~/types/services";
 import { SECTIONS_IDS } from "~/constants/sections-ids";
 import { MOTION_DURATION } from "~/constants/motion-config";
-import { services as _services } from "~/constants/app-data";
-import { PATHS } from "~/constants/paths";
+// import { PATHS } from "~/constants/paths";
+import type { ServicesSectionType } from "~/types/home-page";
 
+const props = defineProps<{ content: ServicesSectionType }>();
 const { appDir } = useAppDir();
 const [emblaRef] = emblaCarouselVue({
   loop: false,
@@ -105,12 +104,13 @@ const [emblaRef] = emblaCarouselVue({
   containScroll: false,
 });
 
-const services = ref<Array<ServiceType>>(_services);
-const selectedService = ref<ServiceType>(_services[0]);
+const selectedService = ref<ServiceType | undefined>(
+  props.content.services_lists.at(0),
+);
 
 const headingTitle = computed(() =>
   highlightSpecificWord({
-    text: "خدمات افق الريادة",
+    text: props.content.servicesHeadingTitle,
     word: "خدمات",
     classNames: "text-app-black-third",
   }),
@@ -118,7 +118,7 @@ const headingTitle = computed(() =>
 
 const joinToUsText = computed(() =>
   highlightSpecificWord({
-    text: "انضموا إلى أفق الريادة اليوم!",
+    text: props.content.servicesSecondaryHeading,
     word: "اليوم!",
     classNames: "!text-secondary",
   }),

@@ -1,11 +1,12 @@
 <template>
   <li class="relative">
     <div
-      class="group relative flex max-h-[230px] items-center justify-center md:max-h-[257px]"
+      class="group relative rounded-app-radius flex max-h-[230px] items-center justify-center md:max-h-[257px] overflow-hidden"
     >
     
-      <p
-        class="pointer-events-none absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-4 rounded-full bg-app-black-secondary bg-opacity-50 px-[15px] py-[10px] opacity-0 shadow-lg backdrop-blur-sm transition-opacity group-hover:pointer-events-auto group-hover:opacity-100"
+      <NuxtLink
+        :href="article.title"
+        class="absolute top-1/2 left-1/2 bg-app-black-secondary bg-opacity-60 scale-150 group-hover:scale-100 backdrop-blur-md px-4 py-3.5 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-all pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto duration-500  flex items-center justify-center gap-2.5 rounded-full"
       >
         <p class="text-lg text-white">عرض البلوج</p>
         <button
@@ -28,12 +29,12 @@
             />
           </svg>
         </button>
-      </p>
-      <img :src="article?.mediaUrl" :alt="article?.title" class="mb-2" />
+      </NuxtLink>
+      <img :src="article?.cover.url" :alt="article?.cover.alternativeText" class="mb-2 w-full object-cover self-center justify-self-center" />
     </div>
     <nav class="mb-2 flex items-center gap-2">
       <p
-        v-for="keyword of article?.keywords"
+        v-for="keyword of keywordArray"
         :key="keyword"
         class="text-xs font-semibold text-secondary md:text-base"
       >
@@ -57,16 +58,14 @@
         year: "numeric",
         month: "long",
         day: "numeric",
-      }).format(new Date(article?.date) || new Date())
+      }).format(new Date(article?.createdAt) || new Date())
     }}</time>
   </li>
 </template>
 <script setup lang="ts">
-import arrowIcon from "~/assets/images/shared/arrow-up.svg";
 import { PATHS } from "~/constants/paths";
-const props = defineProps({
-  article: Object,
-});
-
-const HREF = `$${PATHS.BLOG}/${props.article?.href || "#"}`;
+import type { ArticleType } from "~/types/article";
+const props = defineProps<{article: ArticleType}>();
+const keywordArray = computed(()=> props.article?.keywords?.trim()?.split(",") || [])
+const HREF = `$${PATHS.BLOG}/${props.article?.title || "#"}`;
 </script>

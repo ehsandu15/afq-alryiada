@@ -5,7 +5,7 @@
     <div class="flex w-full flex-col py-6 lg:w-[calc(60%-1.5rem)]">
       <div v-motion="MOTION_FADE_DOWN_TOP" :duration="MOTION_DURATION">
         <AdvancedSectionHeading
-          title="التقنيات"
+          :title="content.techSectionTitle.title"
           icon-color-class="bg-[#30B0C7]"
           text-color-class="text-app-black-secondary"
           class="border-[#c7c7cc]"
@@ -26,7 +26,7 @@
           :duration="MOTION_DURATION"
           class="text-sm font-medium text-black md:text-xl"
         >
-          تمتاز أفق الريادة بإستخدام تقنيات حديثة ومتوائمة مع كل ما هو جديد.
+          {{ content.techDescription }}
         </p>
       </span>
     </div>
@@ -34,14 +34,18 @@
       class="grid w-full grid-cols-2 gap-[17px] md:gap-2 lg:w-[calc(40%-1.5rem)]"
     >
       <li
-        v-motion="MOTION_FADE_DOWN_TOP"
+        v-for="(image, index) of content.technologies_lists"
+        v-motion="index <= 1 ? MOTION_FADE_DOWN_TOP : MOTION_FADE_TOP_SIMPLE"
         :duration="MOTION_DURATION"
-        :delay="DELAY"
+        :delay="index <= 1 ? DELAY : undefined"
         class="flex h-[84px] items-center justify-center rounded-app-radius border border-[#C7C7CC] lg:w-[192px]"
       >
-        <img :src="oracleIcon" alt="oracle.svg" />
+        <img
+          :src="image?.image.at(0)?.url"
+          :alt="image.image.at(0)?.alternativeText"
+        />
       </li>
-      <li
+      <!-- <li
         v-motion="MOTION_FADE_DOWN_TOP"
         :duration="MOTION_DURATION"
         :delay="DELAY"
@@ -62,17 +66,19 @@
         class="flex h-[84px] items-center justify-center rounded-app-radius border border-[#C7C7CC] lg:w-[192px]"
       >
         <img :src="odooIcon" alt="odoo.svg" />
-      </li>
+      </li> -->
     </ul>
   </section>
 </template>
 <script setup lang="ts">
-import oracleIcon from "~/assets/images/technologies/oracle.svg";
-import wordpressIcon from "~/assets/images/technologies/wordpress.svg";
-import odooIcon from "~/assets/images/technologies/odoo.svg";
-import flutterIcon from "~/assets/images/technologies/flutter.svg";
+// import oracleIcon from "~/assets/images/technologies/oracle.svg";
+// import wordpressIcon from "~/assets/images/technologies/wordpress.svg";
+// import odooIcon from "~/assets/images/technologies/odoo.svg";
+// import flutterIcon from "~/assets/images/technologies/flutter.svg";
 import { MOTION_DURATION } from "~/constants/motion-config";
+import type { TechSectionType } from "~/types/home-page";
 
+const props = defineProps<{ content: TechSectionType }>();
 const DELAY = 100;
 const MOTION_FADE_TOP_SIMPLE = {
   initial: { opacity: 0, y: 5 },
@@ -92,7 +98,7 @@ const MOTION_FADE_DOWN_TOP = {
 };
 const headingTitle = computed(() =>
   highlightSpecificWord({
-    text: "التقنيات الخاصة بنا",
+    text: props.content.techHeadingTitle,
     word: "الخاصة",
     classNames: "text-app-black-third",
   }),

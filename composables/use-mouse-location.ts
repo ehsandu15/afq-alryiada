@@ -1,17 +1,27 @@
-export default function useMouseLocation() {
+export default function useMouseLocation(
+  element: Ref<HTMLDivElement | null, HTMLDivElement | null>,
+) {
   const xCoordinate = ref(0);
   const yCoordinate = ref(0);
 
   const trackMouse = (event: MouseEvent) => {
-    xCoordinate.value = event.pageX;
-    yCoordinate.value = event.pageY;
+    xCoordinate.value = event.clientX;
+    yCoordinate.value = event.clientY;
   };
 
   onMounted(() => {
+    if (element.value) {
+      element.value.addEventListener("click", trackMouse);
+      return;
+    }
     window.addEventListener("click", trackMouse);
   });
 
   onUnmounted(() => {
+    if (element.value) {
+      element.value.removeEventListener("click", trackMouse);
+      return;
+    }
     window.removeEventListener("click", trackMouse);
   });
 

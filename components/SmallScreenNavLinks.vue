@@ -6,36 +6,28 @@
   >
     <nav class="flex flex-col items-start justify-start bg-white md:hidden">
       <NuxtLink
-        v-for="link of NAV_LINKS"
-        :key="link.href"
+        v-for="link of navigationLinks"
+        :key="link.documentId"
         :href="link.href"
         class="w-full px-5 py-[10px] text-base font-semibold leading-[22px] text-[#AEAEB2]"
         @click="$emit('onClose')"
         :class="{
           '!bg-[#f4f6f6] !text-[#244453]': router.fullPath.endsWith(link.href),
         }"
-        >{{ link.name }}</NuxtLink
+        >{{ link.title }}</NuxtLink
       >
     </nav>
   </div>
 </template>
-<script setup>
-import { APP_HEADER_HEIGHT, NAV_LINKS } from "~/constants/app-data";
+<script setup lang="ts">
+import { APP_HEADER_HEIGHT } from "~/constants/app-data";
+import type { NavigationLinkType } from "~/types/shared";
 const router = useRoute();
 
-const props = defineProps({
-  isOpen: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-});
-
-const preventScroll = (ev) => {
-  //   ev.preventDefault();
-  //   ev.stopPropagation();
-  //   return false;
-};
+const props = defineProps<{
+  isOpen: boolean;
+  navigationLinks: NavigationLinkType[] | undefined;
+}>();
 
 watch(
   () => [props.isOpen],

@@ -19,10 +19,13 @@
         <span
           class="item-center ms-5 flex size-10 shrink-0 rounded-[8px] bg-secondary p-2.5"
         >
-          <img :src="flagIcon" alt="flag-icon.svd" />
+          <img
+            :src="content.heroAdvancedTitle.icon?.url"
+            :alt="content.heroAdvancedTitle.icon?.alternativeText"
+          />
         </span>
         <p class="font-semi-bold shrink-0 text-[22px] text-secondary">
-          مرحباً بكم
+          {{ content.heroAdvancedTitle.title }}
         </p>
         <span class="me-5 w-min transition-[width] duration-500">
           <p
@@ -40,7 +43,7 @@
             :duration="MOTION_DURATION"
             :delay="SHARED_DELAY"
           >
-            في أفق الريادة : حيث تلتقي الابتكار بالتميز!
+            {{ content.heroAdvancedSubTitle }}
           </p>
           <p
             class="hero-heading flex shrink-0 md:hidden"
@@ -57,7 +60,7 @@
             :duration="MOTION_DURATION"
             :delay="SHARED_DELAY"
           >
-            في أفق الريادة
+            {{ content.heroAdvancedMobileSubTitle }}
           </p>
         </span>
       </span>
@@ -79,16 +82,15 @@
         :duration="MOTION_DURATION"
         class="text-black-secondary z-[5] mb-5 max-w-full text-center text-[16px] font-semibold md:max-w-[692px] md:text-xl"
       >
-        أفق الريادة هو وجهتكم الشاملة للحصول على خدمات التكنولوجيا المتقدمة.
-        نقدم لكم نتائج مصممة خصيصاً لتلبية احتياجاتكم الفريدة.
+        {{ content.heroDescription }}
       </p>
       <NuxtLink
         v-motion="{
-          initial: { opacity: 0, x: -80 },
-          visibleOnce: { opacity: 1, x: 0 },
-          leave: { opacity: 0, x: -80 },
+          initial: { opacity: 0, y: -30 },
+          visibleOnce: { opacity: 1, y: 0 },
+          leave: { opacity: 0, y: -30 },
         }"
-        :href="PATHS.CONTACT"
+        :href="content.contactBtn.href"
         :duration="MOTION_DURATION"
         :delay="SHARED_DELAY"
         class="btn btn-primary isolate"
@@ -96,27 +98,32 @@
         <p
           class="text-[18px] font-semibold text-white md:text-[22px] md:font-bold"
         >
-          تواصل معنا
+          {{ content.contactBtn.title }}
         </p>
-        <img :src="contactIcon" alt="contact-us-icon.svg" />
+        <img
+          :src="content.contactBtn.media?.url"
+          :alt="content.contactBtn.media?.alternativeText"
+        />
       </NuxtLink>
-      <!-- <MouseWaves /> -->
+      <MouseWaves />
     </div>
   </section>
 </template>
 <script setup lang="ts">
-import flagIcon from "~/assets/images/shared/flag-icon.svg";
-import contactIcon from "~/assets/images/contact-us/contact-us-icon.svg";
+// import flagIcon from "~/assets/images/shared/flag-icon.svg";
+// import contactIcon from "~/assets/images/contact-us/contact-us-icon.svg";
+// import { PATHS } from "~/constants/paths";
 import { SECTIONS_IDS } from "~/constants/sections-ids";
-import type { _maxWidth } from "#tailwind-config/theme";
 import { MOTION_DURATION } from "~/constants/motion-config";
-import { PATHS } from "~/constants/paths";
+import type { HeroSectionType } from "~/types/home-page";
+
+const props = defineProps<{ content: HeroSectionType }>();
 
 const SHARED_DELAY = 800;
 
 const headingTitle = computed(() =>
   highlightSpecificWord({
-    text: "شريككم الموثوق لخدمات رقمية متطورة",
+    text: props.content.heroHeadingTitle,
     word: ["شريككم", "رقمية"],
     classNames: "text-app-black-third",
   }),
