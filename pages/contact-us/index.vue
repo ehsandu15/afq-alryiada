@@ -86,7 +86,7 @@
     </div>
   </section>
   <a
-    :href="`https://wa.me/${WHATSAPP_NUMBER}`"
+    :href="`https://wa.me/${+9661233333333}`"
     class="fixed bottom-10 left-6 isolate z-30 flex size-[54px] items-center justify-center rounded-full shadow-2xl md:bottom-14 md:left-12 md:size-[64px]"
   >
     <img src="~/assets/images/shared/whatsapp.svg" alt="whatsapp.svg" />
@@ -98,7 +98,6 @@ import locationPin from "~/assets/images/contact-us/location-pin.svg";
 import phoneIcon from "~/assets/images/contact-us/telephone.svg";
 import emailIcon from "~/assets/images/contact-us/email.svg";
 import sendIcon from "~/assets/images/contact-us/contact-us-icon.svg";
-import { WHATSAPP_NUMBER } from "~/constants/app-data";
 
 const formData = reactive({
   firstName: "",
