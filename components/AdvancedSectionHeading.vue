@@ -11,7 +11,7 @@
     <p
       v-motion="{
         initial: { opacity: 0, x: 20, width: 0 },
-        visible: { opacity: 1, x: 0, width: 'auto' },
+        visibleOnce: { opacity: 1, x: 0, width: 'auto' },
         leave: { opacity: 0, x: -20, width: 0 },
       }"
       :duration="MOTION_DURATION"

@@ -11,20 +11,8 @@ export default defineNuxtConfig({
   css: ["~/assets/css/tailwind.css"],
   app: {
     head: {
-      title: "AfqAlryiada | مؤسسة أفق الريادة لتقنية المعلومات",
       charset: "utf-8",
       viewport: "width=device-width, initial-scale=1",
-      meta: [
-        {
-          key: "description",
-          content: `
-            مؤسسة برمجية تطمح لتقديم حلول برمجية ذات جودة عالية في السوق السعودي
-            خبرة وريادة في مجال البرمجة
-            ☎️للإستفسار: 0581822058 📞
-            E-MINFO@AFQALRIYADA.COM
-          `,
-        },
-      ],
       htmlAttrs: {
         dir: "rtl",
         lang: "ar",
@@ -50,7 +38,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     strapi: {
-      url: "http://localhost:1337",
+      url: process.env.STRAPI_URL,
     },
     public: {
       motion: {
@@ -66,8 +54,14 @@ export default defineNuxtConfig({
         },
       },
       strapi: {
-        url: "http://localhost:1337",
+        url: process.env.STRAPI_URL,
       },
+      articleKeywordsSplitSymbol: process.env.ARTICLE_KEYWORDS_SPLIT_SYMBOL,
+    },
+  },
+  nitro: {
+    prerender: {
+      ignore: ["/blogs"],
     },
   },
 });

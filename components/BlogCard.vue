@@ -1,12 +1,11 @@
 <template>
   <li class="relative">
     <div
-      class="group relative rounded-app-radius flex max-h-[230px] items-center justify-center md:max-h-[257px] overflow-hidden"
+      class="group relative flex max-h-[230px] items-center justify-center overflow-hidden rounded-app-radius md:max-h-[257px]"
     >
-    
       <NuxtLink
-        :href="article.title"
-        class="absolute top-1/2 left-1/2 bg-app-black-secondary bg-opacity-60 scale-150 group-hover:scale-100 backdrop-blur-md px-4 py-3.5 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-all pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto duration-500  flex items-center justify-center gap-2.5 rounded-full"
+        :href="`blogs/${article.slug}`"
+        class="pointer-events-none absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 scale-150 items-center justify-center gap-2.5 rounded-full bg-app-black-secondary bg-opacity-60 px-4 py-3.5 opacity-0 backdrop-blur-md transition-all duration-500 group-hover:pointer-events-auto group-hover:scale-100 group-hover:opacity-100"
       >
         <p class="text-lg text-white">عرض البلوج</p>
         <button
@@ -30,42 +29,47 @@
           </svg>
         </button>
       </NuxtLink>
-      <img :src="article?.cover.url" :alt="article?.cover.alternativeText" class="mb-2 w-full object-cover self-center justify-self-center" />
+      <img
+        :src="article?.cover?.url || articleCoverPlaceholder"
+        :alt="article?.cover?.alternativeText || article.title"
+        class="mb-2 w-full self-center justify-self-center object-cover"
+      />
     </div>
     <nav class="mb-2 flex items-center gap-2">
-      <p
+      <NuxtLink
         v-for="keyword of keywordArray"
         :key="keyword"
         class="text-xs font-semibold text-secondary md:text-base"
+        :href="{ query: { ...route.query, keyword } }"
       >
         <h3>{{ keyword }}</h3>
-      </p>
-      <!-- TODO: un-comment after setup strapi -->
-      <!-- <NuxtLink
-        v-for="keyword of article?.keywords"
-        :href="`${PATHS.BLOG}?keyword=${keyword}`"
-        :key="keyword"
-        class="text-xs font-semibold text-secondary md:text-base"
-      >
-        <h3>{{ keyword }}</h3>
-      </NuxtLink> -->
+      </NuxtLink>
     </nav>
     <h4 class="mb-1 text-lg font-bold text-app-black-secondary md:text-xl">
       {{ article?.title }}
     </h4>
     <time class="text-xs font-semibold text-[#797979] md:text-sm">{{
-      Intl.DateTimeFormat("ar-SA", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }).format(new Date(article?.createdAt) || new Date())
+      formatDate
     }}</time>
   </li>
 </template>
 <script setup lang="ts">
+import { useDateFormat } from "@vueuse/core";
+import articleCoverPlaceholder from "~/assets/images/article-cover-placeholder.webp";
 import { PATHS } from "~/constants/paths";
-import type { ArticleType } from "~/types/article";
-const props = defineProps<{article: ArticleType}>();
-const keywordArray = computed(()=> props.article?.keywords?.trim()?.split(",") || [])
+import type { ArticleType } from "~/types/blogs";
+const route = useRoute();
+const props = defineProps<{ article: ArticleType }>();
+const runtimeConf = useRuntimeConfig();
+const keywordArray = computed(
+  () =>
+    props.article?.keywords
+      ?.trim()
+      ?.split(runtimeConf.public.articleKeywordsSplitSymbol) || [],
+);
+const formatDate = useDateFormat(
+  props.article.createdAt,
+  "YYYY-MM-DD HH:mm dddd",
+);
 const HREF = `$${PATHS.BLOG}/${props.article?.title || "#"}`;
 </script>

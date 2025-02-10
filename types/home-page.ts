@@ -1,8 +1,9 @@
-import type { ArticleType } from "./article";
+import type { ArticleType } from "./blogs";
 import type { CooperationType } from "./cooperation";
 import type { ServiceType } from "./services";
 import type {
   AdvancedButton,
+  AdvancedLink,
   ImageType,
   SectionTitle,
   SocialMedia,
@@ -17,7 +18,7 @@ export interface HeroSectionType {
   heroAdvancedMobileSubTitle: string;
   heroDescription: string;
   heroAdvancedTitle: SectionTitle;
-  contactBtn: AdvancedButton;
+  contactBtn: AdvancedLink;
 }
 
 export interface ServicesSectionType {
@@ -55,7 +56,7 @@ export interface TechSectionType {
 export interface BlogSectionType {
   blogHeaingTitle: string;
   blogDescription: string;
-  blogShowMoreBtn: AdvancedButton;
+  blogShowMoreBtn: AdvancedLink;
   articles: ArticleType[];
 }
 

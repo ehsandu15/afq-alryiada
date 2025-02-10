@@ -5,7 +5,7 @@ export interface SectionTitle {
   icon?: ImageType;
 }
 
-export interface AdvancedButton {
+export interface AdvancedLink {
   id: number;
   title: string;
   href: string;
@@ -72,8 +72,26 @@ export type ImageType = {
   publishedAt: string;
 };
 
-export type SocialMedia = Omit<AdvancedButton, "media"> &
+export type SocialMedia = Omit<AdvancedLink, "media"> &
   StrapiType & {
     icon: ImageType;
     id: number;
   };
+
+export type FormField = {
+  __component: "shared.form-field";
+  id: number;
+  title: string;
+  type: string;
+  placeholder: string;
+  elemId: string;
+  name: string;
+};
+
+export type AdvancedButton = {
+  __component: "shared.advanced-button";
+  id: number;
+  title: string;
+  elemId: string;
+  icon: ImageType;
+};

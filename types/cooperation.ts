@@ -1,10 +1,15 @@
-import type { AdvancedButton, BasicButton, ImageType } from "./shared";
+import type {
+  AdvancedButton,
+  AdvancedLink,
+  BasicButton,
+  ImageType,
+} from "./shared";
 
 export type CooperationType = {
   cover: ImageType;
   title: string;
   description: string;
-  primaryAction?: AdvancedButton | null;
+  primaryAction?: AdvancedLink | null;
   secondaryAction?: BasicButton | null;
   ishasActions: boolean;
 };

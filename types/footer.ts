@@ -1,5 +1,6 @@
 import type {
   AdvancedButton,
+  AdvancedLink,
   BasicButton,
   ImageType,
   SocialMedia,
@@ -8,7 +9,7 @@ import type {
 
 export type AppFooterType = StrapiType & {
   logo: ImageType;
-  ctaBtn: AdvancedButton;
+  ctaBtn: AdvancedLink;
   copyRights: string;
   privacyPolicyLink: BasicButton;
   social_medias: SocialMedia[];

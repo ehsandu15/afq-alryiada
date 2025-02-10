@@ -55,7 +55,7 @@ import type {
   TestimonialsSectionType,
 } from "~/types/home-page";
 import type { ImageType, SocialMedia } from "~/types/shared";
-const { findOne } = useStrapi<IHomePage>();
+const { findOne, find } = useStrapi<IHomePage>();
 
 const { data: homeData, status } = await useAsyncData(
   STRAPI_ENDPOINT.HOME_PAGE,
@@ -278,7 +278,7 @@ const blogs: BlogSectionType | object =
         articles:
           homeData.value?.data?.articles?.map((item) => ({
             ...item,
-            cover: { ...item.cover, url: imagePathPrefix(item.cover.url) },
+            cover: { ...item.cover, url: imagePathPrefix(item.cover?.url) },
           })) ?? [],
       }
     : {};

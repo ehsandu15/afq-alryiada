@@ -5,18 +5,90 @@
     <div class="contact-us-wrapper">
       <figure
         class="contacts-wrapper"
-        :style="{ backgroundImage: `url(${contactUsBoxBackground})` }"
+        :style="{
+          backgroundImage: `url(${content?.data.contactBoxImage.url})`,
+        }"
       >
-        <h4 class="heading">معلومات التواصل</h4>
+        <h4 class="heading">{{ content?.data.contactBoxHeading }}</h4>
         <ul class="contact-info-list">
-          <li v-for="(info, index) in CONTACT_INFO" :key="info.id">
-            <img :src="info.icon" alt="contact-icon" />
-            <p>{{ info.data }}</p>
+          <li
+            v-for="(info, index) in content?.data.contacts_infos"
+            :key="info.id"
+          >
+            <img
+              :src="info.icon.url"
+              :alt="info.icon.alternativeText"
+              width="32"
+              height="32"
+            />
+            <p v-if="info.type === 'TEXT'">{{ info.value }}</p>
+            <a
+              class="text-white"
+              target="_blank"
+              referrerpolicy="no-referrer"
+              v-if="info.type === 'LINK'"
+              :href="info.value"
+              >{{ info.name }}</a
+            >
           </li>
         </ul>
       </figure>
-      <form class="form-wrapper">
-        <div class="form-group">
+      <form
+        @submit.prevent="handleSubmit"
+        class="grid w-full grid-cols-1 gap-[50px] px-[50px] py-[65px] pe-0 md:grid-cols-2"
+      >
+        <span
+          class="flex flex-col gap-1.5"
+          v-for="elem of content?.data.contactForm.filter(
+            (item) =>
+              item.__component === 'shared.form-field' &&
+              item.type !== 'textarea',
+          )"
+        >
+          <label :for="elem.elemId">{{ elem.title }}</label>
+          <input
+            v-if="
+              elem.type !== 'textarea' &&
+              elem.__component === 'shared.form-field'
+            "
+            :type="elem.type"
+            :name="elem.name"
+            :id="elem.elemId"
+            :placeholder="elem.placeholder"
+            class="w-full border-b-[1px] border-[#a5a5a5] px-[10px] py-[5px] text-sm font-medium leading-5 text-[#1f1f1f] outline-none focus:border-[#1f1f1f]"
+          />
+        </span>
+        <span
+          class="col-span-2 flex flex-col gap-1.5"
+          v-for="elem of content?.data.contactForm.filter(
+            (item) =>
+              item.type === 'textarea' &&
+              item.__component === 'shared.form-field',
+          )"
+        >
+          <label :for="elem.elemId">{{ elem.title }}</label>
+          <textarea
+            :name="elem.name"
+            :id="elem.elemId"
+            rows="5"
+            :placeholder="elem.placeholder"
+            class="w-full border-b-[1px] border-[#a5a5a5] px-[10px] py-[5px] text-sm font-medium leading-5 text-[#1f1f1f] outline-none focus:border-[#1f1f1f]"
+          />
+        </span>
+        <button
+          v-for="action of content?.data.formActions"
+          type="button"
+          class="btn btn-primary"
+        >
+          <p>{{ action.title }}</p>
+          <img
+            width="24"
+            height="24"
+            :src="action.icon.url"
+            :alt="action.icon.alternativeText"
+          />
+        </button>
+        <!-- <div class="form-group">
           <span class="group-wrapper">
             <label for="first-name">الاسم الاول</label>
             <input
@@ -81,7 +153,7 @@
         <button type="button" class="btn btn-primary">
           <p>ارسال</p>
           <img :src="sendIcon" alt="send-icon" />
-        </button>
+        </button> -->
       </form>
     </div>
   </section>
@@ -93,39 +165,87 @@
   </a>
 </template>
 <script setup lang="ts">
-import contactUsBoxBackground from "~/assets/images/contact-us/contact-box-bg.png";
-import locationPin from "~/assets/images/contact-us/location-pin.svg";
-import phoneIcon from "~/assets/images/contact-us/telephone.svg";
-import emailIcon from "~/assets/images/contact-us/email.svg";
-import sendIcon from "~/assets/images/contact-us/contact-us-icon.svg";
+// import locationPin from "~/assets/images/contact-us/location-pin.svg";
+// import phoneIcon from "~/assets/images/contact-us/telephone.svg";
+// import emailIcon from "~/assets/images/contact-us/email.svg";
+// import sendIcon from "~/assets/images/contact-us/contact-us-icon.svg";
+import type { ContactData } from "~/types/contact-us";
+import { STRAPI_ENDPOINT } from "~/constants/strapi-endpoints";
+const { findOne } = useStrapi<ContactData>();
+const nuxtConf = useNuxtApp();
+const handleSubmit = (ev: Event) => {
+  // const fd = new FormData(ev.target);
+  // console.log(fd.keys());
+  console.log("Submit form Test !!");
+};
+const { data: content } = useAsyncData(
+  STRAPI_ENDPOINT.CONTACT_US,
+  () =>
+    findOne(STRAPI_ENDPOINT.CONTACT_US, {
+      locale: "ar-SA",
+      populate: {
+        contactForm: true,
+        formActions: {
+          populate: { icon: true },
+        },
+        contacts_infos: {
+          populate: { icon: true },
+        },
+        contactBoxImage: true,
+      },
+    }),
+  {
+    transform: (res) =>
+      nuxtConf.runWithContext(() => ({
+        ...res,
+        data: {
+          ...res.data,
+          contactBoxImage: {
+            ...res.data.contactBoxImage,
+            url: imagePathPrefix(res.data.contactBoxImage.url),
+          },
+          contacts_infos: res.data.contacts_infos.map((item) => ({
+            ...item,
+            icon: { ...item.icon, url: imagePathPrefix(item.icon.url) },
+          })),
+          formActions: {
+            ...res.data.formActions.map((item) => ({
+              ...item,
+              icon: {
+                ...item.icon,
+                url: imagePathPrefix(item.icon.url),
+              },
+            })),
+          },
+        },
+      })),
+  },
+);
 
-const formData = reactive({
-  firstName: "",
-  lastName: "",
-  email: "",
-  phoneNumber: "",
-  message: "",
+useSeoMeta({
+  title: content.value?.data.seoTitle,
+  description: content.value?.data.seoDescription,
 });
 
-const CONTACT_INFO = [
-  {
-    id: 0,
-    icon: locationPin,
-    data: "المملكة العربية السعودية - المدينة المنورة",
-  },
-  {
-    id: 1,
-    icon: phoneIcon,
-    data: "966 55 555 5555".split(" ").reverse().join(" ") + "+",
-  },
-  {
-    id: 2,
-    icon: emailIcon,
-    data: "afq-alriyada@mail.com",
-  },
-];
+// const CONTACT_INFO = [
+//   {
+//     id: 0,
+//     icon: locationPin,
+//     data: "المملكة العربية السعودية - المدينة المنورة",
+//   },
+//   {
+//     id: 1,
+//     icon: phoneIcon,
+//     data: "966 55 555 5555".split(" ").reverse().join(" ") + "+",
+//   },
+//   {
+//     id: 2,
+//     icon: emailIcon,
+//     data: "afq-alriyada@mail.com",
+//   },
+// ];
 </script>
-<style scoped>
+<style>
 .contact-us-wrapper {
   display: flex;
   flex-direction: row;
@@ -190,19 +310,20 @@ const CONTACT_INFO = [
 }
 
 .form-wrapper {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 50px;
   padding-inline: 50px;
   padding-inline-end: 0%;
   padding-block: 65px;
   flex: 1 0 max-content;
+  grid-template-columns: 2 fr;
 }
 
 @media (max-width: 876px) {
   .form-wrapper {
     padding-inline: 1rem;
     width: 100%;
+    grid-template-columns: 1 fr;
   }
 }
 .form-wrapper .form-group {

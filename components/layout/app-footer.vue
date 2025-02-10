@@ -66,11 +66,13 @@
           :key="item.id"
           class="size-[32px] rounded-full bg-white"
         >
-          <img
-            v-if="item.icon?.url"
-            :src="imagePathPrefix(item.icon.url)"
-            :alt="item.icon?.alternativeText"
-          />
+          <NuxtLink :href="item.href" rel="noreferrer" target="_blank">
+            <img
+              v-if="item.icon?.url"
+              :src="imagePathPrefix(item.icon.url)"
+              :alt="item.icon?.alternativeText"
+            />
+          </NuxtLink>
         </li>
       </ul>
       <span class="flex h-[52px] flex-1 rounded-tr-[100px] bg-[#e9e9e9]"></span>

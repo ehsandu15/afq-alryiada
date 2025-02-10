@@ -19,6 +19,7 @@
       {{ content.servicesDescription }}
     </p>
     <div class="app-container embla container py-8" ref="emblaRef">
+      <!-- TODO: Add overflow/more cards CSS styles in the carousel corners -->
       <ul class="embla__container">
         <HomeServicesServiceCard
           v-for="(service, index) of content.services_lists"

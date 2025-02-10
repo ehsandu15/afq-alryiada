@@ -28,6 +28,7 @@
       v-html="headingTitle"
       class="mb-[60px] mt-4 max-w-[572px] text-center text-4xl font-extrabold capitalize text-app-black-secondary max-md:px-4 md:text-5xl"
     ></h3>
+    <!-- FIXME: fix embla carousel glitch -->
     <div class="embla mb-8" ref="emblaFirstSliderRef">
       <ul class="embla__container">
         <HomeTestimonialsTestimonialCard

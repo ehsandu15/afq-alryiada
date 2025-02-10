@@ -1,6 +1,6 @@
-import type { AdvancedButton, ImageType } from "./shared";
+import type { AdvancedButton, AdvancedLink, ImageType } from "./shared";
 
 export type AppHeaderType = {
-  ctaBtn: Omit<AdvancedButton, "elementId" | "media">;
+  ctaBtn: Omit<AdvancedLink, "elementId" | "media">;
   logo?: Omit<AdvancedButton, "media"> & { icon: ImageType };
 };
