@@ -6,32 +6,58 @@
       v-html="headingTitle"
       class="mb-11 text-center text-2xl font-extrabold md:text-[36px]"
     ></h2>
-    <div class="embla" ref="emblaRef">
-      <ul
-        class="embla__container"
-        v-motion="{
-          initial: { opacity: 0, x: 350 },
-          visibleOnce: { opacity: 1, x: 0 },
-          leave: { opacity: 0, x: 350 },
-        }"
-        :delay="200"
-        :duration="MOTION_DURATION"
+
+    <Carousel
+      class="hidden w-full md:flex"
+      v-motion="{
+        initial: { opacity: 0, x: 350 },
+        visibleOnce: { opacity: 1, x: 0 },
+        leave: { opacity: 0, x: 350 },
+      }"
+      :delay="false"
+      :duration="MOTION_DURATION"
+      :autoplay="1000"
+      snap-align="center-even"
+      items-to-show="5.6"
+      :items-to-scroll="1"
+      :gap="90"
+      breakpoint-mode="viewport"
+      :breakpoints="{
+        768: {
+          itemsToShow: 3.3,
+          snapAlign: 'center-even',
+        },
+        992: {
+          itemsToShow: 4.3,
+          snapAlign: 'center-even',
+        },
+        1280: {
+          itemsToShow: 5.6,
+          snapAlign: 'center-even',
+        },
+      }"
+      :pause-autoplay-on-hover="true"
+      :mouse-drag="true"
+      :transition="3500"
+      :touch-drag="true"
+      slide-effect="slide"
+      :wrap-around="true"
+      :dir="appDir"
+    >
+      <Slide
+        v-if="partnersList?.data"
+        v-for="partner of partnersList.data"
+        :key="partner.documentId"
       >
-        <li
-          v-if="partnersList?.data"
-          v-for="partner of partnersList.data"
-          :key="partner.documentId"
-          class="embla__slide"
-        >
-          <img
-            v-if="partner.logo.url"
-            :src="imagePathPrefix(partner.logo.url)"
-            :alt="partner.logo.alternativeText"
-            class="h-full object-contain grayscale transition-[filter] duration-500 hover:grayscale-0"
-          />
-        </li>
-      </ul>
-    </div>
+        <img
+          v-if="partner.logo.url"
+          :src="imagePathPrefix(partner.logo.url)"
+          :alt="partner.logo.alternativeText"
+          class="h-full object-contain grayscale transition-[filter] duration-500 hover:grayscale-0"
+        />
+      </Slide>
+    </Carousel>
+
     <!-- Partners list in Small screens -->
     <ul
       class="mb-16 mt-8 grid grid-cols-2 items-center justify-center gap-[55px] px-6 md:hidden"
@@ -61,12 +87,12 @@
 </template>
 <script setup lang="ts">
 // import { PARTNERS } from "~/constants/app-data";
-import emblaCarouselVue from "embla-carousel-vue";
-import Autoplay from "embla-carousel-autoplay";
 import { MOTION_DURATION } from "~/constants/motion-config";
 import { STRAPI_ENDPOINT } from "~/constants/strapi-endpoints";
 import type { PartnersType } from "~/types/partners";
 import type { PartnersSectionType } from "~/types/home-page";
+import { Carousel, Slide } from "vue3-carousel";
+import "vue3-carousel/carousel.css";
 
 const { find } = useStrapi<PartnersType>();
 const { data: partnersList } = useAsyncData(STRAPI_ENDPOINT.PARTNERS_LIST, () =>
@@ -78,16 +104,6 @@ const { data: partnersList } = useAsyncData(STRAPI_ENDPOINT.PARTNERS_LIST, () =>
 );
 
 const { appDir } = useAppDir();
-
-const [emblaRef] = emblaCarouselVue(
-  {
-    loop: true,
-    direction: appDir.value,
-    duration: 900,
-    align: "center",
-  },
-  [Autoplay({ stopOnMouseEnter: true })],
-);
 
 const props = defineProps<{ content: PartnersSectionType }>();
 
@@ -101,7 +117,7 @@ const headingTitle = computed(() =>
 </script>
 
 <style scoped lang="css">
-.embla {
+/* .embla {
   overflow: hidden;
   width: 100%;
   display: none;
@@ -130,5 +146,5 @@ const headingTitle = computed(() =>
 }
 .embla__slide {
   margin-right: 90px;
-}
+} */
 </style>

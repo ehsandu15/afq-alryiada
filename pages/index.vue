@@ -24,10 +24,12 @@
     v-if="status === 'success'"
     :content="partners as PartnersSectionType"
   />
+
   <HomeTestimonialsSection
     v-if="status === 'success'"
     :content="testimonials as TestimonialsSectionType"
   />
+
   <ScrollTopButton />
   <a
     v-if="whatsappNumber"
@@ -123,6 +125,9 @@ const { data: homeData, status } = await useAsyncData(
             icon: true,
           },
         },
+        heroId: true,
+        testimonialsId: true,
+        servicesId: true,
       },
     }),
 );
@@ -166,6 +171,7 @@ const hero: HeroSectionType | object =
             ),
           },
         },
+        heroId: homeData.value?.data?.heroId,
       }
     : {};
 
@@ -186,6 +192,7 @@ const services: ServicesSectionType | object =
             cover: { ...item.cover, url: imagePathPrefix(item.cover.url) },
             icon: { ...item.icon, url: imagePathPrefix(item.icon.url) },
           })) ?? [],
+        servicesId: homeData.value?.data?.servicesId,
       }
     : {};
 
@@ -314,6 +321,7 @@ const testimonials: TestimonialsSectionType | object =
               ),
             }
           : null,
+        testimonialsId: homeData.value?.data?.testimonialsId,
       }
     : {};
 </script>

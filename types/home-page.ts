@@ -4,6 +4,7 @@ import type { ServiceType } from "./services";
 import type {
   AdvancedButton,
   AdvancedLink,
+  BasicButton,
   ImageType,
   SectionTitle,
   SocialMedia,
@@ -19,6 +20,7 @@ export interface HeroSectionType {
   heroDescription: string;
   heroAdvancedTitle: SectionTitle;
   contactBtn: AdvancedLink;
+  heroId: BasicButton;
 }
 
 export interface ServicesSectionType {
@@ -27,8 +29,9 @@ export interface ServicesSectionType {
   servicesSecondaryHeading: string;
   servicesSecondaryDescription: string;
   servicesSectionTitle: SectionTitle;
-  servicesContactBtn: Omit<AdvancedButton, "elementId" | "media">;
+  servicesContactBtn: Omit<AdvancedLink, "elementId" | "media">;
   services_lists: ServiceType[];
+  servicesId: BasicButton;
 }
 
 export interface PrivilegeSectionType {
@@ -65,6 +68,7 @@ export interface TestimonialsSectionType {
   testimonialsSectionTitle: SectionTitle;
   testimonials_lists: TestimonialsType[];
   testimonialsPeoplesPatternImg: ImageType | null;
+  testimonialsId: BasicButton;
 }
 
 export interface PartnersSectionType {

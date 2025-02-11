@@ -1,9 +1,9 @@
 <template>
   <li
-    class="embla__slide"
-    v-if="isEmblaRef"
+    class="service-card"
+    v-if="isSlideMounted"
     v-motion="CAROUSEL_MOTION"
-    :delay="index * 120"
+    :delay="index * 100"
     :duration="MOTION_DURATION"
   >
     <span class="icon-wrapper bg-secondary p-2">
@@ -24,10 +24,9 @@
 <script setup lang="ts">
 import { MOTION_DURATION } from "~/constants/motion-config";
 import type { ServiceType } from "~/types/services";
-
 const props = defineProps<{
   service: ServiceType;
-  isEmblaRef: boolean;
+  isSlideMounted: boolean;
   index: number;
 }>();
 
@@ -38,9 +37,8 @@ const CAROUSEL_MOTION = {
 </script>
 
 <style>
-.embla__slide {
-  flex: 0 0 fit-content;
-  max-width: 100%;
+.service-card {
+  width: 100%;
   user-select: none;
   border: 1px solid #d1d1d6;
   border-radius: 20px;
@@ -49,7 +47,7 @@ const CAROUSEL_MOTION = {
     background-color 0.4s ease-in-out,
     box-shadow 0.3s ease-in-out;
 }
-.embla__slide .icon-wrapper {
+.service-card .icon-wrapper {
   margin: 23px;
   margin-bottom: 12px;
   margin-top: 27px;
@@ -64,26 +62,28 @@ const CAROUSEL_MOTION = {
 }
 
 @media (min-width: 768px) {
-  .embla__slide .icon-wrapper {
+  .service-card .icon-wrapper {
     width: 48px;
     height: 48px;
     margin: 26px;
   }
 }
-.embla__slide:not(.active) .icon-wrapper {
+.service-card:not(.active) .icon-wrapper {
   background-color: #aeaeb2;
 }
-.embla__slide p {
+.service-card p {
   color: #aeaeb2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
 }
-.embla__slide.active p {
+.service-card.active p {
+  display: block;
   color: #1f1f1f;
 }
-.embla__slide.active {
+.service-card.active {
   box-shadow: 0 4px 48px 0 #50505033;
   background-color: #fff;
-}
-.embla__slide {
-  margin-right: 32px;
 }
 </style>

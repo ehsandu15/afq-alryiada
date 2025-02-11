@@ -1,7 +1,7 @@
 <template>
   <section
     class="flex min-h-screen w-full flex-col items-center justify-center bg-[#2444530D]"
-    :id="SECTIONS_IDS.SERVICES"
+    :id="content.servicesId.elementId"
   >
     <AdvancedSectionHeading
       icon-color-class="bg-secondary"
@@ -18,29 +18,75 @@
     >
       {{ content.servicesDescription }}
     </p>
-    <div class="app-container embla container py-8" ref="emblaRef">
-      <!-- TODO: Add overflow/more cards CSS styles in the carousel corners -->
-      <ul class="embla__container">
+    <Carousel
+      ref="carouselRef"
+      class="app-container container mb-4 pb-9 lg:px-0"
+      snap-align="start"
+      items-to-show="6.3"
+      :items-to-scroll="1"
+      :gap="32"
+      breakpoint-mode="viewport"
+      :pause-autoplay-on-hover="true"
+      :mouse-drag="true"
+      :transition="600"
+      :touch-drag="true"
+      slide-effect="slide"
+      :dir="appDir"
+      :breakpoints="{
+        300: {
+          itemsToShow: 2.4,
+          itemsToScroll: 1,
+          snapAlign: 'start',
+          gap: 27,
+        },
+        768: {
+          itemsToShow: 3.4,
+          itemsToScroll: 1,
+          snapAlign: 'start',
+          gap: 27,
+        },
+        922: {
+          itemsToShow: 4.5,
+          itemsToScroll: 1,
+          snapAlign: 'start',
+          gap: 30,
+        },
+        1024: {
+          itemsToShow: 6.5,
+          itemsToScroll: 1,
+          snapAlign: 'start',
+          gap: 32,
+        },
+      }"
+    >
+      <Slide
+        v-for="(service, index) of content.services_lists"
+        :key="service.id"
+      >
         <HomeServicesServiceCard
-          v-for="(service, index) of content.services_lists"
-          :key="service.id"
           :class="clsx({ active: service.id === selectedService?.id })"
           @click="handleSelectService(service)"
           :service="service"
-          :is-embla-ref="Boolean(emblaRef)"
           :index="index"
+          :is-slide-mounted="Boolean(carouselRef)"
         >
         </HomeServicesServiceCard>
-      </ul>
-    </div>
+      </Slide>
+      <template #addons>
+        <CarouselPagination />
+      </template>
+    </Carousel>
+
     <div
-      class="app-container container mb-12 flex flex-col-reverse items-start justify-between gap-5 px-4 md:px-0 lg:flex-row"
+      class="app-container container mb-12 grid grid-cols-1 items-start justify-between gap-5 px-4 md:grid-cols-2 md:px-0"
     >
-      <p class="w-full text-xl font-semibold leading-[37.48px] lg:w-1/2">
+      <h4
+        class="order-2 h-full max-h-full w-full overflow-x-auto text-xl font-semibold leading-[37.48px] md:order-2"
+      >
         {{ selectedService?.content }}
-      </p>
+      </h4>
       <figure
-        class="flex h-96 w-full items-center justify-center overflow-hidden rounded-app-radius lg:h-80 lg:w-1/2"
+        class="order-1 flex h-[323px] w-full items-center justify-center overflow-hidden rounded-app-radius md:order-2"
       >
         <img
           :src="selectedService?.cover?.url"
@@ -88,22 +134,23 @@
   </section>
 </template>
 <script setup lang="ts">
-import emblaCarouselVue from "embla-carousel-vue";
 import clsx from "clsx";
 import type { ServiceType } from "~/types/services";
 import { SECTIONS_IDS } from "~/constants/sections-ids";
 import { MOTION_DURATION } from "~/constants/motion-config";
 // import { PATHS } from "~/constants/paths";
+const carouselRef = ref<HTMLDivElement | null>(null);
 import type { ServicesSectionType } from "~/types/home-page";
+import {
+  Carousel,
+  Slide,
+  Pagination as CarouselPagination,
+} from "vue3-carousel";
+import "vue3-carousel/carousel.css";
+import { theme } from "#tailwind-config";
 
 const props = defineProps<{ content: ServicesSectionType }>();
 const { appDir } = useAppDir();
-const [emblaRef] = emblaCarouselVue({
-  loop: false,
-  direction: appDir.value || "rtl",
-  align: "start",
-  containScroll: false,
-});
 
 const selectedService = ref<ServiceType | undefined>(
   props.content.services_lists.at(0),
@@ -131,47 +178,8 @@ function handleSelectService(service: ServiceType) {
 </script>
 
 <style scoped lang="css">
-.embla {
-  overflow: hidden;
-  width: 100%;
-  position: relative;
+.carousel {
+  --vc-pgn-background-color: #b8b8b8a0;
+  --vc-pgn-active-color: v-bind(theme?.colors?.secondary || "#162F3B");
 }
-.embla__container {
-  display: flex;
-}
-@media (max-width: 768px) {
-  .embla {
-    padding-inline: 1rem;
-  }
-}
-/* .embla::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 1rem;
-  width: 16px;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    rgb(81 81 81 / 25%),
-    rgb(255 255 255 / 40%)
-  );
-  pointer-events: none;
-  z-index: 1;
-}
-.embla::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 1rem;
-  width: 16px;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    rgb(255 255 255 / 40%),
-    rgb(81 81 81 / 25%)
-  );
-  pointer-events: none;
-  z-index: 1;
-} */
 </style>

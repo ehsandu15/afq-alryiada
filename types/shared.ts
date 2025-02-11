@@ -17,6 +17,7 @@ export interface BasicButton {
   id: number;
   title: string;
   href: string;
+  elementId: string;
 }
 
 export interface StrapiType {

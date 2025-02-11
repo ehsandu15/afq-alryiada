@@ -1,7 +1,7 @@
 <template>
   <section
     class="relative flex min-h-screen w-full flex-col items-center justify-center overflow-x-hidden bg-[#F8F9F9] pb-[60px]"
-    :id="SECTIONS_IDS.TESTIMONIALS"
+    :id="content.testimonialsId.elementId"
   >
     <div
       class="absolute left-0 top-0 grid w-full grid-cols-3 items-center justify-between overflow-x-hidden py-[60px]"
@@ -28,95 +28,108 @@
       v-html="headingTitle"
       class="mb-[60px] mt-4 max-w-[572px] text-center text-4xl font-extrabold capitalize text-app-black-secondary max-md:px-4 md:text-5xl"
     ></h3>
-    <!-- FIXME: fix embla carousel glitch -->
-    <div class="embla mb-8" ref="emblaFirstSliderRef">
-      <ul class="embla__container">
-        <HomeTestimonialsTestimonialCard
-          v-for="(comment, index) of content.testimonials_lists.slice(0, 3)"
-          v-bind:comment
-          :key="comment.documentId"
-          class="embla__slide"
-          :class="clsx({ active: index === 1 })"
-        />
-      </ul>
-    </div>
-    <div class="embla" ref="emblaSecondSliderRef">
-      <ul class="embla__container">
-        <HomeTestimonialsTestimonialCard
-          v-for="comment of content.testimonials_lists.slice(4)"
-          v-bind:comment
-          :key="comment.documentId"
-          class="embla__slide"
-        />
-      </ul>
+    <div class="flex w-full flex-col gap-8">
+      <carousel
+        v-if="content.testimonials_lists"
+        :autoplay="1500"
+        snap-align="center"
+        items-to-show="3.8"
+        :items-to-scroll="1"
+        :gap="32"
+        breakpoint-mode="viewport"
+        :breakpoints="{
+          300: {
+            itemsToShow: 1.08,
+            snapAlign: 'center',
+          },
+
+          768: {
+            itemsToShow: 1.5,
+            snapAlign: 'center',
+          },
+
+          992: {
+            itemsToShow: 3,
+            snapAlign: 'center',
+          },
+          1280: {
+            itemsToShow: 3.8,
+            snapAlign: 'center',
+          },
+        }"
+        :mouse-drag="true"
+        :transition="3500"
+        :touch-drag="true"
+        :pause-autoplay-on-hover="true"
+        slide-effect="slide"
+        :wrap-around="true"
+        dir="ltr"
+        class="testimonials-part-one w-full"
+      >
+        <Slide
+          v-for="testimonial of content.testimonials_lists.slice(0, 3)"
+          :key="testimonial.documentId"
+        >
+          <HomeTestimonialsTestimonialCard
+            :testimonial
+            card-transition-delay="1500ms"
+          />
+        </Slide>
+      </carousel>
+      <carousel
+        v-if="content.testimonials_lists"
+        :autoplay="1400"
+        snap-align="center-even"
+        items-to-show="3.8"
+        :items-to-scroll="1"
+        :gap="32"
+        breakpoint-mode="viewport"
+        :pause-autoplay-on-hover="true"
+        :breakpoints="{
+          300: {
+            itemsToShow: 1.2,
+            snapAlign: 'center-even',
+          },
+          768: {
+            itemsToShow: 2.1,
+            snapAlign: 'center-even',
+          },
+          992: {
+            itemsToShow: 3,
+            snapAlign: 'center-even',
+          },
+          1280: {
+            itemsToShow: 3.8,
+            snapAlign: 'center-even',
+          },
+        }"
+        :mouse-drag="true"
+        :transition="3500"
+        :touch-drag="true"
+        slide-effect="slide"
+        :wrap-around="true"
+        dir="rtl"
+        class="w-full"
+      >
+        <Slide
+          v-for="testimonial of content.testimonials_lists.slice(3)"
+          :key="testimonial.documentId"
+        >
+          <HomeTestimonialsTestimonialCard :testimonial />
+        </Slide>
+      </carousel>
     </div>
   </section>
 </template>
 <script setup lang="ts">
 // import { COMMENTS } from "~/constants/app-data";
 // import backgroundPeoples from "~/assets/images/testimonials/bg-peoples.svg";
-import emblaCarouselVue from "embla-carousel-vue";
-import clsx from "clsx";
-import Autoplay from "embla-carousel-autoplay";
 import { SECTIONS_IDS } from "~/constants/sections-ids";
-import type { MotionVariants } from "@vueuse/motion";
 import type { TestimonialsSectionType } from "~/types/home-page";
-
-const { appDir } = useAppDir();
-
-const [emblaFirstSliderRef, firstSliderEmblaOptions] = emblaCarouselVue(
-  {
-    loop: true,
-    align: "start",
-    active: true,
-    direction: "ltr",
-    duration: 3000,
-    containScroll: false,
-  },
-  [
-    Autoplay({
-      stopOnMouseEnter: true,
-      active: true,
-      playOnInit: true,
-    }),
-  ],
-);
-const [emblaSecondSliderRef, secondSliderEmblaOptions] = emblaCarouselVue(
-  {
-    loop: true,
-    align: "end",
-    direction: appDir.value,
-    duration: 3000,
-    containScroll: false,
-  },
-  [
-    Autoplay({
-      stopOnMouseEnter: true,
-      active: true,
-      playOnInit: true,
-    }),
-  ],
-);
+import { Carousel, Slide } from "vue3-carousel";
+import "vue3-carousel/carousel.css";
 
 const props = defineProps<{ content: TestimonialsSectionType }>();
-
-const FIRST_SLIDER_MOTIONS_VARIANTS = ref<MotionVariants<any>>({
-  initial: { opacity: 0, x: 250 },
-  visibleOnce: { opacity: 1, x: 0 },
-});
-const SECOND_SLIDER_MOTIONS_VARIANTS = ref<MotionVariants<any>>({
-  initial: { opacity: 0, x: -250 },
-  visibleOnce: { opacity: 1, x: 0 },
-});
-
-const motionFirstSlider = useMotion(
-  emblaFirstSliderRef,
-  FIRST_SLIDER_MOTIONS_VARIANTS,
-);
-const motionSecondSlider = useMotion(
-  emblaSecondSliderRef,
-  SECOND_SLIDER_MOTIONS_VARIANTS,
-);
 
 const headingTitle = computed(() =>
   highlightSpecificWord({
@@ -127,27 +140,10 @@ const headingTitle = computed(() =>
 );
 </script>
 <style scoped lang="css">
-.embla {
-  overflow: hidden;
-  width: 100%;
-  padding-inline: 1.5rem;
+.testimonials-part-one .carousel__slide--active :first-child {
+  @apply !bg-secondary;
 }
-
-@media (min-width: 768px) {
-  .embla {
-    width: 100%;
-  }
-}
-.embla__container {
-  display: flex;
-}
-.embla__slide {
-  flex: 0 0 33%;
-  max-width: 100%;
-  user-select: none;
-}
-
-.embla__slide {
-  margin-right: 32px;
+.testimonials-part-one .carousel__slide--active :first-child > * {
+  @apply !text-white;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <li class="relative">
+  <li class="relative overflow-hidden">
     <div
       class="group relative flex max-h-[230px] items-center justify-center overflow-hidden rounded-app-radius md:max-h-[257px]"
     >
@@ -35,14 +35,18 @@
         class="mb-2 w-full self-center justify-self-center object-cover"
       />
     </div>
-    <nav class="mb-2 flex items-center gap-2">
+    <nav class="mb-2 flex w-full max-w-full items-center gap-2 overflow-hidden">
       <NuxtLink
         v-for="keyword of keywordArray"
         :key="keyword"
-        class="text-xs font-semibold text-secondary md:text-base"
+        class="w-fit text-xs font-semibold text-secondary md:text-base"
         :href="{ query: { ...route.query, keyword } }"
+        :style="{ maxWidth: `calc(100% / ${keywordArray.length})` }"
+        :title="keyword"
       >
-        <h3>{{ keyword }}</h3>
+        <h3 class="w-full truncate">
+          {{ keyword }}
+        </h3>
       </NuxtLink>
     </nav>
     <h4 class="mb-1 text-lg font-bold text-app-black-secondary md:text-xl">

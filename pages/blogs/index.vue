@@ -41,13 +41,25 @@
           v-model="searchQuery"
         />
       </span>
-      <div class="flex-1">
-        <div class="embla" ref="emblaRef">
-          <div class="embla__container">
+      <div class="flex-1" v-if="categoriesStatus === 'success'">
+        <Carousel
+          items-to-show="fit-content"
+          snap-align="start"
+          :items-to-scroll="1"
+          :gap="24"
+          breakpoint-mode="viewport"
+          :mouse-drag="true"
+          :transition="600"
+          :touch-drag="true"
+          slide-effect="slide"
+          :dir="appDir"
+        >
+          <Slide
+            v-for="category of categories?.data"
+            :key="category.documentId"
+            style="width: fit-content !important"
+          >
             <NuxtLink
-              class="embla__slide"
-              v-for="category of categories?.data"
-              :key="category.documentId"
               :href="{ query: { ...route.query, category: category.slug } }"
               :class="
                 clsx(
@@ -79,12 +91,15 @@
                 {{ category.name }}
               </p>
             </NuxtLink>
-          </div>
-        </div>
+          </Slide>
+        </Carousel>
       </div>
     </div>
     <div class="mt-7 flex w-full flex-col gap-7">
-      <ul class="mb-11 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <ul
+        class="mb-11 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
+        v-if="articleStatus === 'success' && articleStatus"
+      >
         <BlogCard
           v-for="article of articles?.data"
           :key="article.id"
@@ -96,30 +111,39 @@
           articleStatus === 'success' && articles && articles?.data?.length >= 1
         "
         :current-page="Number(route?.query.page) || 1"
-        :total-pages="articles?.meta?.pagination.pageCount || 1"
+        :total-pages="(articles?.meta?.pagination as any).pageCount || 1"
         @on-next-page="handleGetNextPage"
         @on-toggle-page="handleTogglePage"
         @on-prev-page="handleGetPrevPage"
       />
+      <div
+        v-if="
+          articleStatus === 'success' && articles && articles.data.length <= 0
+        "
+      >
+        <h3
+          class="mb-8 mt-16 text-center text-4xl font-semibold capitalize text-app-black-secondary text-opacity-55"
+        >
+          {{ content?.data.noArticlesFound }}
+        </h3>
+      </div>
     </div>
   </section>
 </template>
 <script setup lang="ts">
 import { useDebounce } from "@vueuse/core";
 import clsx from "clsx";
-import emblaCarouselVue from "embla-carousel-vue";
 import { STRAPI_ENDPOINT } from "~/constants/strapi-endpoints";
 import type {
   ArticleCategoryType,
   ArticleType,
   BlogContentType,
 } from "~/types/blogs";
-
-const [emblaRef] = emblaCarouselVue();
+import { Carousel, Slide } from "vue3-carousel";
 
 const route = useRoute();
 const searchQuery = ref("");
-const debouncedSearchQuery = useDebounce(searchQuery, 450);
+const debouncedSearchQuery = useDebounce(searchQuery, 650);
 const router = useRouter();
 const { find, findOne } = useStrapi<BlogContentType>();
 const { data: content, status: contentStatus } = useAsyncData(
@@ -140,41 +164,53 @@ const { data: categories, status: categoriesStatus } = useAsyncData(
     }),
 );
 
-const isComplexFiltering = computed(() =>
-  Boolean(route.query.category && route.query.search),
-);
-
-const isFiltering = computed(() =>
-  Boolean(route.query.category || searchQuery.value),
-);
-
-// FIXME: cant able to search and filter by category together
 const filterWith = computed(() => {
-  if (isFiltering.value) {
-    if (Boolean(route.query.category) && route.query.category !== "all") {
-      return { category: { slug: { $eq: route.query.category } } };
-    }
-
-    if (Boolean(searchQuery.value) || route.query.category === "all") {
-      return { title: { $contains: searchQuery.value } };
-    }
-    if (
-      Boolean(searchQuery.value) &&
-      Boolean(route.query.category) &&
-      route.query.category !== "all"
-    ) {
-      return {
-        $and: [
-          { title: { $contains: searchQuery.value } },
-          { category: { slug: { $eq: route.query.category } } },
-        ],
-      };
-    }
-    return undefined;
-  } else {
+  if (!route.query.category && !searchQuery.value) {
     return undefined;
   }
+
+  if (
+    Boolean(route.query.category) &&
+    route.query.category !== "all" &&
+    Boolean(searchQuery.value)
+  ) {
+    return {
+      $and: [
+        {
+          category: {
+            slug: {
+              $eq: route.query.category,
+            },
+          },
+        },
+        {
+          title: {
+            $contains: searchQuery.value,
+          },
+        },
+      ],
+    };
+  }
+
+  if (Boolean(route.query.category) && route.query.category !== "all") {
+    return {
+      category: {
+        slug: {
+          $eq: route.query.category,
+        },
+      },
+    };
+  }
+
+  if (Boolean(searchQuery.value)) {
+    return {
+      title: {
+        $contains: searchQuery.value,
+      },
+    };
+  }
 });
+const { appDir } = useAppDir();
 
 const {
   data: articles,
@@ -270,23 +306,3 @@ const headingTitle = computed(() => {
   });
 });
 </script>
-<style scoped lang="css">
-.embla {
-  overflow: hidden;
-  width: 100%;
-}
-.embla__container {
-  display: flex;
-  gap: 24px;
-  flex-direction: row;
-}
-
-.embla__slide {
-  flex: 0 0 max-content;
-  min-width: 0;
-  border: 2px solid transparent;
-  padding-block: 8px;
-  border-radius: 0px;
-  margin: 0;
-}
-</style>

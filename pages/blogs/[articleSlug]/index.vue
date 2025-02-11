@@ -72,6 +72,7 @@ useSeoMeta({
 
 const dateFormatted = useDateFormat(
   articleDetails.value?.data.at(0)?.createdAt,
-  "A HH:MM - YYYY/ MM/ DD dddd",
+  "DD MMMM , YYYY",
+  { locales: "ar-EG" },
 );
 </script>

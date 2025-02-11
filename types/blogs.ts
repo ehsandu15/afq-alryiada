@@ -8,6 +8,7 @@ export type BlogContentType = StrapiType & {
   seoTitle: string;
   seoDescription: string;
   highlightWord: string;
+  noArticlesFound: string;
 };
 
 export type ArticleType = StrapiType & {
@@ -16,7 +17,7 @@ export type ArticleType = StrapiType & {
   id: number;
   keywords: string;
   slug: string;
-  cover: ImageType | undefined;
+  cover: ImageType;
   content: BlocksContent;
 };
 

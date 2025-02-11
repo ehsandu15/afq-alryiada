@@ -1,6 +1,6 @@
 <template>
   <section
-    :id="SECTIONS_IDS.HERO"
+    :id="content.heroId.elementId"
     class="relative flex min-h-screen w-full flex-col items-center justify-center bg-app-white-main"
   >
     <div
