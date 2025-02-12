@@ -1,11 +1,8 @@
 <template>
-  <div class="grid w-full">
-    <StrapiBlocks
-      v-if="content"
-      :content="content"
-      :blocks="blocks"
-      :modifiers="modifiers"
-    />
+  <div class="editor-wrapper">
+    <ClientOnly>
+      <Editor v-if="content" :data="content" :disabled="true" />
+    </ClientOnly>
   </div>
 </template>
 <script setup lang="ts">
@@ -13,16 +10,17 @@ import clsx from "clsx";
 import type { RendererElement, RendererNode } from "vue";
 import type { ImageType } from "~/types/shared";
 import Prism from "prismjs";
-import "~/assets/css/prism-vsc-dark-plus.css";
+
 import {
   StrapiBlocks,
   type BlocksComponents,
   type ModifiersComponents,
   type BlocksContent,
 } from "vue-strapi-blocks-renderer";
+import Editor from "../Editor.vue";
 
 defineProps<{
-  content: BlocksContent | undefined;
+  content: string | undefined;
 }>();
 
 const heading = (
@@ -230,12 +228,20 @@ const modifiers: Partial<ModifiersComponents> = {
     return code((props as any).language, props.children);
   },
 };
-
-onMounted(() => {
-  Prism.highlightAll(true);
-});
 </script>
 <style lang="css">
+.editor-wrapper {
+  width: 100%;
+  display: grid;
+}
+
+.editor-wrapper .ck-editor__top {
+  display: none !important;
+}
+.editor-wrapper .ck-editor__main .ck-content {
+  border: none !important;
+  background-color: transparent;
+}
 .code-container {
   background-color: #2d2d2d;
   color: #f8f8f2;

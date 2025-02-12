@@ -24,4 +24,6 @@ export type ContactData = StrapiType & {
   seoTitle: string;
   seoDescription: string;
   highlightWord: string;
+  formSendSuccessMessage: string;
+  formSendErrorMessage: string;
 };

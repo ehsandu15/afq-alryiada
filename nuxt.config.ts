@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     "@nuxt/fonts",
     "@nuxtjs/strapi",
   ],
+  plugins: ["~/plugins/prism.ts"],
   css: ["~/assets/css/tailwind.css"],
   app: {
     head: {

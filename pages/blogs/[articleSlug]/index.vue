@@ -38,8 +38,11 @@
         class="aspect-video w-full object-cover"
       />
     </figure>
-    <!-- TODOL replace default strapi rich text ot find method to integrate the 'vue-code-block' with strapi renderer module -->
-    <BlogsArticleContent :content="articleDetails?.data.at(0)?.content" />
+
+    <BlogsArticleContent
+      v-if="articleDetails?.data.at(0)?.content"
+      :content="articleDetails?.data.at(0)?.content"
+    />
   </section>
 </template>
 <script setup lang="ts">

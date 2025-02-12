@@ -75,19 +75,39 @@
             class="w-full border-b-[1px] border-[#a5a5a5] px-[10px] py-[5px] text-sm font-medium leading-5 text-[#1f1f1f] outline-none focus:border-[#1f1f1f]"
           />
         </span>
-        <button
-          v-for="action of content?.data.formActions"
-          type="button"
-          class="btn btn-primary"
-        >
-          <p>{{ action.title }}</p>
-          <img
-            width="24"
-            height="24"
-            :src="action.icon.url"
-            :alt="action.icon.alternativeText"
-          />
-        </button>
+        <div class="flex items-center justify-start gap-5">
+          <button
+            v-for="action of content?.data.formActions"
+            type="submit"
+            class="btn btn-primary"
+          >
+            <template v-if="!isSending">
+              <p>{{ action.title }}</p>
+              <img
+                width="24"
+                height="24"
+                :src="action.icon.url"
+                :alt="action.icon.alternativeText"
+              />
+            </template>
+            <template v-if="isSending">
+              <span
+                class="size-4 animate-spin rounded-full border-4 border-white border-l-secondary"
+              ></span>
+            </template>
+          </button>
+          <span
+            class="w-full font-medium capitalize"
+            v-if="isError || isSentMessage"
+          >
+            <small class="text-red-600" v-if="isError">{{
+              content?.data.formSendErrorMessage
+            }}</small>
+            <small v-if="isSentMessage" class="text-emerald-700">{{
+              content?.data.formSendSuccessMessage
+            }}</small>
+          </span>
+        </div>
         <!-- <div class="form-group">
           <span class="group-wrapper">
             <label for="first-name">الاسم الاول</label>
@@ -173,10 +193,39 @@ import type { ContactData } from "~/types/contact-us";
 import { STRAPI_ENDPOINT } from "~/constants/strapi-endpoints";
 const { findOne } = useStrapi<ContactData>();
 const nuxtConf = useNuxtApp();
-const handleSubmit = (ev: Event) => {
-  // const fd = new FormData(ev.target);
-  // console.log(fd.keys());
-  console.log("Submit form Test !!");
+const strapiUrl = useStrapiUrl();
+const isSentMessage = ref(false);
+const isSending = ref(false);
+const isError = ref(false);
+const handleSubmit = async (ev: Event) => {
+  const target = ev.target as HTMLFormElement;
+  const fd = new FormData(ev.currentTarget as any);
+
+  const data = {
+    firstName: fd.get("firstName"),
+    lastName: fd.get("lastName"),
+    phoneNumber: fd.get("phoneNumber"),
+    email: fd.get("email"),
+    message: fd.get("message"),
+  };
+  isSending.value = true;
+
+  try {
+    const res = await $fetch(`${strapiUrl}/${STRAPI_ENDPOINT.SEND_MESSAGE}`, {
+      method: "POST",
+      body: JSON.stringify({ data: data }),
+    });
+    if (res && res.data) {
+      isSentMessage.value = true;
+      target?.reset();
+    }
+    isError.value = false;
+  } catch (err) {
+    isError.value = true;
+    console.error("ERROR !! ", err);
+  } finally {
+    isSending.value = false;
+  }
 };
 const { data: content } = useAsyncData(
   STRAPI_ENDPOINT.CONTACT_US,
