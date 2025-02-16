@@ -59,6 +59,7 @@ export default defineNuxtConfig({
       },
       strapi: {
         url: process.env.STRAPI_URL,
+        strapiRoleApiKey: process.env.STRAPI_ROLE_API_KEY,
       },
       articleKeywordsSplitSymbol: process.env.ARTICLE_KEYWORDS_SPLIT_SYMBOL,
     },

@@ -55,6 +55,7 @@
             :name="elem.name"
             :id="elem.elemId"
             :placeholder="elem.placeholder"
+            required
             class="w-full border-b-[1px] border-[#a5a5a5] px-[10px] py-[5px] text-sm font-medium leading-5 text-[#1f1f1f] outline-none focus:border-[#1f1f1f]"
           />
         </span>
@@ -192,11 +193,11 @@
 import type { ContactData } from "~/types/contact-us";
 import { STRAPI_ENDPOINT } from "~/constants/strapi-endpoints";
 const { findOne } = useStrapi<ContactData>();
-const nuxtConf = useNuxtApp();
-const strapiUrl = useStrapiUrl();
+const nuxtApp = useNuxtApp();
 const isSentMessage = ref(false);
 const isSending = ref(false);
 const isError = ref(false);
+
 const handleSubmit = async (ev: Event) => {
   const target = ev.target as HTMLFormElement;
   const fd = new FormData(ev.currentTarget as any);
@@ -211,17 +212,21 @@ const handleSubmit = async (ev: Event) => {
   isSending.value = true;
 
   try {
-    const res = await $fetch(`${strapiUrl}/${STRAPI_ENDPOINT.SEND_MESSAGE}`, {
+    const res = await $fetch(`/api/contact-us/send-message`, {
       method: "POST",
-      body: JSON.stringify({ data: data }),
+      body: JSON.stringify(data),
     });
-    if (res && res.data) {
+    console.log("res", res);
+    if (res.success) {
       isSentMessage.value = true;
       target?.reset();
+    } else {
+      throw new Error(res.message || res.details);
     }
     isError.value = false;
   } catch (err) {
     isError.value = true;
+    isSentMessage.value = false;
     console.error("ERROR !! ", err);
   } finally {
     isSending.value = false;
@@ -245,7 +250,7 @@ const { data: content } = useAsyncData(
     }),
   {
     transform: (res) =>
-      nuxtConf.runWithContext(() => ({
+      nuxtApp.runWithContext(() => ({
         ...res,
         data: {
           ...res.data,
