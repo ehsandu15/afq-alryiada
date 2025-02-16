@@ -10,7 +10,7 @@ export default function imagePathPrefix(
       return undefined;
     }
     if (typeof imagePath !== "string") {
-      console.error(
+      console.warn(
         `Path URL Should be string type ,got path type ${typeof imagePath}`,
       );
       return undefined;
