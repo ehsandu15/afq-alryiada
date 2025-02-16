@@ -17,8 +17,8 @@ export type ArticleType = StrapiType & {
   id: number;
   keywords: string;
   slug: string;
-  cover: ImageType;
-  content: BlocksContent;
+  cover: ImageType | undefined;
+  content: string;
 };
 
 export type ArticleCategoryType = StrapiType & {

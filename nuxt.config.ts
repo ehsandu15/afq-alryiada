@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     "@nuxt/fonts",
     "@nuxtjs/strapi",
   ],
-  plugins: ["~/plugins/prism.ts"],
+
   css: ["~/assets/css/tailwind.css"],
   app: {
     head: {
@@ -42,6 +42,9 @@ export default defineNuxtConfig({
       url: process.env.STRAPI_URL,
     },
     public: {
+      ckeditor: {
+        ckeditorLicenseKey: process.env.CK_EDITOR_LICENSE_KEY,
+      },
       motion: {
         directives: {
           "pop-down": {

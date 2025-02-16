@@ -75,5 +75,4 @@ const formatDate = useDateFormat(
   props.article.createdAt,
   "YYYY-MM-DD HH:mm dddd",
 );
-const HREF = `$${PATHS.BLOG}/${props.article?.title || "#"}`;
 </script>

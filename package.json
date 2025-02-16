@@ -4,8 +4,8 @@
   "type": "module",
   "version": "1.5.5",
   "scripts": {
-    "build": "nuxt build",
     "dev": "nuxt dev",
+    "build": "nuxt build",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -19,6 +19,7 @@
     "@vueuse/motion": "^2.2.6",
     "@wdns/vue-code-block": "^2.3.5",
     "ckeditor5": "^44.1.0",
+    "ckeditor5-premium-features": "^44.2.0",
     "clsx": "^2.1.1",
     "nuxt": "^3.15.2",
     "prismjs": "^1.29.0",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "@types/prismjs": "^1.26.5",
+    "cpx": "^1.5.0",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.10"
   }

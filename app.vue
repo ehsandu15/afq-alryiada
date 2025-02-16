@@ -1,10 +1,14 @@
 <template>
   <NuxtLayout>
+    <NuxtLoadingIndicator :color="theme.colors.secondary" />
+
     <NuxtPage />
   </NuxtLayout>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { theme } from "#tailwind-config";
+</script>
 
 <style>
 .page-enter-active,

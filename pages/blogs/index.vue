@@ -98,12 +98,19 @@
     <div class="mt-7 flex w-full flex-col gap-7">
       <ul
         class="mb-11 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
-        v-if="articleStatus === 'success' && articleStatus"
+        v-if="articles && articleStatus === 'success'"
       >
         <BlogCard
-          v-for="article of articles?.data"
+          v-for="(article, index) of articles.data"
           :key="article.id"
-          :article="article"
+          v-motion="{
+            initial: { opacity: 0, x: -23, scale: 1.05 },
+            visibleOnce: { opacity: 1, x: 0, scale: 1.0 },
+            leave: { opacity: 0, x: 23, scale: 1.05 },
+          }"
+          :duration="MOTION_DURATION - 550"
+          :delay="index * 120"
+          :article="article as ArticleType"
         />
       </ul>
       <PaginationItems
@@ -140,6 +147,7 @@ import type {
   BlogContentType,
 } from "~/types/blogs";
 import { Carousel, Slide } from "vue3-carousel";
+import { MOTION_DURATION } from "~/constants/motion-config";
 
 const route = useRoute();
 const searchQuery = ref("");
@@ -212,11 +220,7 @@ const filterWith = computed(() => {
 });
 const { appDir } = useAppDir();
 
-const {
-  data: articles,
-  status: articleStatus,
-  error: articleError,
-} = useAsyncData(
+const { data: articles, status: articleStatus } = useAsyncData(
   STRAPI_ENDPOINT.ARTICLES,
   () =>
     find<ArticleType>(STRAPI_ENDPOINT.ARTICLES, {
