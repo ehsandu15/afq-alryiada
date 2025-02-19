@@ -5,7 +5,12 @@
       class="flex size-10 items-center justify-center rounded-full bg-[#F5F5F8] text-app-black-secondary disabled:bg-gray-300 disabled:text-gray-400"
       :disabled="currentPage === 1"
       title="prev-page"
-      @click="$emit('onPrevPage')"
+      @click="
+        () => {
+          $emit('onPrevPage');
+          goToPage(currentPage + 1);
+        }
+      "
     >
       <svg
         class="h-6 w-6 text-inherit dark:text-inherit"
@@ -33,17 +38,27 @@
           'bg-secondary text-white': currentPage && currentPage === item,
         })
       "
-      :disabled="currentPage === item"
-      @click="$emit('onTogglePage', item)"
-      v-for="item of pagesList"
-      :title="item"
+      @click="
+        () => {
+          $emit('onTogglePage', item);
+          goToPage(item);
+        }
+      "
+      v-for="item of pages"
+      :disabled="currentPage === item || item <= 0"
+      :title="item <= 0 ? undefined : item?.toString()"
     >
-      {{ item }}
+      {{ item >= 0 ? item : "..." }}
     </button>
     <button
       type="button"
       class="flex size-10 items-center justify-center rounded-full bg-[#F5F5F8] text-app-black-secondary disabled:bg-gray-300 disabled:text-gray-400"
-      @click="$emit('onNextPage')"
+      @click="
+        () => {
+          $emit('onNextPage');
+          goToPage(currentPage + 1);
+        }
+      "
       :disabled="currentPage === totalPages"
       title="next-page"
     >
@@ -68,11 +83,13 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useOffsetPagination } from "@vueuse/core";
 import clsx from "clsx";
 
 const props = defineProps<{
   totalPages: number;
-  currentPage: number;
+  page: number;
+  buttonsLimit: number;
 }>();
 defineEmits<{
   (ev: "onNextPage"): void;
@@ -80,7 +97,9 @@ defineEmits<{
   (ev: "onTogglePage", pageTarget: number): void;
 }>();
 
-const pagesList = computed(() =>
-  Array.from({ length: props.totalPages }, (_, idx) => idx + 1),
-);
+const { currentPage, pages, goToPage } = usePagination({
+  maxVisible: props.buttonsLimit,
+  totalPages: props.totalPages,
+  page: props.page,
+});
 </script>

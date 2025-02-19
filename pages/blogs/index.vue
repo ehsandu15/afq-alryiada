@@ -113,11 +113,13 @@
           :article="article as ArticleType"
         />
       </ul>
+
       <PaginationItems
         v-if="
           articleStatus === 'success' && articles && articles?.data?.length >= 1
         "
-        :current-page="Number(route?.query.page) || 1"
+        :buttons-limit="5"
+        :page="Number(route?.query.page) || 1"
         :total-pages="(articles?.meta?.pagination as any).pageCount || 1"
         @on-next-page="handleGetNextPage"
         @on-toggle-page="handleTogglePage"
@@ -233,7 +235,7 @@ const { data: articles, status: articleStatus } = useAsyncData(
           route.query.page && !isNaN(route.query.page as any)
             ? Number(route.query.page)
             : 1,
-        pageSize: 9,
+        pageSize: 12,
       },
     }),
   {
