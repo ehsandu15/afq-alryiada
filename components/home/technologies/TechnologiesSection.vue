@@ -1,14 +1,15 @@
 <template>
   <section
-    class="app-container container flex flex-wrap items-center justify-between gap-6 py-[60px]"
+    data-section="true"
+    class="app-container container flex flex-wrap items-center justify-between gap-6 py-5 md:py-[35px] lg:py-[60px]"
   >
-    <div class="flex w-full flex-col py-6 lg:w-[calc(60%-1.5rem)]">
+    <div class="flex w-full flex-col lg:w-[calc(60%-1.5rem)] lg:py-6">
       <div v-motion="MOTION_FADE_DOWN_TOP" :duration="MOTION_DURATION">
         <AdvancedSectionHeading
           :title="content.techSectionTitle.title"
           icon-color-class="bg-[#30B0C7]"
           text-color-class="text-app-black-secondary"
-          class="border-[#c7c7cc]"
+          class="border-[#c7c7cc] md:mt-[60px]"
         />
       </div>
 
@@ -31,7 +32,7 @@
       </span>
     </div>
     <ul
-      class="grid w-full grid-cols-2 gap-[17px] md:gap-2 lg:w-[calc(40%-1.5rem)]"
+      class="grid w-full grid-cols-2 gap-[17px] md:mt-[60px] md:gap-2 lg:w-[calc(40%-1.5rem)]"
     >
       <li
         v-for="(image, index) of content.technologies_lists"

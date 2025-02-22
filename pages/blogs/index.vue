@@ -6,7 +6,7 @@
       icon-color-class="bg-secondary"
       :title="content?.data.sectionTitle.title!"
       text-color-class="text-app-black-secondary"
-      class="mb-5 !border-[#C7C7CC]"
+      class="mb-5 mt-16 !border-[#C7C7CC]"
     />
     <h3
       v-html="headingTitle"
@@ -228,6 +228,7 @@ const { data: articles, status: articleStatus } = useAsyncData(
     find<ArticleType>(STRAPI_ENDPOINT.ARTICLES, {
       populate: {
         cover: true,
+        keywords: true,
       },
       filters: filterWith.value,
       pagination: {

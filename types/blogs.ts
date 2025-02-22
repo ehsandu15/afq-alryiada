@@ -11,11 +11,19 @@ export type BlogContentType = StrapiType & {
   noArticlesFound: string;
 };
 
+export type KeywordType = {
+  elementId: string | null;
+  href: string;
+  id: number;
+  title: string;
+  __component: "shared.basic-link";
+};
+
 export type ArticleType = StrapiType & {
   title: string;
   description: string;
   id: number;
-  keywords: string;
+  keywords: KeywordType[];
   slug: string;
   cover: ImageType | undefined;
   content: string;

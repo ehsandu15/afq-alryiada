@@ -61,12 +61,15 @@ export default defineNuxtConfig({
         url: process.env.STRAPI_URL,
         strapiRoleApiKey: process.env.STRAPI_ROLE_API_KEY,
       },
-      articleKeywordsSplitSymbol: process.env.ARTICLE_KEYWORDS_SPLIT_SYMBOL,
     },
   },
   nitro: {
-    prerender: {
-      ignore: ["/blogs"],
+    routeRules: {
+      "/": { isr: 86400 },
+      "/about": { isr: 86400 },
+      "/contact-us": { isr: 86400 },
+      "/blogs": { isr: 3600 },
+      "/blogs/:articleSlug": { isr: 3600 },
     },
   },
 });

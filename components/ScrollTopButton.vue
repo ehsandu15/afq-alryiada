@@ -1,7 +1,7 @@
 <template>
   <button
     type="button"
-    class="fixed bottom-6 right-4 isolate z-30 flex size-[54px] items-center justify-center rounded-full bg-[#244453] shadow-2xl md:bottom-14 md:right-12 md:size-[64px]"
+    class="fixed bottom-6 right-4 isolate z-30 flex size-10 items-center justify-center rounded-full bg-[#244453] shadow-2xl md:bottom-14 md:right-12 md:size-[54px] lg:size-[64px]"
     v-if="scrollY > buttonVisiblePosition"
     v-motion-roll-visible-right
     @click="handleScrollToTop"

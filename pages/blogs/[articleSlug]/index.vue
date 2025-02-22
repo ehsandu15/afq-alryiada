@@ -17,17 +17,17 @@
     >
       <li
         v-if="articleDetails?.data.at(0)?.keywords"
-        v-for="keyword of articleDetails?.data
-          .at(0)
-          ?.keywords.split($config.public.articleKeywordsSplitSymbol)"
+        v-for="keyword of articleDetails?.data.at(0)?.keywords"
         class="border-e-2 border-secondary px-4 last:!border-e-0"
       >
         <p class="text-xl font-semibold leading-[28px] text-secondary">
-          {{ keyword }}
+          {{ keyword.title }}
         </p>
       </li>
     </ul>
-    <figure class="mb-[22px] mt-11 w-full overflow-hidden rounded-app-radius">
+    <figure
+      class="mb-[22px] mt-11 flex w-full items-center justify-center overflow-hidden rounded-app-radius md:w-11/12 lg:w-10/12"
+    >
       <img
         :src="
           articleDetails?.data.at(0)?.cover
@@ -35,7 +35,7 @@
             : articleCoverPlaceholder
         "
         :alt="articleDetails?.data.at(0)?.cover?.alternativeText"
-        class="aspect-video w-full object-cover"
+        class="aspect-video w-full rounded-app-radius object-cover"
       />
     </figure>
 
@@ -53,6 +53,7 @@ import articleCoverPlaceholder from "~/assets/images/article-cover-placeholder.w
 
 const route = useRoute();
 const { find } = useStrapi<ArticleType>();
+const runtimeConf = useRuntimeConfig();
 const { data: articleDetails } = useAsyncData(
   `${STRAPI_ENDPOINT.ARTICLES}/${route.params.articleSlug}`,
   () =>
@@ -64,6 +65,7 @@ const { data: articleDetails } = useAsyncData(
       },
       populate: {
         cover: true,
+        keywords: true,
       },
     }),
 );
@@ -71,6 +73,10 @@ const { data: articleDetails } = useAsyncData(
 useSeoMeta({
   title: articleDetails.value?.data.at(0)?.title,
   description: articleDetails.value?.data.at(0)?.description,
+  ogType: "article",
+  ogTitle: articleDetails.value?.data.at(0)?.title,
+  ogDescription: articleDetails.value?.data.at(0)?.description,
+  ogImage: imagePathPrefix(articleDetails.value?.data.at(0)?.cover?.url),
 });
 
 const dateFormatted = useDateFormat(

@@ -1,15 +1,19 @@
 <template>
-  <main class="flex min-h-screen flex-col items-center justify-center">
-    <LayoutAppHeader
-      :content="headerContent?.data"
-      :navigation-links="navigationLinks?.data"
-    />
+  <LayoutAppHeader
+    :content="headerContent?.data"
+    :navigation-links="navigationLinks?.data"
+    :active-section-id="activeSectionId"
+  />
+  <main
+    class="flex min-h-screen flex-col items-center justify-center"
+    id="home-sections-wrapper"
+  >
     <slot />
-    <LayoutAppFooter
-      :content="footerContent?.data"
-      :navigation-links="navigationLinks?.data"
-    />
   </main>
+  <LayoutAppFooter
+    :content="footerContent?.data"
+    :navigation-links="navigationLinks?.data"
+  />
 </template>
 <script setup lang="ts">
 import type { AppFooterType } from "~/types/footer";
@@ -17,6 +21,10 @@ import { STRAPI_ENDPOINT } from "~/constants/strapi-endpoints";
 import type { NavigationLinkType } from "~/types/shared";
 import type { AppHeaderType } from "~/types/header";
 import type { SiteData } from "~/types/seo";
+import { useEventListener } from "@vueuse/core";
+import { APP_HEADER_HEIGHT } from "~/constants/app-data";
+
+const activeSectionId = ref("#");
 
 const { findOne, find } = useStrapi<AppFooterType>();
 
@@ -127,5 +135,37 @@ useHead({
       children: seoData.value?.data.structuredData || {},
     },
   ],
+});
+
+useEventListener(window, "scroll", function (ev) {
+  if (typeof this.window !== "undefined") {
+    const sectionsWrapper = this.document.body.querySelectorAll(
+      "#home-sections-wrapper",
+    );
+
+    if (sectionsWrapper.length > 0) {
+      const sections = sectionsWrapper[0].querySelectorAll(
+        "[data-section=true]",
+      );
+      // check if current scroll equal the section
+      const currentScroll = this.window.pageYOffset || this.scrollY;
+
+      const currentSectionId = Array.from(sections).reduce((prev, current) => {
+        const top = current.offsetTop - APP_HEADER_HEIGHT.DESKTOP; // subtract header height
+        const bottom = top + current.offsetHeight;
+
+        if (currentScroll >= top && currentScroll <= bottom) {
+          const elementId =
+            current.id === "#" ? current.id : current.id.replaceAll("#", "");
+          return elementId;
+        }
+        const elementId =
+          prev === "#" ? prev : (prev as string | null)?.replaceAll("#", "");
+        return elementId;
+      }, null);
+
+      activeSectionId.value = `${currentSectionId}`;
+    }
+  }
 });
 </script>

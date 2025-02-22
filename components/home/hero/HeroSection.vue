@@ -1,6 +1,7 @@
 <template>
   <section
     :id="content.heroId.elementId"
+    data-section="true"
     class="relative flex min-h-screen w-full flex-col items-center justify-center bg-app-white-main"
   >
     <div
@@ -40,7 +41,7 @@
               },
               leave: { opacity: 0, x: -150, width: '0%', maxWidth: '100%' },
             }"
-            :duration="MOTION_DURATION"
+            :duration="500"
             :delay="SHARED_DELAY"
           >
             {{ content.heroAdvancedSubTitle }}
@@ -57,7 +58,7 @@
               },
               leave: { opacity: 0, x: -150, width: '0%', maxWidth: '100%' },
             }"
-            :duration="MOTION_DURATION"
+            :duration="500"
             :delay="SHARED_DELAY"
           >
             {{ content.heroAdvancedMobileSubTitle }}

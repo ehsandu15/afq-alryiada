@@ -72,24 +72,12 @@
     </div>
   </section>
   <ScrollTopButton :button-visible-position="520" />
-  <a
-    :href="content?.data.whatsapp?.href"
-    class="fixed bottom-10 left-6 isolate z-30 flex size-[54px] items-center justify-center rounded-full shadow-2xl md:bottom-14 md:left-12 md:size-[64px]"
-  >
-    <img
-      :src="content?.data.whatsapp?.icon?.url"
-      :alt="content?.data.whatsapp?.icon?.alternativeText"
-    />
-  </a>
+  <FlutingWhatsappButton
+    :phone-number="content?.data.whatsapp?.href"
+    :icon-url="content?.data.whatsapp?.icon?.url"
+  />
 </template>
 <script setup lang="ts">
-// import fullLogo from "~/assets/images/shared/full-logo.svg";
-// import facebookIcon from "~/assets/images/shared/social-media/facebook.svg";
-// import instagramIcon from "~/assets/images/shared/social-media/instagram.svg";
-// import twitterIcon from "~/assets/images/shared/social-media/twitter.svg";
-// import youtubeIcon from "~/assets/images/shared/social-media/youtube.svg";
-// import backgroundPatterns from "~/assets/images/about/bg.svg";
-// import { PATHS } from "~/constants/paths";
 import type { AboutUsContent } from "~/types/about-us";
 import { STRAPI_ENDPOINT } from "~/constants/strapi-endpoints";
 const nextConf = useNuxtApp();
@@ -194,7 +182,6 @@ const { data: content, status } = useAsyncData(
   },
 );
 
-console.log("content: ", content.value);
 useSeoMeta({
   title: content.value?.data.seoTitle,
   description: content.value?.data.seoDescription,

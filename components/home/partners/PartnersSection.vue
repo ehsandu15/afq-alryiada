@@ -1,5 +1,6 @@
 <template>
   <section
+    data-section="true"
     class="flex min-h-[50vh] w-full flex-col items-center justify-center bg-white pb-[20px] pt-[26px]"
   >
     <h2
@@ -8,7 +9,7 @@
     ></h2>
 
     <Carousel
-      class="hidden w-full md:flex"
+      class="flex w-full"
       v-motion="{
         initial: { opacity: 0, x: 350 },
         visibleOnce: { opacity: 1, x: 0 },
@@ -22,20 +23,7 @@
       :items-to-scroll="1"
       :gap="90"
       breakpoint-mode="viewport"
-      :breakpoints="{
-        768: {
-          itemsToShow: 3.3,
-          snapAlign: 'center-even',
-        },
-        992: {
-          itemsToShow: 4.3,
-          snapAlign: 'center-even',
-        },
-        1280: {
-          itemsToShow: 5.6,
-          snapAlign: 'center-even',
-        },
-      }"
+      :breakpoints="breakpoints"
       :pause-autoplay-on-hover="true"
       :mouse-drag="true"
       :transition="3500"
@@ -59,7 +47,7 @@
     </Carousel>
 
     <!-- Partners list in Small screens -->
-    <ul
+    <!-- <ul
       class="mb-16 mt-8 grid grid-cols-2 items-center justify-center gap-[55px] px-6 md:hidden"
     >
       <li
@@ -82,7 +70,7 @@
           class="h-full object-contain grayscale transition-[filter] duration-500 hover:grayscale-0"
         />
       </li>
-    </ul>
+    </ul> -->
   </section>
 </template>
 <script setup lang="ts">
@@ -107,6 +95,34 @@ const { appDir } = useAppDir();
 
 const props = defineProps<{ content: PartnersSectionType }>();
 
+const breakpoints: any = {
+  230: {
+    itemsToShow: 1.2,
+    snapAlign: "center",
+    gap: 15,
+  },
+  576: {
+    itemsToShow: 2.5,
+    snapAlign: "center",
+    gap: 20,
+  },
+  768: {
+    itemsToShow: 3.3,
+    snapAlign: "center-even",
+    gap: 90,
+  },
+  992: {
+    itemsToShow: 4.3,
+    snapAlign: "center-even",
+    gap: 90,
+  },
+  1280: {
+    itemsToShow: 5.6,
+    snapAlign: "center-even",
+    gap: 90,
+  },
+};
+
 const headingTitle = computed(() =>
   highlightSpecificWord({
     text: props.content.partnersHeaingtitle,
@@ -115,36 +131,3 @@ const headingTitle = computed(() =>
   }),
 );
 </script>
-
-<style scoped lang="css">
-/* .embla {
-  overflow: hidden;
-  width: 100%;
-  display: none;
-  position: relative;
-}
-@media (min-width: 768px) {
-  .embla {
-    display: block;
-  }
-}
-.embla__container {
-  display: flex;
-}
-.embla__slide {
-  flex: 0 0 50%;
-  max-width: 100%;
-  user-select: none;
-  cursor: grab;
-}
-
-@media (min-width: 768px) {
-  .embla__slide {
-    margin-right: 90px;
-    flex: 0 0 max-content;
-  }
-}
-.embla__slide {
-  margin-right: 90px;
-} */
-</style>

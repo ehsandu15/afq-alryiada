@@ -1,7 +1,7 @@
 <template>
   <li class="relative overflow-hidden">
     <div
-      class="group relative flex max-h-[230px] items-center justify-center overflow-hidden rounded-app-radius md:max-h-[257px]"
+      class="group relative flex max-h-[230px] items-center justify-center overflow-hidden rounded-app-radius md:max-h-[215px] lg:max-h-[267px] xl:max-h-[300px]"
     >
       <NuxtLink
         :href="`blogs/${article.slug}`"
@@ -35,17 +35,19 @@
         class="mb-2 w-full self-center justify-self-center object-cover"
       />
     </div>
-    <nav class="mb-2 flex w-full max-w-full items-center gap-2 overflow-hidden">
+    <nav
+      class="mb-2 mt-2 flex w-full max-w-full items-center gap-2 overflow-hidden"
+    >
       <NuxtLink
-        v-for="keyword of keywordArray"
-        :key="keyword"
+        v-for="keyword of article.keywords"
+        :key="keyword.id"
         class="w-fit text-xs font-semibold text-secondary md:text-base"
-        :href="{ query: { ...route.query, keyword } }"
-        :style="{ maxWidth: `calc(100% / ${keywordArray.length})` }"
+        :href="{ query: { ...route.query, keyword: keyword.title } }"
+        :style="{ maxWidth: `calc(100% / ${article.keywords.length})` }"
         :title="keyword"
       >
         <h3 class="w-full truncate">
-          {{ keyword }}
+          {{ keyword.title }}
         </h3>
       </NuxtLink>
     </nav>
@@ -60,17 +62,11 @@
 <script setup lang="ts">
 import { useDateFormat } from "@vueuse/core";
 import articleCoverPlaceholder from "~/assets/images/article-cover-placeholder.webp";
-import { PATHS } from "~/constants/paths";
+// import { PATHS } from "~/constants/paths";
 import type { ArticleType } from "~/types/blogs";
 const route = useRoute();
 const props = defineProps<{ article: ArticleType }>();
-const runtimeConf = useRuntimeConfig();
-const keywordArray = computed(
-  () =>
-    props.article?.keywords
-      ?.trim()
-      ?.split(runtimeConf.public.articleKeywordsSplitSymbol) || [],
-);
+
 const formatDate = useDateFormat(
   props.article.createdAt,
   "YYYY-MM-DD HH:mm dddd",

@@ -1,5 +1,6 @@
 <template>
   <section
+    data-section="true"
     class="app-container container flex min-h-[60vh] flex-col bg-white py-[60px]"
     :id="SECTIONS_IDS.BLOG"
   >

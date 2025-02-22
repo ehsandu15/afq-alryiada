@@ -1,5 +1,6 @@
 <template>
   <section
+    data-section="true"
     class="flex min-h-screen w-full flex-col items-center justify-center bg-[#2444530D]"
     :id="content.servicesId.elementId"
   >
@@ -7,7 +8,7 @@
       icon-color-class="bg-secondary"
       :title="content.servicesSectionTitle.title"
       text-color-class="text-app-black-secondary"
-      :class="clsx(`!border-[#C7C7CC]`)"
+      :class="clsx(`!border-[#C7C7CC]`, 'mt-8 md:mt-[60px]')"
     />
     <h3
       v-html="headingTitle"

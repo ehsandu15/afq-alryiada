@@ -1,7 +1,5 @@
 <template>
-  <header
-    class="app-header relative flex w-full items-center justify-center border-b border-[#E5E5EA] py-2"
-  >
+  <header class="app-header">
     <section
       class="app-container container top-0 flex flex-row-reverse items-center justify-between md:flex-row"
     >
@@ -72,9 +70,12 @@
         <NuxtLink
           v-for="link of navigationLinks"
           :href="link.href"
-          class="text-center font-bold text-app-gray-main"
+          class="nav-link"
           :class="{
-            '!text-app-black-secondary': router.fullPath.endsWith(link.href),
+            'nav-link__active':
+              (Boolean(activeSectionId) &&
+                link.href.endsWith(activeSectionId)) ||
+              router.fullPath.endsWith(link.href),
           }"
         >
           <p>{{ link.title }}</p>
@@ -107,9 +108,11 @@ import type { NavigationLinkType } from "~/types/shared";
 const appHeaderHeight = ref(APP_HEADER_HEIGHT);
 const isOpenNavLinks = ref(false);
 const router = useRoute();
+
 defineProps<{
   content: AppHeaderType | undefined;
   navigationLinks: NavigationLinkType[] | undefined;
+  activeSectionId: string;
 }>();
 </script>
 <style scoped>
@@ -119,6 +122,13 @@ defineProps<{
   }
 }
 .app-header {
+  @apply sticky top-0 z-30 flex w-full items-center justify-center border-b border-[#E5E5EA] bg-white py-2;
   height: v-bind(`${appHeaderHeight.DESKTOP}px`);
+}
+.nav-link {
+  @apply text-center font-bold text-app-gray-main;
+}
+.nav-link__active {
+  @apply text-app-black-secondary;
 }
 </style>

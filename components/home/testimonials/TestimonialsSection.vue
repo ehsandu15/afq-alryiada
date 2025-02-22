@@ -1,5 +1,6 @@
 <template>
   <section
+    data-section="true"
     class="relative flex min-h-screen w-full flex-col items-center justify-center overflow-x-hidden bg-[#F8F9F9] pb-[60px]"
     :id="content.testimonialsId.elementId"
   >
@@ -21,7 +22,7 @@
     <AdvancedSectionHeading
       :title="content.testimonialsSectionTitle.title"
       icon-color-class="bg-[#FF9500]"
-      class="mt-[60px] border-app-black-third"
+      class="mt-8 border-app-black-third md:mt-[60px]"
       text-color-class="text-app-black-secondary"
     />
     <h3

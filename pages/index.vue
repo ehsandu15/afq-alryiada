@@ -31,19 +31,13 @@
   />
 
   <ScrollTopButton />
-  <a
+  <FlutingWhatsappButton
     v-if="whatsappNumber"
-    :href="whatsappNumber.href"
-    class="fixed bottom-16 left-6 isolate z-30 flex size-[54px] items-center justify-center rounded-full shadow-2xl md:bottom-14 md:left-12 md:size-[64px]"
-  >
-    <img
-      :src="whatsappNumber.icon.url"
-      :alt="whatsappNumber.icon.alternativeText"
-    />
-  </a>
+    :phone-number="whatsappNumber.href"
+    :icon-url="whatsappNumber.icon.url"
+  />
 </template>
 <script setup lang="ts">
-// import { WHATSAPP_NUMBER } from "~/constants/app-data";
 import { STRAPI_ENDPOINT } from "~/constants/strapi-endpoints";
 import type {
   BlogSectionType,
@@ -118,6 +112,7 @@ const { data: homeData, status } = await useAsyncData(
         articles: {
           populate: {
             cover: true,
+            keywords: true,
           },
         },
         whatsapp: {

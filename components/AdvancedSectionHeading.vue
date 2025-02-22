@@ -1,6 +1,6 @@
 <template>
   <span
-    class="mb-4 mt-[60px] flex w-fit items-center justify-center gap-[10px] overflow-x-hidden rounded-full border border-[#F4F5F6] px-1 transition-[width] duration-700"
+    class="mb-4 flex w-fit items-center justify-center gap-[10px] overflow-x-hidden rounded-full border border-[#F4F5F6] px-1 transition-[width] duration-700"
   >
     <span
       class="z-[4] flex size-11 items-center justify-center rounded-full p-1"

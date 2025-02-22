@@ -2,6 +2,7 @@ import type {
   AdvancedButton,
   FormField,
   ImageType,
+  SocialMedia,
   StrapiType,
 } from "./shared";
 
@@ -26,4 +27,5 @@ export type ContactData = StrapiType & {
   highlightWord: string;
   formSendSuccessMessage: string;
   formSendErrorMessage: string;
+  whatsapp: SocialMedia;
 };

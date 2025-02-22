@@ -35,7 +35,7 @@
       </figure>
       <form
         @submit.prevent="handleSubmit"
-        class="grid w-full grid-cols-1 gap-[50px] px-[50px] py-[65px] pe-0 md:grid-cols-2"
+        class="grid w-full grid-cols-1 gap-[50px] px-3 py-[65px] pe-0 md:grid-cols-2 md:px-[50px]"
       >
         <span
           class="flex flex-col gap-1.5"
@@ -80,7 +80,7 @@
           <button
             v-for="action of content?.data.formActions"
             type="submit"
-            class="btn btn-primary"
+            class="btn btn-primary max-md:!px-8"
           >
             <template v-if="!isSending">
               <p>{{ action.title }}</p>
@@ -109,87 +109,16 @@
             }}</small>
           </span>
         </div>
-        <!-- <div class="form-group">
-          <span class="group-wrapper">
-            <label for="first-name">الاسم الاول</label>
-            <input
-              v-model="formData.firstName"
-              type="text"
-              name="firstName"
-              id="first-name"
-              placeholder="...الاسم الاول"
-              class="input"
-            />
-          </span>
-          <span class="group-wrapper">
-            <label for="last-name">الاسم الاخير</label>
-            <input
-              v-model="formData.lastName"
-              type="text"
-              name="lastName"
-              id="last-name"
-              placeholder="...الاسم الاخير"
-              class="input"
-            />
-          </span>
-        </div>
-        <div class="form-group">
-          <span class="group-wrapper">
-            <label for="phone-number">رقم الجوال</label>
-            <input
-              type="tel"
-              name="phoneNumber"
-              dir="ltr"
-              v-model="formData.phoneNumber"
-              id="phone-number"
-              placeholder="...رقم الجوال"
-              class="input"
-            />
-          </span>
-          <span class="group-wrapper">
-            <label for="email">البريد الالكتروني</label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              v-model="formData.email"
-              placeholder="...البريد الالكتروني"
-              class="input"
-            />
-          </span>
-        </div>
-        <div class="form-group full-width">
-          <span class="group-wrapper">
-            <label for="message">الرسالة</label>
-            <textarea
-              name="message"
-              id="message"
-              rows="5"
-              v-model="formData.message"
-              placeholder="...اكتب ما تريد"
-              class="input"
-            />
-          </span>
-        </div>
-        <button type="button" class="btn btn-primary">
-          <p>ارسال</p>
-          <img :src="sendIcon" alt="send-icon" />
-        </button> -->
       </form>
     </div>
   </section>
-  <a
-    :href="`https://wa.me/${+9661233333333}`"
-    class="fixed bottom-10 left-6 isolate z-30 flex size-[54px] items-center justify-center rounded-full shadow-2xl md:bottom-14 md:left-12 md:size-[64px]"
-  >
-    <img src="~/assets/images/shared/whatsapp.svg" alt="whatsapp.svg" />
-  </a>
+  <FlutingWhatsappButton
+    v-if="content?.data"
+    :phone-number="content.data.whatsapp.href"
+    :icon-url="content.data.whatsapp.icon.url"
+  />
 </template>
 <script setup lang="ts">
-// import locationPin from "~/assets/images/contact-us/location-pin.svg";
-// import phoneIcon from "~/assets/images/contact-us/telephone.svg";
-// import emailIcon from "~/assets/images/contact-us/email.svg";
-// import sendIcon from "~/assets/images/contact-us/contact-us-icon.svg";
 import type { ContactData } from "~/types/contact-us";
 import { STRAPI_ENDPOINT } from "~/constants/strapi-endpoints";
 const { findOne } = useStrapi<ContactData>();
@@ -216,7 +145,6 @@ const handleSubmit = async (ev: Event) => {
       method: "POST",
       body: JSON.stringify(data),
     });
-    console.log("res", res);
     if (res.success) {
       isSentMessage.value = true;
       target?.reset();
@@ -245,6 +173,11 @@ const { data: content } = useAsyncData(
         contacts_infos: {
           populate: { icon: true },
         },
+        whatsapp: {
+          populate: {
+            icon: true,
+          },
+        },
         contactBoxImage: true,
       },
     }),
@@ -262,6 +195,13 @@ const { data: content } = useAsyncData(
             ...item,
             icon: { ...item.icon, url: imagePathPrefix(item.icon.url) },
           })),
+          whatsapp: {
+            ...res.data.whatsapp,
+            icon: {
+              ...res.data.whatsapp.icon,
+              url: imagePathPrefix(res.data.whatsapp.icon.url),
+            },
+          },
           formActions: {
             ...res.data.formActions.map((item) => ({
               ...item,
@@ -280,24 +220,6 @@ useSeoMeta({
   title: content.value?.data.seoTitle,
   description: content.value?.data.seoDescription,
 });
-
-// const CONTACT_INFO = [
-//   {
-//     id: 0,
-//     icon: locationPin,
-//     data: "المملكة العربية السعودية - المدينة المنورة",
-//   },
-//   {
-//     id: 1,
-//     icon: phoneIcon,
-//     data: "966 55 555 5555".split(" ").reverse().join(" ") + "+",
-//   },
-//   {
-//     id: 2,
-//     icon: emailIcon,
-//     data: "afq-alriyada@mail.com",
-//   },
-// ];
 </script>
 <style>
 .contact-us-wrapper {

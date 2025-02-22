@@ -1,5 +1,6 @@
 <template>
   <section
+    data-section="true"
     class="flex min-h-screen w-full flex-col items-center justify-center overflow-hidden"
     v-motion="{
       initial: { backgroundColor: theme.colors.secondary },

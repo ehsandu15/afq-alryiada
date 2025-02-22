@@ -1,5 +1,6 @@
 <template>
   <section
+    data-section="true"
     class="relative flex min-h-screen w-full flex-col items-center justify-start overflow-hidden bg-[#244453] bg-cover bg-center bg-no-repeat md:justify-center"
   >
     <!-- :style="{ 'background-image': `url(${background})` }" -->
@@ -74,7 +75,7 @@
     <AdvancedSectionHeading
       :title="content.privilegeSectionTitle.title"
       :icon-color-class="clsx(`bg-[#ED4136]`)"
-      class="isolate"
+      class="isolate mt-8 md:mt-[60px]"
     />
     <div class="mb-20 flex w-fit flex-col items-center justify-center gap-4">
       <h3
