@@ -134,6 +134,11 @@ const { data: content, status } = useAsyncData(
             icon: true,
           },
         },
+        headingTitle: {
+          populate: {
+            highlightWords: true,
+          },
+        },
       },
     }),
   {
@@ -190,11 +195,11 @@ useSeoMeta({
 const headingTitle = computed(() => {
   if (content.value && status.value === "success") {
     return highlightSpecificWord({
-      text: content.value?.data.headingTitle,
-      word: content.value?.data.textHighlightWord,
+      text: content.value?.data.headingTitle.title,
+      word: content.value?.data.headingTitle.highlightWords.map((w) => w.word),
       classNames: "text-secondary",
     });
   }
-  return "NA-NA";
+  return "";
 });
 </script>

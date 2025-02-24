@@ -1,13 +1,14 @@
 import type {
   AdvancedLink,
   ImageType,
+  SectionHeadingType,
   SectionTitle,
   SocialMedia,
 } from "./shared";
 
 export type AboutUsContent = {
   logo: ImageType;
-  headingTitle: string;
+  headingTitle: SectionHeadingType;
   sectionTitle: SectionTitle;
   actionButton: AdvancedLink;
   primaryDescription: string;
