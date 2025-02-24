@@ -27,5 +27,7 @@ export type ContactData = StrapiType & {
   highlightWord: string;
   formSendSuccessMessage: string;
   formSendErrorMessage: string;
+  formSomethingWentWrongMessage: string;
+  formDuplicatedUseMessage: string;
   whatsapp: SocialMedia;
 };

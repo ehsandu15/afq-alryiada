@@ -62,6 +62,9 @@ export default defineNuxtConfig({
         strapiRoleApiKey: process.env.STRAPI_ROLE_API_KEY,
       },
     },
+    findIp: {
+      apiKey: process.env.FIND_IP_API_KEI,
+    },
   },
   nitro: {
     routeRules: {

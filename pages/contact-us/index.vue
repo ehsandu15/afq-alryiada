@@ -76,7 +76,9 @@
             class="w-full border-b-[1px] border-[#a5a5a5] px-[10px] py-[5px] text-sm font-medium leading-5 text-[#1f1f1f] outline-none focus:border-[#1f1f1f]"
           />
         </span>
-        <div class="flex items-center justify-start gap-5">
+        <div
+          class="relative col-span-2 flex flex-col justify-start gap-5 md:flex-row md:items-center"
+        >
           <button
             v-for="action of content?.data.formActions"
             type="submit"
@@ -97,17 +99,59 @@
               ></span>
             </template>
           </button>
-          <span
-            class="w-full font-medium capitalize"
-            v-if="isError || isSentMessage"
+          <div
+            class="ems-center pointer-events-none flex w-full translate-x-6 gap-4 p-3 opacity-0 shadow-md transition-transform duration-500 md:w-fit"
+            :class="
+              clsx(
+                { 'bg-red-200': isError },
+                { 'bg-emerald-200': isSentMessage },
+                {
+                  'pointer-events-auto !translate-x-0 !opacity-100':
+                    isSentMessage || isError,
+                },
+              )
+            "
           >
-            <small class="text-red-600" v-if="isError">{{
-              content?.data.formSendErrorMessage
-            }}</small>
-            <small v-if="isSentMessage" class="text-emerald-700">{{
-              content?.data.formSendSuccessMessage
-            }}</small>
-          </span>
+            <span class="flex size-8 -rotate-6 items-center justify-center">
+              <svg
+                width="24px"
+                height="24px"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15.0002 19C15.0002 20.6569 13.6571 22 12.0002 22C10.3434 22 9.00025 20.6569 9.00025 19M13.7968 6.23856C14.2322 5.78864 14.5002 5.17562 14.5002 4.5C14.5002 3.11929 13.381 2 12.0002 2C10.6195 2 9.50025 3.11929 9.50025 4.5C9.50025 5.17562 9.76825 5.78864 10.2037 6.23856M2.54707 8.32296C2.53272 6.87161 3.3152 5.51631 4.57928 4.80306M21.4534 8.32296C21.4678 6.87161 20.6853 5.51631 19.4212 4.80306M18.0002 11.2C18.0002 9.82087 17.3681 8.49823 16.2429 7.52304C15.1177 6.54786 13.5915 6 12.0002 6C10.4089 6 8.88283 6.54786 7.75761 7.52304C6.63239 8.49823 6.00025 9.82087 6.00025 11.2C6.00025 13.4818 5.43438 15.1506 4.72831 16.3447C3.92359 17.7056 3.52122 18.3861 3.53711 18.5486C3.55529 18.7346 3.58876 18.7933 3.73959 18.9036C3.87142 19 4.53376 19 5.85844 19H18.1421C19.4667 19 20.1291 19 20.2609 18.9036C20.4117 18.7933 20.4452 18.7346 20.4634 18.5486C20.4793 18.3861 20.0769 17.7056 19.2722 16.3447C18.5661 15.1506 18.0002 13.4818 18.0002 11.2Z"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            <span class="w-full font-semibold capitalize" v-if="isError">
+              <p
+                class="text-red-900"
+                v-if="isError && errorMsg === SEND_MESSAGE_RESPONSE.SOMETHING"
+              >
+                {{ content?.data.formSomethingWentWrongMessage }}
+              </p>
+              <p
+                class="text-red-900"
+                v-if="
+                  isError &&
+                  errorMsg === SEND_MESSAGE_RESPONSE.DUPLICATED_USER_EMAIL
+                "
+              >
+                {{ content?.data.formDuplicatedUseMessage }}
+              </p>
+            </span>
+            <span class="w-full font-semibold capitalize" v-if="isSentMessage">
+              <p v-if="isSentMessage" class="text-emerald-900">
+                {{ content?.data.formSendSuccessMessage }}
+              </p>
+            </span>
+          </div>
         </div>
       </form>
     </div>
@@ -121,11 +165,15 @@
 <script setup lang="ts">
 import type { ContactData } from "~/types/contact-us";
 import { STRAPI_ENDPOINT } from "~/constants/strapi-endpoints";
+import { SEND_MESSAGE_RESPONSE } from "~/constants/send-message-response";
+import clsx from "clsx";
+import type { MessageResponseType } from "~/types/send-message-api";
 const { findOne } = useStrapi<ContactData>();
 const nuxtApp = useNuxtApp();
 const isSentMessage = ref(false);
 const isSending = ref(false);
 const isError = ref(false);
+const errorMsg = ref(null);
 
 const handleSubmit = async (ev: Event) => {
   const target = ev.target as HTMLFormElement;
@@ -141,20 +189,22 @@ const handleSubmit = async (ev: Event) => {
   isSending.value = true;
 
   try {
-    const res = await $fetch(`/api/contact-us/send-message`, {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-    if (res.success) {
+    const res = await $fetch<MessageResponseType>(
+      `/api/contact-us/send-message`,
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+      },
+    );
+    if (res?.success) {
       isSentMessage.value = true;
       target?.reset();
-    } else {
-      throw new Error(res.message || res.details);
+      isError.value = false;
     }
-    isError.value = false;
-  } catch (err) {
+  } catch (err: any) {
     isError.value = true;
     isSentMessage.value = false;
+    errorMsg.value = err.statusMessage || err.message;
     console.error("ERROR !! ", err);
   } finally {
     isSending.value = false;
@@ -216,6 +266,19 @@ const { data: content } = useAsyncData(
   },
 );
 
+watch(
+  () => [isError.value, isSentMessage.value],
+  (oldVal, newVal, onCleanup) => {
+    let timeout = setTimeout(() => {
+      isError.value = false;
+      isSentMessage.value = false;
+    }, 6000);
+
+    onCleanup(() => {
+      clearTimeout(timeout);
+    });
+  },
+);
 useSeoMeta({
   title: content.value?.data.seoTitle,
   description: content.value?.data.seoDescription,
