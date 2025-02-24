@@ -123,8 +123,6 @@
   </section>
 </template>
 <script setup lang="ts">
-// import { COMMENTS } from "~/constants/app-data";
-// import backgroundPeoples from "~/assets/images/testimonials/bg-peoples.svg";
 import { SECTIONS_IDS } from "~/constants/sections-ids";
 import type { TestimonialsSectionType } from "~/types/home-page";
 import { Carousel, Slide } from "vue3-carousel";
@@ -133,11 +131,15 @@ import "vue3-carousel/carousel.css";
 const props = defineProps<{ content: TestimonialsSectionType }>();
 
 const headingTitle = computed(() =>
-  highlightSpecificWord({
-    text: props.content.testimonialsHeadingTitle,
-    word: ["أراء", "العملاء"],
-    classNames: "text-app-black-third",
-  }),
+  !props.content.testimonialsHeadingTitle
+    ? ""
+    : highlightSpecificWord({
+        text: props.content.testimonialsHeadingTitle.title,
+        word: props.content.testimonialsHeadingTitle.highlightWords.map(
+          (w) => w.word,
+        ),
+        classNames: "text-app-black-third",
+      }),
 );
 </script>
 <style scoped lang="css">

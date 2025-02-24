@@ -72,10 +72,6 @@
   </section>
 </template>
 <script setup lang="ts">
-// import oracleIcon from "~/assets/images/technologies/oracle.svg";
-// import wordpressIcon from "~/assets/images/technologies/wordpress.svg";
-// import odooIcon from "~/assets/images/technologies/odoo.svg";
-// import flutterIcon from "~/assets/images/technologies/flutter.svg";
 import { MOTION_DURATION } from "~/constants/motion-config";
 import type { TechSectionType } from "~/types/home-page";
 
@@ -98,10 +94,12 @@ const MOTION_FADE_DOWN_TOP = {
   visibleOnce: { opacity: 1, y: 0 },
 };
 const headingTitle = computed(() =>
-  highlightSpecificWord({
-    text: props.content.techHeadingTitle,
-    word: "الخاصة",
-    classNames: "text-app-black-third",
-  }),
+  !props.content.techHeadingTitle
+    ? ""
+    : highlightSpecificWord({
+        text: props.content.techHeadingTitle.title,
+        word: props.content.techHeadingTitle.highlightWords.map((w) => w.word),
+        classNames: "text-app-black-third",
+      }),
 );
 </script>

@@ -111,10 +111,6 @@
   </section>
 </template>
 <script setup lang="ts">
-// import flagIcon from "~/assets/images/shared/flag-icon.svg";
-// import contactIcon from "~/assets/images/contact-us/contact-us-icon.svg";
-// import { PATHS } from "~/constants/paths";
-import { SECTIONS_IDS } from "~/constants/sections-ids";
 import { MOTION_DURATION } from "~/constants/motion-config";
 import type { HeroSectionType } from "~/types/home-page";
 
@@ -123,11 +119,14 @@ const props = defineProps<{ content: HeroSectionType }>();
 const SHARED_DELAY = 800;
 
 const headingTitle = computed(() =>
-  highlightSpecificWord({
-    text: props.content.heroHeadingTitle,
-    word: ["شريككم", "رقمية"],
-    classNames: "text-app-black-third",
-  }),
+  !props.content.heroHeadingTitle
+    ? ""
+    : highlightSpecificWord({
+        text: props.content.heroHeadingTitle.title,
+        // word: ["شريككم", "رقمية"],
+        word: props.content.heroHeadingTitle.highlightWords.map((w) => w.word),
+        classNames: "text-app-black-third",
+      }),
 );
 </script>
 <style scoped lang="css">

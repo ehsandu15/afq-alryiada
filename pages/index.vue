@@ -123,6 +123,51 @@ const { data: homeData, status } = await useAsyncData(
         heroId: true,
         testimonialsId: true,
         servicesId: true,
+        servicesHeadingTitle: {
+          populate: {
+            highlightWords: true,
+          },
+        },
+        servicesSecondaryHeading: {
+          populate: {
+            highlightWords: true,
+          },
+        },
+        privilegeHeadingTitle: {
+          populate: {
+            highlightWords: true,
+          },
+        },
+        cooperationHeadingTitle: {
+          populate: {
+            highlightWords: true,
+          },
+        },
+        techHeadingTitle: {
+          populate: {
+            highlightWords: true,
+          },
+        },
+        blogHeaingTitle: {
+          populate: {
+            highlightWords: true,
+          },
+        },
+        partnersHeaingtitle: {
+          populate: {
+            highlightWords: true,
+          },
+        },
+        testimonialsHeadingTitle: {
+          populate: {
+            highlightWords: true,
+          },
+        },
+        heroHeadingTitle: {
+          populate: {
+            highlightWords: true,
+          },
+        },
       },
     }),
 );

@@ -96,3 +96,14 @@ export type AdvancedButton = {
   elemId: string;
   icon: ImageType;
 };
+
+type HighlightWordsType = {
+  id: number;
+  word: string;
+};
+
+export type SectionHeadingType = {
+  id: number;
+  title: string;
+  highlightWords: HighlightWordsType[];
+};

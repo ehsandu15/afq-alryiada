@@ -6,6 +6,7 @@ import type {
   AdvancedLink,
   BasicButton,
   ImageType,
+  SectionHeadingType,
   SectionTitle,
   SocialMedia,
   StrapiType,
@@ -14,7 +15,7 @@ import type { TechnologyType } from "./technologies";
 import type { TestimonialsType } from "./testimonials";
 
 export interface HeroSectionType {
-  heroHeadingTitle: string;
+  heroHeadingTitle: SectionHeadingType;
   heroAdvancedSubTitle: string;
   heroAdvancedMobileSubTitle: string;
   heroDescription: string;
@@ -24,9 +25,9 @@ export interface HeroSectionType {
 }
 
 export interface ServicesSectionType {
-  servicesHeadingTitle: string;
+  servicesHeadingTitle: SectionHeadingType;
   servicesDescription: string;
-  servicesSecondaryHeading: string;
+  servicesSecondaryHeading: SectionHeadingType;
   servicesSecondaryDescription: string;
   servicesSectionTitle: SectionTitle;
   servicesContactBtn: Omit<AdvancedLink, "elementId" | "media">;
@@ -35,7 +36,7 @@ export interface ServicesSectionType {
 }
 
 export interface PrivilegeSectionType {
-  privilegeHeadingTitle: string;
+  privilegeHeadingTitle: SectionHeadingType;
   privilegeDescription: string;
   privilegeSectionTitle: SectionTitle;
   privilegeBackgroundImag?: ImageType;
@@ -44,27 +45,27 @@ export interface PrivilegeSectionType {
 }
 
 export interface CooperationSectionType {
-  cooperationHeadingTitle: string;
+  cooperationHeadingTitle: SectionHeadingType;
   cooperationDescription: string;
   cooperation_lists: CooperationType[];
 }
 
 export interface TechSectionType {
-  techHeadingTitle: string;
+  techHeadingTitle: SectionHeadingType;
   techDescription: string;
   techSectionTitle: SectionTitle;
   technologies_lists: TechnologyType[];
 }
 
 export interface BlogSectionType {
-  blogHeaingTitle: string;
+  blogHeaingTitle: SectionHeadingType;
   blogDescription: string;
   blogShowMoreBtn: AdvancedLink;
   articles: ArticleType[];
 }
 
 export interface TestimonialsSectionType {
-  testimonialsHeadingTitle: string;
+  testimonialsHeadingTitle: SectionHeadingType;
   testimonialsSectionTitle: SectionTitle;
   testimonials_lists: TestimonialsType[];
   testimonialsPeoplesPatternImg: ImageType | null;
@@ -72,7 +73,7 @@ export interface TestimonialsSectionType {
 }
 
 export interface PartnersSectionType {
-  partnersHeaingtitle: string;
+  partnersHeaingtitle: SectionHeadingType;
 }
 
 export interface IHomePage

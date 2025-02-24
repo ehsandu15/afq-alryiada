@@ -133,10 +133,14 @@ const SCROLL_FADING_BOTTOM = {
   visibleOnce: { opacity: 1, y: 0 },
 };
 const headingTitle = computed(() =>
-  highlightSpecificWord({
-    text: props.content.privilegeHeadingTitle,
-    word: ["تمتاز", "به"],
-    classNames: "opacity-60",
-  }),
+  !props.content.privilegeHeadingTitle
+    ? ""
+    : highlightSpecificWord({
+        text: props.content.privilegeHeadingTitle.title,
+        word: props.content.privilegeHeadingTitle.highlightWords.map(
+          (w) => w.word,
+        ),
+        classNames: "opacity-60",
+      }),
 );
 </script>

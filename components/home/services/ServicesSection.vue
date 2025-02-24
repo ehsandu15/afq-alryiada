@@ -158,19 +158,27 @@ const selectedService = ref<ServiceType | undefined>(
 );
 
 const headingTitle = computed(() =>
-  highlightSpecificWord({
-    text: props.content.servicesHeadingTitle,
-    word: "خدمات",
-    classNames: "text-app-black-third",
-  }),
+  !props.content.servicesHeadingTitle
+    ? ""
+    : highlightSpecificWord({
+        text: props.content.servicesHeadingTitle.title,
+        word: props.content.servicesHeadingTitle.highlightWords.map(
+          (w) => w.word,
+        ),
+        classNames: "text-app-black-third",
+      }),
 );
 
 const joinToUsText = computed(() =>
-  highlightSpecificWord({
-    text: props.content.servicesSecondaryHeading,
-    word: "اليوم!",
-    classNames: "!text-secondary",
-  }),
+  !props.content.servicesSecondaryHeading
+    ? ""
+    : highlightSpecificWord({
+        text: props.content.servicesSecondaryHeading.title,
+        word: props.content.servicesSecondaryHeading.highlightWords.map(
+          (w) => w.word,
+        ),
+        classNames: "!text-secondary",
+      }),
 );
 
 function handleSelectService(service: ServiceType) {

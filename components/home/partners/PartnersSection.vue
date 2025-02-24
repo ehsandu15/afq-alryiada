@@ -124,10 +124,14 @@ const breakpoints: any = {
 };
 
 const headingTitle = computed(() =>
-  highlightSpecificWord({
-    text: props.content.partnersHeaingtitle,
-    word: "النجاح",
-    classNames: "text-[#797979]",
-  }),
+  !props.content.partnersHeaingtitle
+    ? ""
+    : highlightSpecificWord({
+        text: props.content.partnersHeaingtitle.title,
+        word: props.content.partnersHeaingtitle.highlightWords.map(
+          (w) => w.word,
+        ),
+        classNames: "text-[#797979]",
+      }),
 );
 </script>

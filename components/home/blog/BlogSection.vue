@@ -92,8 +92,6 @@
   </section>
 </template>
 <script setup lang="ts">
-// import arrowIcon from "~/assets/images/blog/arrow.svg";
-// import { ARTICLES } from "~/constants/app-data";
 import BlogCard from "~/components/BlogCard.vue";
 import { MOTION_DURATION } from "~/constants/motion-config";
 import { SECTIONS_IDS } from "~/constants/sections-ids";
@@ -101,10 +99,12 @@ import type { BlogSectionType } from "~/types/home-page";
 
 const props = defineProps<{ content: BlogSectionType }>();
 const highlightHeading = computed(() =>
-  highlightSpecificWord({
-    text: props.content.blogHeaingTitle,
-    word: "المقالات",
-    classNames: "text-secondary",
-  }),
+  !props.content.blogHeaingTitle
+    ? ""
+    : highlightSpecificWord({
+        text: props.content.blogHeaingTitle.title,
+        word: props.content.blogHeaingTitle.highlightWords.map((w) => w.word),
+        classNames: "text-secondary",
+      }),
 );
 </script>
