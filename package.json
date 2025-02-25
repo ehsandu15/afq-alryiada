@@ -2,7 +2,7 @@
   "name": "afq-alryiada",
   "private": true,
   "type": "module",
-  "version": "1.5.5",
+  "version": "1.5.7",
   "scripts": {
     "dev": "nuxt dev",
     "build": "nuxt build",
