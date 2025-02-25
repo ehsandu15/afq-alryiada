@@ -3,7 +3,7 @@
     class="flex min-h-[297px] w-full flex-col items-center justify-between gap-7 bg-app-white-main"
   >
     <div
-      class="app-container container mt-[93px] grid grid-cols-2 items-center justify-center lg:grid-cols-3"
+      class="app-container container mt-[93px] grid grid-cols-2 items-center justify-center lg:grid-cols-4"
     >
       <figure
         class="flex items-center justify-start max-lg:order-1 lg:justify-start"
@@ -16,13 +16,13 @@
         />
       </figure>
       <nav
-        class="flex w-fit items-center justify-center gap-3 max-lg:order-3 max-lg:col-span-2 max-lg:mt-11 md:gap-6"
+        class="col-span-4 flex max-w-full flex-row items-center justify-center gap-3 justify-self-center max-lg:order-3 max-lg:col-span-2 max-lg:mt-11 max-lg:flex-wrap md:col-span-2 md:max-w-[60%] md:gap-6"
       >
         <NuxtLink
           v-for="link of navigationLinks"
           :href="link.href"
           :key="link.documentId"
-          class="w-fit truncate text-wrap text-base font-medium capitalize md:text-nowrap md:text-lg"
+          class="font-medium capitalize md:text-nowrap md:text-lg"
           >{{ link.title }}</NuxtLink
         >
       </nav>

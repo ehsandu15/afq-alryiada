@@ -42,12 +42,14 @@ export interface PrivilegeSectionType {
   privilegeBackgroundImag?: ImageType;
   privilegePatternImage?: ImageType;
   privilegePersonImage?: ImageType;
+  privilegesId: BasicButton;
 }
 
 export interface CooperationSectionType {
   cooperationHeadingTitle: SectionHeadingType;
   cooperationDescription: string;
   cooperation_lists: CooperationType[];
+  cooperationId: BasicButton;
 }
 
 export interface TechSectionType {
@@ -55,6 +57,7 @@ export interface TechSectionType {
   techDescription: string;
   techSectionTitle: SectionTitle;
   technologies_lists: TechnologyType[];
+  technologiesId: BasicButton;
 }
 
 export interface BlogSectionType {
@@ -62,6 +65,7 @@ export interface BlogSectionType {
   blogDescription: string;
   blogShowMoreBtn: AdvancedLink;
   articles: ArticleType[];
+  blogsId: BasicButton;
 }
 
 export interface TestimonialsSectionType {

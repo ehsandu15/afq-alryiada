@@ -29,13 +29,6 @@
     v-if="status === 'success'"
     :content="testimonials as TestimonialsSectionType"
   />
-
-  <ScrollTopButton />
-  <FlutingWhatsappButton
-    v-if="whatsappNumber"
-    :phone-number="whatsappNumber.href"
-    :icon-url="whatsappNumber.icon.url"
-  />
 </template>
 <script setup lang="ts">
 import { STRAPI_ENDPOINT } from "~/constants/strapi-endpoints";
@@ -123,6 +116,10 @@ const { data: homeData, status } = await useAsyncData(
         heroId: true,
         testimonialsId: true,
         servicesId: true,
+        privilegesId: true,
+        cooperationId: true,
+        technologiesId: true,
+        blogsId: true,
         servicesHeadingTitle: {
           populate: {
             highlightWords: true,
@@ -171,19 +168,6 @@ const { data: homeData, status } = await useAsyncData(
       },
     }),
 );
-
-const whatsappNumber: SocialMedia | any =
-  status.value === "success"
-    ? {
-        ...homeData.value?.data.whatsapp,
-        icon: {
-          ...homeData.value?.data.whatsapp.icon,
-          url: imagePathPrefix(
-            homeData.value?.data.whatsapp.icon.url as string,
-          ),
-        },
-      }
-    : {};
 
 const hero: HeroSectionType | object =
   status.value === "success"
@@ -262,6 +246,7 @@ const privilege: PrivilegeSectionType | object =
             homeData.value?.data?.privilegePersonImage?.url as string,
           ),
         } as ImageType,
+        privilegesId: homeData.value?.data?.privilegesId,
       }
     : {};
 
@@ -288,6 +273,7 @@ const cooperation: CooperationSectionType | object =
                 }
               : (item.primaryAction as any),
           })) ?? [],
+        cooperationId: homeData.value?.data?.cooperationId,
       }
     : {};
 
@@ -305,6 +291,7 @@ const technologies: TechSectionType | object =
               url: imagePathPrefix(img.url),
             })),
           })) ?? [],
+        technologiesId: homeData.value?.data?.technologiesId,
       }
     : {};
 
@@ -327,6 +314,7 @@ const blogs: BlogSectionType | object =
             ...item,
             cover: { ...item.cover, url: imagePathPrefix(item.cover?.url) },
           })) ?? [],
+        blogsId: homeData.value?.data?.blogsId,
       }
     : {};
 

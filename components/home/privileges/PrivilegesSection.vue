@@ -1,6 +1,7 @@
 <template>
   <section
     data-section="true"
+    :id="content?.privilegesId?.elementId"
     class="relative flex min-h-screen w-full flex-col items-center justify-start overflow-hidden bg-[#244453] bg-cover bg-center bg-no-repeat md:justify-center"
   >
     <!-- :style="{ 'background-image': `url(${background})` }" -->
@@ -89,7 +90,7 @@
       ></h3>
 
       <p
-        class="text-center text-xl font-medium text-white text-opacity-60"
+        class="app-container container text-center text-xl font-medium text-white text-opacity-60"
         v-motion="{
           initial: { opacity: 0, y: -20 },
           visibleOnce: { opacity: 1, y: 0 },

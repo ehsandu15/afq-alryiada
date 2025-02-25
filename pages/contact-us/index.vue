@@ -1,6 +1,6 @@
 <template>
   <section
-    class="app-container container flex min-h-screen flex-col items-center justify-start"
+    class="app-container container flex min-h-fit flex-col items-center justify-start"
   >
     <div class="contact-us-wrapper">
       <figure
@@ -156,11 +156,6 @@
       </form>
     </div>
   </section>
-  <FlutingWhatsappButton
-    v-if="content?.data"
-    :phone-number="content.data.whatsapp.href"
-    :icon-url="content.data.whatsapp.icon.url"
-  />
 </template>
 <script setup lang="ts">
 import type { ContactData } from "~/types/contact-us";

@@ -2,7 +2,7 @@
   <section
     data-section="true"
     class="flex min-h-screen w-full flex-col items-center justify-center bg-[#2444530D]"
-    :id="content.servicesId.elementId"
+    :id="content?.servicesId?.elementId"
   >
     <AdvancedSectionHeading
       icon-color-class="bg-secondary"
@@ -15,13 +15,13 @@
       class="my-4 text-center text-[36px] leading-[52px] md:text-5xl md:font-extrabold"
     ></h3>
     <p
-      class="mb-11 max-w-[350px] text-center text-[20px] font-medium leading-[32px] text-app-black-secondary md:max-w-full md:text-lg"
+      class="app-container container mb-11 text-center text-[20px] font-medium leading-[32px] text-app-black-secondary md:text-lg"
     >
       {{ content.servicesDescription }}
     </p>
     <Carousel
       ref="carouselRef"
-      class="app-container container mb-4 pb-9 lg:px-0"
+      class="app-container container mx-0 mb-4 w-full max-lg:pb-9 md:px-0"
       snap-align="start"
       items-to-show="6.3"
       :items-to-scroll="1"
@@ -35,10 +35,10 @@
       :dir="appDir"
       :breakpoints="{
         300: {
-          itemsToShow: 2.4,
+          itemsToShow: 2.2,
           itemsToScroll: 1,
           snapAlign: 'start',
-          gap: 27,
+          gap: 15,
         },
         768: {
           itemsToShow: 3.4,
@@ -74,12 +74,12 @@
         </HomeServicesServiceCard>
       </Slide>
       <template #addons>
-        <CarouselPagination />
+        <CarouselPagination class="lg:!hidden" />
       </template>
     </Carousel>
 
     <div
-      class="app-container container mb-12 grid grid-cols-1 items-start justify-between gap-5 px-4 md:grid-cols-2 md:px-0"
+      class="app-container container mb-12 grid grid-cols-1 items-start justify-between gap-5 px-0 md:grid-cols-2"
     >
       <h4
         class="order-2 h-full max-h-full w-full overflow-x-auto text-xl font-semibold leading-[37.48px] md:order-2"
@@ -109,7 +109,7 @@
         class="mb-4 text-center text-5xl font-extrabold leading-[61px] text-app-black-secondary lg:text-[56px]"
       ></h2>
       <p
-        class="mb-8 px-4 text-center text-base font-medium leading-[29px] text-app-black-secondary md:text-lg lg:max-w-[925px]"
+        class="mb-8 max-w-full px-4 text-center text-base font-medium leading-[29px] text-app-black-secondary md:text-lg lg:max-w-[925px]"
         v-motion="{
           initial: { opacity: 0, y: -100 },
           visibleOnce: { opacity: 1, y: 0 },

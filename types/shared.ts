@@ -107,3 +107,7 @@ export type SectionHeadingType = {
   title: string;
   highlightWords: HighlightWordsType[];
 };
+
+export type AppSharedContent = StrapiType & {
+  whatsapp: SocialMedia;
+};

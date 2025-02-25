@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "@nuxt/fonts",
     "@nuxtjs/strapi",
+    "@stefanobartoletti/nuxt-social-share",
   ],
 
   css: ["~/assets/css/tailwind.css"],
@@ -60,6 +61,9 @@ export default defineNuxtConfig({
       strapi: {
         url: process.env.STRAPI_URL,
         strapiRoleApiKey: process.env.STRAPI_ROLE_API_KEY,
+      },
+      socialShare: {
+        baseUrl: process.env.FRONTEND_URL,
       },
     },
     findIp: {

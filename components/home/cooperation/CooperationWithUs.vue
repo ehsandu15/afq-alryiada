@@ -6,12 +6,13 @@
       initial: { backgroundColor: theme.colors.secondary },
       visibleOnce: { backgroundColor: theme.colors.white },
     }"
+    :id="content?.cooperationId?.elementId"
     :duration="MOTION_DURATION + 200"
   >
     <div class="mb-11 mt-20 flex flex-col items-center justify-center">
       <h3
         v-html="headingTitle"
-        class="z-10 mb-3 max-w-[350px] text-center text-[40px] font-extrabold leading-[75px] text-app-black-secondary md:max-w-fit md:font-bold"
+        class="z-10 mb-3 max-w-[350px] text-center text-[40px] font-extrabold leading-normal text-app-black-secondary md:max-w-fit md:font-bold lg:leading-[75px]"
         v-motion="{
           initial: { opacity: 0, scale: 3.1, y: 65 },
           visibleOnce: { opacity: 1, scale: 1, y: 0 },
@@ -20,7 +21,7 @@
       ></h3>
 
       <p
-        class="text-center font-medium text-app-black-secondary"
+        class="app-container container text-center font-medium text-app-black-secondary"
         v-motion="{
           initial: { opacity: 0, y: 100 },
           visibleOnce: { opacity: 1, y: 0 },

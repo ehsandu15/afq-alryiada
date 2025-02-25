@@ -5,10 +5,21 @@
     :active-section-id="activeSectionId"
   />
   <main
-    class="flex min-h-screen flex-col items-center justify-center"
+    class="relative flex min-h-screen w-full max-w-full flex-col items-center justify-center"
     id="home-sections-wrapper"
   >
     <slot />
+    <div
+      class="fixed bottom-5 left-0 isolate z-30 flex w-full max-w-[100vw] items-center justify-between px-4 lg:px-20"
+    >
+      <ScrollTopButton :button-visible-position="1000" />
+      <FlutingWhatsappButton
+        v-if="shared?.data.whatsapp"
+        :phone-number="shared?.data.whatsapp.href"
+        :icon-url="shared.data.whatsapp.icon.url!"
+        class="!ms-auto"
+      />
+    </div>
   </main>
   <LayoutAppFooter
     :content="footerContent?.data"
@@ -18,7 +29,7 @@
 <script setup lang="ts">
 import type { AppFooterType } from "~/types/footer";
 import { STRAPI_ENDPOINT } from "~/constants/strapi-endpoints";
-import type { NavigationLinkType } from "~/types/shared";
+import type { AppSharedContent, NavigationLinkType } from "~/types/shared";
 import type { AppHeaderType } from "~/types/header";
 import type { SiteData } from "~/types/seo";
 import { useEventListener } from "@vueuse/core";
@@ -27,7 +38,7 @@ import { APP_HEADER_HEIGHT } from "~/constants/app-data";
 const activeSectionId = ref("#");
 
 const { findOne, find } = useStrapi<AppFooterType>();
-
+const nuxtApp = useNuxtApp();
 const { data: footerContent } = await useAsyncData(
   STRAPI_ENDPOINT.APP_FOOTER,
   () =>
@@ -69,6 +80,36 @@ const { data: headerContent } = await useAsyncData(
     }),
 );
 
+const { data: shared } = useAsyncData(
+  STRAPI_ENDPOINT.SHARED,
+  () =>
+    findOne<AppSharedContent>(STRAPI_ENDPOINT.SHARED, {
+      locale: "ar-SA",
+      populate: {
+        whatsapp: {
+          populate: {
+            icon: true,
+          },
+        },
+      },
+    }),
+  {
+    transform: (res) => {
+      return nuxtApp.runWithContext(() => ({
+        data: {
+          ...res.data,
+          whatsapp: {
+            ...res.data.whatsapp,
+            icon: {
+              ...res.data.whatsapp.icon,
+              url: imagePathPrefix(res.data.whatsapp.icon.url),
+            },
+          },
+        },
+      }));
+    },
+  },
+);
 const { data: seoData } = useAsyncData(STRAPI_ENDPOINT.GLOBAL_SEO, () =>
   findOne<SiteData>(STRAPI_ENDPOINT.GLOBAL_SEO, {
     locale: "ar-SA",

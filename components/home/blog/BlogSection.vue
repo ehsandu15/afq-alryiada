@@ -2,11 +2,11 @@
   <section
     data-section="true"
     class="app-container container flex min-h-[60vh] flex-col bg-white py-[60px]"
-    :id="SECTIONS_IDS.BLOG"
+    :id="content?.blogsId?.elementId"
   >
     <div class="flex flex-col gap-4">
       <h2
-        class="text-right text-5xl font-extrabold"
+        class="app-container container text-right text-5xl font-extrabold"
         v-html="highlightHeading"
         :duration="MOTION_DURATION"
         v-motion="{
@@ -23,7 +23,7 @@
             leave: { opacity: 0, x: 250 },
           }"
           :duration="MOTION_DURATION"
-          class="text-right text-xl font-medium text-app-black-secondary"
+          class="app-container container text-right text-xl font-medium text-app-black-secondary"
         >
           {{ content.blogDescription }}
         </p>
@@ -94,7 +94,6 @@
 <script setup lang="ts">
 import BlogCard from "~/components/BlogCard.vue";
 import { MOTION_DURATION } from "~/constants/motion-config";
-import { SECTIONS_IDS } from "~/constants/sections-ids";
 import type { BlogSectionType } from "~/types/home-page";
 
 const props = defineProps<{ content: BlogSectionType }>();

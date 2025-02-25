@@ -38,6 +38,10 @@ const CAROUSEL_MOTION = {
 
 <style>
 .service-card {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
   user-select: none;
   border: 1px solid #d1d1d6;
@@ -83,7 +87,7 @@ const CAROUSEL_MOTION = {
   color: #1f1f1f;
 }
 .service-card.active {
-  box-shadow: 0 4px 48px 0 #50505033;
+  box-shadow: 0 4px 40px 0 #50505033;
   background-color: #fff;
 }
 </style>

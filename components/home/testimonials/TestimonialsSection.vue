@@ -2,7 +2,7 @@
   <section
     data-section="true"
     class="relative flex min-h-screen w-full flex-col items-center justify-center overflow-x-hidden bg-[#F8F9F9] pb-[60px]"
-    :id="content.testimonialsId.elementId"
+    :id="content?.testimonialsId?.elementId"
   >
     <div
       class="absolute left-0 top-0 grid w-full grid-cols-3 items-center justify-between overflow-x-hidden py-[60px]"
@@ -27,7 +27,7 @@
     />
     <h3
       v-html="headingTitle"
-      class="mb-[60px] mt-4 max-w-[572px] text-center text-4xl font-extrabold capitalize text-app-black-secondary max-md:px-4 md:text-5xl"
+      class="app-container container mb-[60px] mt-4 max-w-[572px] text-center text-4xl font-extrabold capitalize text-app-black-secondary max-md:px-4 md:text-5xl"
     ></h3>
     <div class="flex w-full flex-col gap-8">
       <carousel

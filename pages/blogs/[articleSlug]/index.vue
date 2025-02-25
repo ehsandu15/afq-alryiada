@@ -4,29 +4,37 @@
   >
     <time
       :datetime="articleDetails?.data.at(0)?.createdAt"
-      class="mt-[65px] text-base font-medium opacity-40"
+      class="mt-8 text-base font-medium opacity-40 lg:mt-[65px]"
       >{{ dateFormatted }}</time
     >
     <h2
-      class="mt-1 text-[40px] font-extrabold leading-[58px] text-app-black-secondary"
+      class="mt-1 w-full text-center text-2xl font-extrabold leading-[44px] text-app-black-secondary md:text-4xl lg:text-[40px] lg:leading-[58px]"
     >
       {{ articleDetails?.data.at(0)?.title }}
     </h2>
     <ul
-      class="mt-3 flex items-center justify-center divide-x-2 divide-secondary"
+      class="mt-3 flex flex-wrap items-center justify-center divide-x-0 divide-secondary max-md:gap-5 lg:divide-x-2"
     >
       <li
         v-if="articleDetails?.data.at(0)?.keywords"
         v-for="keyword of articleDetails?.data.at(0)?.keywords"
-        class="border-e-2 border-secondary px-4 last:!border-e-0"
+        class="border-e-0 border-secondary last:!border-e-0 lg:border-e-2 lg:px-4"
       >
         <p class="text-xl font-semibold leading-[28px] text-secondary">
           {{ keyword.title }}
         </p>
       </li>
     </ul>
+    <ul class="mt-7 flex items-center justify-center gap-6">
+      <SocialShare
+        v-for="item of SHARE_SOCIAL_LIST"
+        :network="item.network"
+        :label="false"
+        class="rounded-full bg-secondary p-2 text-white transition-transform hover:-translate-y-1 hover:scale-110"
+      />
+    </ul>
     <figure
-      class="mb-[22px] mt-11 flex w-full items-center justify-center overflow-hidden rounded-app-radius md:w-11/12 lg:w-10/12"
+      class="mb-[22px] mt-11 flex w-full items-center justify-center overflow-hidden rounded-app-radius md:w-[65%] lg:w-[50%]"
     >
       <img
         :src="
@@ -41,6 +49,7 @@
 
     <BlogsArticleContent
       v-if="articleDetails?.data.at(0)?.content"
+      class="!w-full md:!w-[65%] lg:!w-[50%]"
       :content="articleDetails?.data.at(0)?.content"
     />
   </section>
@@ -52,9 +61,15 @@ import type { ArticleType } from "~/types/blogs";
 import articleCoverPlaceholder from "~/assets/images/article-cover-placeholder.webp";
 
 const route = useRoute();
+const shareFacebook = useSocialShare({
+  network: "facebook", // Required!
+  title: "My Custom Title", // Optional, available on networks supporting it
+  user: "twitter_user", // Optional, available on networks supporting it
+  hashtags: "list,of,hashtags", // Optional, available on networks supporting it
+});
 const { find } = useStrapi<ArticleType>();
-const runtimeConf = useRuntimeConfig();
-const { data: articleDetails } = useAsyncData(
+
+const { data: articleDetails, status } = useAsyncData(
   `${STRAPI_ENDPOINT.ARTICLES}/${route.params.articleSlug}`,
   () =>
     find(STRAPI_ENDPOINT.ARTICLES, {
@@ -69,6 +84,26 @@ const { data: articleDetails } = useAsyncData(
       },
     }),
 );
+
+const SHARE_SOCIAL_LIST = computed(() =>
+  status.value !== "pending"
+    ? [
+        {
+          network: "facebook",
+        },
+        {
+          network: "twitter",
+        },
+        {
+          network: "linkedin",
+        },
+        {
+          network: "whatsapp",
+        },
+      ]
+    : [],
+);
+console.log(shareFacebook);
 
 useSeoMeta({
   title: articleDetails.value?.data.at(0)?.title,

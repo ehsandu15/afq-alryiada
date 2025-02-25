@@ -5,9 +5,9 @@
     >
       <NuxtLink
         :href="`blogs/${article.slug}`"
-        class="pointer-events-none absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 scale-150 items-center justify-center gap-2.5 rounded-full bg-app-black-secondary bg-opacity-60 px-4 py-3.5 opacity-0 backdrop-blur-md transition-all duration-500 group-hover:pointer-events-auto group-hover:scale-100 group-hover:opacity-100"
+        class="pointer-events-none absolute left-1/2 top-1/2 flex w-fit -translate-x-1/2 -translate-y-1/2 scale-150 items-center justify-center gap-2.5 rounded-full bg-app-black-secondary bg-opacity-60 px-4 py-3.5 opacity-0 backdrop-blur-md transition-all duration-500 group-hover:pointer-events-auto group-hover:scale-100 group-hover:opacity-100"
       >
-        <p class="text-lg text-white">عرض البلوج</p>
+        <p class="text-nowrap text-lg text-white">عرض البلوج</p>
         <button
           type="button"
           class="flex size-7 items-center justify-center rounded-full bg-white p-1"

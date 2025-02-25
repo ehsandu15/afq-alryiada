@@ -1,9 +1,15 @@
 <template>
   <a
     :href="phoneNumber"
-    class="fixed bottom-16 left-6 isolate z-30 flex size-10 items-center justify-center rounded-full shadow-2xl md:bottom-14 md:left-12 md:size-[54px] lg:size-[64px]"
+    class="flex size-11 items-center justify-center md:size-14"
   >
-    <img :src="iconUrl" alt="whatsapp-btn" />
+    <img
+      :src="iconUrl"
+      alt="whatsapp-btn"
+      width="56"
+      height="56"
+      class="w-full"
+    />
   </a>
 </template>
 <script setup lang="ts">

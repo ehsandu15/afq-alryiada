@@ -1,6 +1,6 @@
 <template>
   <section
-    :id="content.heroId.elementId"
+    :id="content?.heroId?.elementId"
     data-section="true"
     class="relative flex min-h-screen w-full flex-col items-center justify-center overflow-x-hidden bg-app-white-main"
   >
@@ -42,7 +42,6 @@
               leave: { opacity: 0, x: -150, width: '0%', maxWidth: '100%' },
             }"
             :duration="500"
-            :delay="SHARED_DELAY"
           >
             {{ content.heroAdvancedSubTitle }}
           </p>
@@ -59,7 +58,6 @@
               leave: { opacity: 0, x: -150, width: '0%', maxWidth: '100%' },
             }"
             :duration="500"
-            :delay="SHARED_DELAY"
           >
             {{ content.heroAdvancedMobileSubTitle }}
           </p>
@@ -93,8 +91,7 @@
         }"
         :href="content.contactBtn.href"
         :duration="MOTION_DURATION"
-        :delay="SHARED_DELAY"
-        class="btn btn-primary isolate"
+        class="btn btn-primary isolate mb-8"
       >
         <p
           class="text-[18px] font-semibold text-white md:text-[22px] md:font-bold"

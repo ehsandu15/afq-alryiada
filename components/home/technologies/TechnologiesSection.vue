@@ -2,6 +2,7 @@
   <section
     data-section="true"
     class="app-container container flex flex-wrap items-center justify-between gap-6 py-5 md:py-[35px] lg:py-[60px]"
+    :id="content?.technologiesId?.elementId"
   >
     <div class="flex w-full flex-col lg:w-[calc(60%-1.5rem)] lg:py-6">
       <div v-motion="MOTION_FADE_DOWN_TOP" :duration="MOTION_DURATION">

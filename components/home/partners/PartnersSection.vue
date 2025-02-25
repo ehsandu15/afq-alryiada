@@ -1,15 +1,15 @@
 <template>
   <section
     data-section="true"
-    class="flex min-h-[50vh] w-full flex-col items-center justify-center bg-white pb-[20px] pt-[26px]"
+    class="flex min-h-fit w-full flex-col items-center justify-center bg-white pb-[20px] pt-[26px] lg:min-h-[50vh]"
   >
     <h2
       v-html="headingTitle"
-      class="mb-11 text-center text-2xl font-extrabold md:text-[36px]"
+      class="app-container container mb-11 text-center text-2xl font-extrabold md:text-[36px]"
     ></h2>
 
     <Carousel
-      class="flex w-full"
+      class="flex w-full max-lg:mb-10"
       v-motion="{
         initial: { opacity: 0, x: 350 },
         visibleOnce: { opacity: 1, x: 0 },
