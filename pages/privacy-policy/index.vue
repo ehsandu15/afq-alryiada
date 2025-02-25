@@ -13,6 +13,7 @@ import { STRAPI_ENDPOINT } from "~/constants/strapi-endpoints";
 import type { PrivacyPolicyContentType } from "~/types/privacy-policy";
 
 const { findOne } = useStrapi<PrivacyPolicyContentType>();
+
 const { data: privacyPolicy } = await useAsyncData(() =>
   findOne(STRAPI_ENDPOINT.PRIVACY_POLICY, {
     locale: "ar-SA",
