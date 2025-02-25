@@ -49,7 +49,7 @@ const { data: navigationLinks } = await useAsyncData(
   () =>
     find<NavigationLinkType>(STRAPI_ENDPOINT.NAVIGATION_LINKS, {
       locale: "ar-SA",
-      sort: "createdAt:asc",
+      sort: "order:asc",
     }),
 );
 
@@ -121,6 +121,7 @@ useSeoMeta({
   robots: seoData.value?.data.defaultSeo.robots,
   keywords: seoData.value?.data.defaultSeo.keywords,
 });
+
 useHead({
   link: [
     {

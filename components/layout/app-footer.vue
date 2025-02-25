@@ -16,13 +16,13 @@
         />
       </figure>
       <nav
-        class="flex items-center justify-center gap-3 max-lg:order-3 max-lg:col-span-2 max-lg:mt-11 md:gap-6"
+        class="flex w-fit items-center justify-center gap-3 max-lg:order-3 max-lg:col-span-2 max-lg:mt-11 md:gap-6"
       >
         <NuxtLink
           v-for="link of navigationLinks"
           :href="link.href"
           :key="link.documentId"
-          class="text-base font-medium capitalize md:text-lg"
+          class="w-fit truncate text-wrap text-base font-medium capitalize md:text-nowrap md:text-lg"
           >{{ link.title }}</NuxtLink
         >
       </nav>

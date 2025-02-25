@@ -2,10 +2,10 @@
   <section
     :id="content.heroId.elementId"
     data-section="true"
-    class="relative flex min-h-screen w-full flex-col items-center justify-center bg-app-white-main"
+    class="relative flex min-h-screen w-full flex-col items-center justify-center overflow-x-hidden bg-app-white-main"
   >
     <div
-      class="relative mt-20 flex min-h-screen w-full flex-col items-center justify-start overflow-hidden px-3 md:mt-0 md:justify-center lg:px-0"
+      class="relative mt-20 flex min-h-screen w-full flex-col items-center justify-start overflow-hidden md:mt-0 md:justify-center"
     >
       <!-- Circle Waves animations -->
       <div class="wave delay-1"></div>

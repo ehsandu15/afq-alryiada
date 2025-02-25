@@ -13,8 +13,13 @@
 
 @layer components {
   .app-container {
-    @apply max-w-[100%] md:max-w-[95%] lg:max-w-[90%] xl:max-w-[85%];
+    width: 100%;
+    max-width: clamp(320px, 80%, 1920px);
+    padding: 0 clamp(12px, 4vw, 32px); /* Responsive padding */
+    margin: 0 auto;
+    /* iPhones & Small Devices (≤375px) */
   }
+
   .btn {
     @apply flex w-fit items-center justify-center gap-3 rounded-[200px] px-5 py-[10px];
   }
