@@ -31,13 +31,15 @@ const { data: privacyPolicy } = await useAsyncData(() =>
 useSeoMeta({
   title: privacyPolicy.value?.data.seo?.metaTitle,
   description: privacyPolicy.value?.data.seo?.metaDescription,
-  ogImage: {
-    url: imagePathPrefix(privacyPolicy.value?.data.seo.shareImage?.url),
-    alt: privacyPolicy.value?.data.seo.shareImage.alternativeText,
-    width: privacyPolicy.value?.data.seo.shareImage.width,
-    height: privacyPolicy.value?.data.seo.shareImage.height,
-    type: privacyPolicy.value?.data.seo.shareImage.mime,
-  },
+  ogImage: privacyPolicy.value?.data?.seo?.shareImage
+    ? {
+        url: imagePathPrefix(privacyPolicy.value?.data.seo.shareImage?.url),
+        alt: privacyPolicy.value?.data.seo.shareImage?.alternativeText,
+        width: privacyPolicy.value?.data.seo.shareImage?.width,
+        height: privacyPolicy.value?.data.seo.shareImage?.height,
+        type: privacyPolicy.value?.data.seo.shareImage?.mime,
+      }
+    : undefined,
   robots: privacyPolicy.value?.data.seo.robots,
   keywords: privacyPolicy.value?.data.seo.keywords,
   ogUrl: privacyPolicy.value?.data.seo.canonicalUrl,
