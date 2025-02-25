@@ -74,7 +74,7 @@
   <ScrollTopButton :button-visible-position="520" />
   <FlutingWhatsappButton
     :phone-number="content?.data.whatsapp?.href"
-    :icon-url="content?.data.whatsapp?.icon?.url"
+    :icon-url="content?.data.whatsapp.icon?.url"
   />
 </template>
 <script setup lang="ts">

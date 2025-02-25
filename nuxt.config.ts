@@ -68,11 +68,12 @@ export default defineNuxtConfig({
   },
   nitro: {
     routeRules: {
-      "/": { isr: 86400 },
-      "/about": { isr: 86400 },
-      "/contact-us": { isr: 86400 },
-      "/blogs": { isr: 3600 },
-      "/blogs/:articleSlug": { isr: 3600 },
+      "/": { isr: 86400 }, // 24 hour
+      "/about": { isr: 86400 }, // 24 hour
+      "/contact-us": { isr: 86400 }, // 24 hour
+      "/blogs": { isr: 3600 }, // 1 hour
+      "/blogs/:articleSlug": { isr: 3600 }, // 1 hour
+      "/privacy-policy": { isr: 86400 }, // 24 hour
     },
   },
 });

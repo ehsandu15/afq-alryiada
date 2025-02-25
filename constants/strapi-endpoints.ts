@@ -12,4 +12,5 @@ export const STRAPI_ENDPOINT = {
   ABOUT_US: "about-us",
   GLOBAL_SEO: "global",
   SEND_MESSAGE: "contact-requests",
+  PRIVACY_POLICY: "privacy-policy",
 };
