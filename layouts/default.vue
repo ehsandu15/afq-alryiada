@@ -2,7 +2,6 @@
   <LayoutAppHeader
     :content="headerContent?.data"
     :navigation-links="navigationLinks?.data"
-    :active-section-id="activeSectionId"
   />
   <main
     class="relative flex min-h-screen w-full max-w-full flex-col items-center justify-center"
@@ -35,8 +34,7 @@ import type { SiteData } from "~/types/seo";
 import { useEventListener } from "@vueuse/core";
 import { APP_HEADER_HEIGHT } from "~/constants/app-data";
 
-const activeSectionId = ref("#");
-
+const router = useRouter();
 const { findOne, find } = useStrapi<AppFooterType>();
 const nuxtApp = useNuxtApp();
 const { data: footerContent } = await useAsyncData(
@@ -110,6 +108,7 @@ const { data: shared } = useAsyncData(
     },
   },
 );
+
 const { data: seoData } = useAsyncData(STRAPI_ENDPOINT.GLOBAL_SEO, () =>
   findOne<SiteData>(STRAPI_ENDPOINT.GLOBAL_SEO, {
     locale: "ar-SA",
@@ -128,6 +127,22 @@ const { data: seoData } = useAsyncData(STRAPI_ENDPOINT.GLOBAL_SEO, () =>
   }),
 );
 
+onMounted(() => {
+  // Prevent auto scroll behavior on change hash
+
+  const originalScrollBehavior = router.options.scrollBehavior;
+
+  // Modify scroll behavior for the home page
+  router.options.scrollBehavior = (to, from, savedPosition) => {
+    if (to.path === "/" && to.hash) {
+      return false; // Prevents scrolling to the "/"
+    }
+    // Use the default scroll behavior for other routes
+    return originalScrollBehavior
+      ? originalScrollBehavior(to, from, savedPosition)
+      : savedPosition || { top: 0, behavior: "smooth" };
+  };
+});
 useSeoMeta({
   title: seoData.value?.data.siteName,
   description: seoData.value?.data.siteDescription,
@@ -180,33 +195,30 @@ useHead({
 });
 
 useEventListener(window, "scroll", function (ev) {
-  if (typeof this.window !== "undefined") {
-    const sectionsWrapper = this.document.body.querySelectorAll(
+  if (typeof window !== "undefined") {
+    const sectionsWrapper = document.body.querySelector(
       "#home-sections-wrapper",
     );
 
-    if (sectionsWrapper.length > 0) {
-      const sections = sectionsWrapper[0].querySelectorAll(
-        "[data-section=true]",
-      );
-      // check if current scroll equal the section
-      const currentScroll = this.window.pageYOffset || this.scrollY;
+    if (sectionsWrapper) {
+      const sections = sectionsWrapper.querySelectorAll("[data-section=true]");
+      const currentScroll = window.pageYOffset || window.scrollY;
 
-      const currentSectionId = Array.from(sections).reduce((prev, current) => {
-        const top = current.offsetTop - APP_HEADER_HEIGHT.DESKTOP; // subtract header height
-        const bottom = top + current.offsetHeight;
+      const currentSection = Array.from(sections as NodeListOf<HTMLDivElement>)
+        // .reverse()
+        .find((section) => {
+          const top = section.offsetTop - APP_HEADER_HEIGHT.DESKTOP;
+          const bottom = top + section.offsetHeight;
+          return currentScroll >= top && currentScroll <= bottom;
+        });
 
-        if (currentScroll >= top && currentScroll <= bottom) {
-          const elementId =
-            current.id === "#" ? current.id : current.id.replaceAll("#", "");
-          return elementId;
-        }
-        const elementId =
-          prev === "#" ? prev : (prev as string | null)?.replaceAll("#", "");
-        return elementId;
-      }, null);
-
-      activeSectionId.value = `${currentSectionId}`;
+      if (currentSection?.id) {
+        const id = currentSection.id.includes("#")
+          ? currentSection.id.replaceAll("#", "")
+          : currentSection.id;
+        router.replace({ hash: `#${id}` }).catch(() => {});
+      }
+      // activeSectionId.value = currentSection?.id.replaceAll("#", "") || "#"; // Default to "#"
     }
   }
 });

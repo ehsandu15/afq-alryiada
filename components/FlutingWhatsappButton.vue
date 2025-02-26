@@ -6,8 +6,8 @@
     <img
       :src="iconUrl"
       alt="whatsapp-btn"
-      width="56"
-      height="56"
+      width="64"
+      height="64"
       class="w-full"
     />
   </a>

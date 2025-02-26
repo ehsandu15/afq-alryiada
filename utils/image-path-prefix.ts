@@ -6,7 +6,7 @@ export default function imagePathPrefix(
   } = useRuntimeConfig();
   try {
     if (!imagePath) {
-      console.error("Image path not provided");
+      console.warn("Image path not provided");
       return undefined;
     }
     if (typeof imagePath !== "string") {

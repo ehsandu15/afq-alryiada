@@ -1,7 +1,7 @@
 <template>
   <li class="relative overflow-hidden">
     <div
-      class="group relative flex max-h-[230px] items-center justify-center overflow-hidden rounded-app-radius md:max-h-[215px] lg:max-h-[267px] xl:max-h-[300px]"
+      class="group relative flex aspect-video max-h-[230px] items-center justify-center overflow-hidden rounded-app-radius md:max-h-[215px] lg:max-h-[267px] xl:max-h-[300px]"
     >
       <NuxtLink
         :href="`blogs/${article.slug}`"

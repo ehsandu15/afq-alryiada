@@ -31,6 +31,7 @@ export interface StrapiType {
 export type NavigationLinkType = StrapiType & {
   title: string;
   href: string;
+  elementId: string;
 };
 
 export type ImageFormatType = {

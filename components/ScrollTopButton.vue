@@ -3,10 +3,16 @@
     type="button"
     v-if="scrollY >= buttonVisiblePosition"
     v-motion-roll-visible-right
-    class="flex size-11 items-center justify-center rounded-full bg-[#244453] p-2 lg:size-14"
+    class="flex size-11 items-center justify-center rounded-full bg-[#244453] p-4 lg:size-14"
     @click="handleScrollToTop"
   >
-    <img :src="arrowUpIcon" alt="go-top-img" width="64" height="65" />
+    <img
+      :src="arrowUpIcon"
+      alt="go-top-img"
+      width="64"
+      height="64"
+      class="w-full"
+    />
   </button>
 </template>
 <script setup lang="ts">

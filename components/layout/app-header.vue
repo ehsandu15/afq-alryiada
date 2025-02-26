@@ -72,10 +72,7 @@
           :href="link.href"
           class="nav-link"
           :class="{
-            'nav-link__active':
-              (Boolean(activeSectionId) &&
-                link.href.endsWith(activeSectionId)) ||
-              router.fullPath.endsWith(link.href),
+            'nav-link__active': router.fullPath.endsWith(link.elementId),
           }"
         >
           <p>{{ link.title }}</p>
@@ -96,10 +93,6 @@
   </header>
 </template>
 <script setup lang="ts">
-// import logo from "~/assets/images/shared/logo.svg";
-// import { PATHS } from "~/constants/paths";
-// import burgerIcon from "~/assets/images/shared/burger-icon.svg";
-// import closeIcon from "~/assets/images/shared/close-icon.svg";
 import { APP_HEADER_HEIGHT } from "~/constants/app-data";
 import type { AppHeaderType } from "~/types/header";
 import type { NavigationLinkType } from "~/types/shared";
@@ -108,11 +101,9 @@ import type { NavigationLinkType } from "~/types/shared";
 const appHeaderHeight = ref(APP_HEADER_HEIGHT);
 const isOpenNavLinks = ref(false);
 const router = useRoute();
-
 defineProps<{
   content: AppHeaderType | undefined;
   navigationLinks: NavigationLinkType[] | undefined;
-  activeSectionId: string;
 }>();
 </script>
 <style scoped>
