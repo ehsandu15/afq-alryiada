@@ -54,6 +54,7 @@
             :type="elem.type"
             :name="elem.name"
             :id="elem.elemId"
+            dir="rtl"
             :placeholder="elem.placeholder"
             required
             class="w-full border-b-[1px] border-[#a5a5a5] px-[10px] py-[5px] text-sm font-medium leading-5 text-[#1f1f1f] outline-none focus:border-[#1f1f1f]"

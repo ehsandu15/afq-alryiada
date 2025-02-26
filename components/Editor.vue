@@ -5,8 +5,6 @@
 <script setup lang="ts">
 import hljs from "highlight.js";
 import "highlight.js/styles/vs2015.min.css";
-import "ckeditor5/ckeditor5.css";
-import "ckeditor5-premium-features/ckeditor5-premium-features.css";
 import { warn, type VNodeRef } from "vue";
 
 const props = defineProps<{
@@ -36,10 +34,6 @@ function codeContextCopyButton(block: HTMLElement) {
     }, 2000);
   });
   return copyButton;
-
-  // }
-  // console.warn('WARN: Copy button not available')
-  // return null
 }
 
 function highlightCodeSyntax(

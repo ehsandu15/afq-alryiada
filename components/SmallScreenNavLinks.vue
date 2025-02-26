@@ -4,7 +4,7 @@
     class="fixed right-0 z-40 h-screen w-full bg-white"
     :style="{ top: `${APP_HEADER_HEIGHT.MOBILE}px` }"
   >
-    <nav class="flex flex-col items-start justify-start bg-white md:hidden">
+    <nav class="flex flex-col items-start justify-start bg-white lg:hidden">
       <NuxtLink
         v-for="link of navigationLinks"
         :key="link.documentId"

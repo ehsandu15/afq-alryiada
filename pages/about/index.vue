@@ -1,5 +1,5 @@
 <template>
-  <section class="flex min-h-screen w-full flex-col items-center justify-start">
+  <section class="flex min-h-fit w-full flex-col items-center justify-start">
     <div
       class="app-container container mt-[84px] flex flex-col items-center justify-start"
     >

@@ -24,11 +24,6 @@
     v-if="status === 'success'"
     :content="partners as PartnersSectionType"
   />
-
-  <HomeTestimonialsSection
-    v-if="status === 'success'"
-    :content="testimonials as TestimonialsSectionType"
-  />
 </template>
 <script setup lang="ts">
 import { STRAPI_ENDPOINT } from "~/constants/strapi-endpoints";

@@ -113,7 +113,8 @@ const canvasImageLoadHandler = ({
   // Store initial offsets for each column
   const columnOffsets = new Array(columns)
     .fill(0)
-    .map((_, i) => (i % 2 === 0 ? 265 : -220));
+    // .map((_, i) => (i % 2 === 0 ? 265 : -220));
+    .map((_, i) => (i % 2 === 0 ? 0 : 0));
 
   function draw() {
     ctx.clearRect(0, 0, width, height);
@@ -142,10 +143,10 @@ const canvasImageLoadHandler = ({
   }
 
   const drawAnimationId = draw();
-  const animationId = animate();
+  // const animationId = animate();
   return {
     drawAnimationId,
-    animationId,
+    animationId: null,
   };
 };
 

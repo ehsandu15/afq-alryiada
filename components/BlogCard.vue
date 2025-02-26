@@ -66,9 +66,10 @@ import articleCoverPlaceholder from "~/assets/images/article-cover-placeholder.w
 import type { ArticleType } from "~/types/blogs";
 const route = useRoute();
 const props = defineProps<{ article: ArticleType }>();
-
+const lang = shallowRef("ar-SA");
 const formatDate = useDateFormat(
   props.article.createdAt,
   "YYYY-MM-DD HH:mm dddd",
+  { locales: lang },
 );
 </script>

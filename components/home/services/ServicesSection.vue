@@ -79,15 +79,15 @@
     </Carousel>
 
     <div
-      class="app-container container mb-12 grid grid-cols-1 items-start justify-between gap-5 px-0 md:grid-cols-2"
+      class="app-container container mb-12 grid grid-cols-1 items-start justify-between gap-5 px-0 lg:grid-cols-2"
     >
       <h4
-        class="order-2 h-full max-h-full w-full overflow-x-auto text-xl font-semibold leading-[37.48px] md:order-2"
+        class="order-2 h-full max-h-full w-full max-w-full overflow-x-auto text-xl font-semibold leading-[37.48px] lg:order-2"
       >
         {{ selectedService?.content }}
       </h4>
       <figure
-        class="order-1 flex h-[323px] w-full items-center justify-center overflow-hidden rounded-app-radius md:order-2"
+        class="order-1 flex h-[323px] w-full max-w-full items-center justify-center overflow-hidden rounded-app-radius lg:order-2"
       >
         <img
           :src="selectedService?.cover?.url"

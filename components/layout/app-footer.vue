@@ -47,13 +47,11 @@
     <div
       class="app-container container mb-9 flex flex-col items-center justify-between gap-5 md:mb-5 md:flex-row md:gap-4"
     >
-      <a
-        target="_blank"
-        referrerpolicy="no-referrer"
+      <NuxtLink
         :href="content?.privacyPolicyLink.href"
         class="text-sm font-normal text-app-black-secondary"
         >{{ content?.privacyPolicyLink.title }}
-      </a>
+      </NuxtLink>
       <p class="text-sm font-normal text-app-black-secondary">
         {{ content?.copyRights }}
       </p>

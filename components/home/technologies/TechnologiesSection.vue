@@ -1,7 +1,7 @@
 <template>
   <section
     data-section="true"
-    class="app-container container flex flex-wrap items-center justify-between gap-6 py-5 md:py-[35px] lg:py-[60px]"
+    class="app-container container flex flex-wrap items-center justify-between gap-6 py-5 md:py-[26px] lg:py-[30px]"
     :id="content?.technologiesId?.elementId"
   >
     <div class="flex w-full flex-col lg:w-[calc(60%-1.5rem)] lg:py-6">
@@ -10,7 +10,7 @@
           :title="content.techSectionTitle.title"
           icon-color-class="bg-[#30B0C7]"
           text-color-class="text-app-black-secondary"
-          class="border-[#c7c7cc] md:mt-[60px]"
+          class="border-[#c7c7cc]"
         />
       </div>
 

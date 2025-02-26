@@ -11,7 +11,7 @@
       </NuxtLink>
       <button
         type="button"
-        class="flex items-center justify-center md:hidden"
+        class="flex items-center justify-center lg:hidden"
         @click="isOpenNavLinks = !isOpenNavLinks"
       >
         <span v-if="!isOpenNavLinks">
@@ -66,13 +66,16 @@
           </svg>
         </span>
       </button>
-      <nav class="item center hidden gap-4 md:flex">
+      <nav class="item center hidden gap-4 lg:flex">
         <NuxtLink
           v-for="link of navigationLinks"
           :href="link.href"
           class="nav-link"
           :class="{
-            'nav-link__active': router.fullPath.endsWith(link.elementId),
+            'nav-link__active':
+              currentActiveSectionId && router.hash
+                ? currentActiveSectionId.endsWith(link.elementId)
+                : router.fullPath.endsWith(link.elementId),
           }"
         >
           <p>{{ link.title }}</p>
@@ -80,7 +83,7 @@
       </nav>
       <NuxtLink
         :href="content?.ctaBtn.href"
-        class="btn btn-primary hidden md:flex"
+        class="btn btn-primary hidden lg:flex"
       >
         <p>{{ content?.ctaBtn.title }}</p>
       </NuxtLink>
@@ -104,6 +107,7 @@ const router = useRoute();
 defineProps<{
   content: AppHeaderType | undefined;
   navigationLinks: NavigationLinkType[] | undefined;
+  currentActiveSectionId: string;
 }>();
 </script>
 <style scoped>

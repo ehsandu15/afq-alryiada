@@ -1,7 +1,7 @@
 <template>
   <section
     data-section="true"
-    class="flex min-h-fit w-full flex-col items-center justify-center bg-white pb-[20px] pt-[26px] lg:min-h-[50vh]"
+    class="flex min-h-fit w-full flex-col items-center justify-center bg-white pb-[20px] pt-[26px]"
   >
     <h2
       v-html="headingTitle"
@@ -109,17 +109,32 @@ const breakpoints: any = {
   768: {
     itemsToShow: 3.3,
     snapAlign: "center-even",
-    gap: 90,
+    gap: 60,
   },
   992: {
     itemsToShow: 4.3,
     snapAlign: "center-even",
-    gap: 90,
+    gap: 60,
+  },
+  1024: {
+    itemsToShow: 5.3,
+    snapAlign: "center-even",
+    gap: 60,
   },
   1280: {
-    itemsToShow: 5.6,
+    itemsToShow: 6.6,
     snapAlign: "center-even",
-    gap: 90,
+    gap: 60,
+  },
+  1080: {
+    itemsToShow: 9.6,
+    snapAlign: "center-even",
+    gap: 60,
+  },
+  2080: {
+    itemsToShow: 11.6,
+    snapAlign: "center-even",
+    gap: 60,
   },
 };
 

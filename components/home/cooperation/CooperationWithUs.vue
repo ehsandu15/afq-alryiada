@@ -33,7 +33,7 @@
       </p>
     </div>
     <ul
-      class="app-container container grid grid-cols-1 gap-4 pb-16 md:grid-cols-2 xl:grid-cols-3"
+      class="app-container container grid grid-cols-1 gap-4 pb-6 md:grid-cols-2 xl:grid-cols-3"
     >
       <li
         class="relative flex flex-col justify-stretch gap-4 overflow-hidden rounded-app-radius p-8 max-md:order-1"

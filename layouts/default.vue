@@ -2,9 +2,10 @@
   <LayoutAppHeader
     :content="headerContent?.data"
     :navigation-links="navigationLinks?.data"
+    :current-active-section-id="currentActiveSectionId"
   />
   <main
-    class="relative flex min-h-screen w-full max-w-full flex-col items-center justify-center"
+    class="relative flex min-h-fit w-full max-w-full flex-col items-center justify-start"
     id="home-sections-wrapper"
   >
     <slot />
@@ -53,6 +54,7 @@ const { data: footerContent } = await useAsyncData(
     }),
 );
 
+const currentActiveSectionId = ref("#");
 const { data: navigationLinks } = await useAsyncData(
   STRAPI_ENDPOINT.NAVIGATION_LINKS,
   () =>
@@ -127,22 +129,22 @@ const { data: seoData } = useAsyncData(STRAPI_ENDPOINT.GLOBAL_SEO, () =>
   }),
 );
 
-onMounted(() => {
-  // Prevent auto scroll behavior on change hash
+// onMounted(() => {
+//   // Prevent auto scroll behavior on change hash
 
-  const originalScrollBehavior = router.options.scrollBehavior;
+//   const originalScrollBehavior = router.options.scrollBehavior;
 
-  // Modify scroll behavior for the home page
-  router.options.scrollBehavior = (to, from, savedPosition) => {
-    if (to.path === "/" && to.hash) {
-      return false; // Prevents scrolling to the "/"
-    }
-    // Use the default scroll behavior for other routes
-    return originalScrollBehavior
-      ? originalScrollBehavior(to, from, savedPosition)
-      : savedPosition || { top: 0, behavior: "smooth" };
-  };
-});
+//   // Modify scroll behavior for the home page
+//   router.options.scrollBehavior = (to, from, savedPosition) => {
+//     if (to.path === "/" && to.hash) {
+//       return false; // Prevents scrolling to the "/"
+//     }
+//     // Use the default scroll behavior for other routes
+//     return originalScrollBehavior
+//       ? originalScrollBehavior(to, from, savedPosition)
+//       : savedPosition || { top: 0, behavior: "smooth" };
+//   };
+// });
 useSeoMeta({
   title: seoData.value?.data.siteName,
   description: seoData.value?.data.siteDescription,
@@ -212,13 +214,8 @@ useEventListener(window, "scroll", function (ev) {
           return currentScroll >= top && currentScroll <= bottom;
         });
 
-      if (currentSection?.id) {
-        const id = currentSection.id.includes("#")
-          ? currentSection.id.replaceAll("#", "")
-          : currentSection.id;
-        router.replace({ hash: `#${id}` }).catch(() => {});
-      }
-      // activeSectionId.value = currentSection?.id.replaceAll("#", "") || "#"; // Default to "#"
+      currentActiveSectionId.value =
+        currentSection?.id.replaceAll("#", "") || "#"; // Default to "#"
     }
   }
 });

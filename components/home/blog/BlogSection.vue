@@ -6,7 +6,7 @@
   >
     <div class="flex flex-col gap-4">
       <h2
-        class="app-container container text-right text-5xl font-extrabold"
+        class="max-md:app-container text-right text-5xl font-extrabold max-md:container"
         v-html="highlightHeading"
         :duration="MOTION_DURATION"
         v-motion="{
@@ -23,7 +23,7 @@
             leave: { opacity: 0, x: 250 },
           }"
           :duration="MOTION_DURATION"
-          class="app-container container text-right text-xl font-medium text-app-black-secondary"
+          class="max-md:app-container text-right text-xl font-medium text-app-black-secondary max-md:container"
         >
           {{ content.blogDescription }}
         </p>

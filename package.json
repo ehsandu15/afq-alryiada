@@ -11,7 +11,6 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-vue": "^7.3.0",
     "@nuxt/fonts": "^0.10.3",
     "@nuxtjs/strapi": "^2.0.0",
     "@nuxtjs/tailwindcss": "^6.13.1",
@@ -19,18 +18,14 @@
     "@tailwindcss/typography": "^0.5.16",
     "@vueuse/core": "^12.5.0",
     "@vueuse/motion": "^2.2.6",
-    "ckeditor5": "^44.1.0",
-    "ckeditor5-premium-features": "^44.2.0",
     "clsx": "^2.1.1",
     "dompurify": "^3.2.4",
     "highlight.js": "^11.11.1",
     "ipify": "^6.0.0",
     "jsdom": "^26.0.0",
     "nuxt": "^3.15.2",
-    "prismjs": "^1.29.0",
     "vue": "^3.5.13",
     "vue-router": "latest",
-    "vue-strapi-blocks-renderer": "^0.2.2",
     "vue3-carousel": "^0.14.0"
   },
   "devDependencies": {
