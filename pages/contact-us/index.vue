@@ -35,10 +35,10 @@
       </figure>
       <form
         @submit.prevent="handleSubmit"
-        class="grid w-full grid-cols-1 gap-[50px] px-3 py-[65px] pe-0 md:grid-cols-2 md:px-[50px]"
+        class="grid w-full grid-cols-1 gap-[50px] px-3 md:grid-cols-2 lg:ps-[50px]"
       >
         <span
-          class="flex flex-col gap-1.5"
+          class="xs:col-span-1 col-span-2 flex flex-col gap-1.5"
           v-for="elem of content?.data.contactForm.filter(
             (item) =>
               item.__component === 'shared.form-field' &&
@@ -287,14 +287,14 @@ useSeoMeta({
   width: 100%;
   height: fit-content;
   align-items: center;
-  padding: 50px;
+  padding-block: 50px;
   overflow: hidden;
 }
 
 @media (max-width: 992px) {
   .contact-us-wrapper {
     flex-direction: column;
-    padding-inline: 0px;
+    gap: 50px;
   }
 }
 .contacts-wrapper {
@@ -311,7 +311,8 @@ useSeoMeta({
 }
 @media (max-width: 876px) {
   .contacts-wrapper {
-    width: calc(100% - 0.5rem);
+    background-position: bottom;
+    width: clamp(calc(100% - 50px), calc(50% - 50px), calc(50% - 50px));
     min-width: calc(100% - 0.5rem);
     background-position: bottom;
   }
