@@ -1,7 +1,7 @@
 <template>
   <header class="app-header">
     <section
-      class="app-container container top-0 flex flex-row-reverse items-center justify-between md:flex-row"
+      class="app-container container top-0 flex flex-row-reverse items-center justify-between lg:flex-row"
     >
       <NuxtLink href="/">
         <img
