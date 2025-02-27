@@ -6,13 +6,14 @@
 import hljs from "highlight.js";
 import "highlight.js/styles/vs2015.min.css";
 import { warn, type VNodeRef } from "vue";
+import { VCodeBlock } from "@wdns/vue-code-block";
+import { h } from "vue";
 
 const props = defineProps<{
   data: string;
 }>();
 const editorRef = ref<VNodeRef | null>(null);
 let copyTimeout: NodeJS.Timeout | null = null;
-
 function codeContextCopyButton(block: HTMLElement) {
   // const preElement = block.closest("pre");
   // if (preElement) {
@@ -35,7 +36,6 @@ function codeContextCopyButton(block: HTMLElement) {
   });
   return copyButton;
 }
-
 function highlightCodeSyntax(
   codeElements: HTMLElement[],
   addonsCb?: (ctx: {
@@ -64,6 +64,7 @@ function highlightCodeSyntax(
       return;
     }
     preElement.style.position = "relative";
+    preElement.style.overflowY = "visible";
     block.style.paddingBlockStart = "3rem";
     preElement.appendChild(container);
 
@@ -105,7 +106,7 @@ pre {
 }
 .code-actions-wrapper {
   position: absolute;
-  top: 8px;
+  top: -35px;
   right: 8px;
   display: flex;
   align-items: center;

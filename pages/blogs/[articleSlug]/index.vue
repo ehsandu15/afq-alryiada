@@ -8,12 +8,12 @@
       >{{ dateFormatted }}</time
     >
     <h2
-      class="mt-1 w-full text-center text-2xl font-extrabold leading-[44px] text-app-black-secondary md:text-4xl lg:text-[40px] lg:leading-[58px]"
+      class="mt-3 w-full text-center text-2xl font-extrabold leading-[44px] text-app-black-secondary md:text-4xl lg:text-[40px] lg:leading-[58px]"
     >
       {{ articleDetails?.data.at(0)?.title }}
     </h2>
     <ul
-      class="mt-3 flex flex-wrap items-center justify-center divide-x-0 divide-secondary max-md:gap-5 lg:divide-x-2"
+      class="mt-4 flex flex-wrap items-center justify-center gap-5 divide-x-0 divide-secondary max-md:gap-6 lg:divide-x-2"
     >
       <li
         v-if="articleDetails?.data.at(0)?.keywords"
@@ -33,25 +33,27 @@
         class="rounded-full bg-secondary p-2 text-white transition-transform hover:-translate-y-1 hover:scale-110"
       />
     </ul>
-    <figure
-      class="mb-[22px] mt-11 flex w-full items-center justify-center overflow-hidden rounded-app-radius md:w-[65%] lg:w-[50%]"
+    <div
+      class="flex w-full flex-col items-center justify-center sm:w-[95%] md:w-[80%] lg:w-[65] 2xl:w-[50%]"
     >
-      <img
-        :src="
-          articleDetails?.data.at(0)?.cover
-            ? imagePathPrefix(articleDetails?.data.at(0)?.cover?.url)
-            : articleCoverPlaceholder
-        "
-        :alt="articleDetails?.data.at(0)?.cover?.alternativeText"
-        class="aspect-video w-full rounded-app-radius object-cover"
+      <figure
+        class="mb-[22px] mt-11 flex w-full items-center justify-center overflow-hidden rounded-app-radius"
+      >
+        <img
+          :src="
+            articleDetails?.data.at(0)?.cover
+              ? imagePathPrefix(articleDetails?.data.at(0)?.cover?.url)
+              : articleCoverPlaceholder
+          "
+          :alt="articleDetails?.data.at(0)?.cover?.alternativeText"
+          class="aspect-video w-full rounded-app-radius object-cover"
+        />
+      </figure>
+      <CodeBlockFC
+        v-if="articleDetails?.data.at(0)?.content"
+        :data="articleDetails?.data.at(0)?.content"
       />
-    </figure>
-
-    <BlogsArticleContent
-      v-if="articleDetails?.data.at(0)?.content"
-      class="!w-full md:!w-[65%] lg:!w-[50%]"
-      :content="articleDetails?.data.at(0)?.content"
-    />
+    </div>
   </section>
 </template>
 <script setup lang="ts">
@@ -103,7 +105,6 @@ const SHARE_SOCIAL_LIST = computed(() =>
       ]
     : [],
 );
-console.log(shareFacebook);
 
 useSeoMeta({
   title: articleDetails.value?.data.at(0)?.title,
