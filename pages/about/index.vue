@@ -3,10 +3,14 @@
     <div
       class="app-container container mt-[84px] flex flex-col items-center justify-start"
     >
-      <h3
-        class="mb-4 text-center text-[44px] font-extrabold leading-[61px] text-app-black-secondary md:text-[56px]"
-        v-html="headingTitle"
-      ></h3>
+      <HeadingHighlightedTitle
+        v-if="content?.data"
+        :title="content.data.headingTitle.title"
+        :words="content.data.headingTitle.highlightWords.map((w) => w.word)"
+        main-text-color-class-name="text-app-black-secondary"
+        marked-text-color-class-name="text-secondary"
+        class="mb-6 text-center text-[44px] font-extrabold leading-[61px] md:text-[56px]"
+      />
       <p class="text-center text-lg font-medium text-app-black-secondary">
         {{ content?.data.thirdDescription }}
       </p>
@@ -17,7 +21,7 @@
       <img
         :src="content?.data.logo?.url"
         :alt="content?.data.logo?.alternativeText"
-        class="mb-8 h-[120px] w-full md:w-[295px]"
+        class="mb-12 h-[120px] w-full md:w-[295px]"
       />
       <p
         class="mb-8 text-center text-[20px] font-semibold capitalize text-app-black-secondary md:text-[28px]"
