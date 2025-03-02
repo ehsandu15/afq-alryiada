@@ -14,7 +14,7 @@
         />
       </div>
 
-      <span>
+      <span class="flex flex-col items-start justify-between">
         <HeadingHighlightedTitle
           :title="content.techHeadingTitle.title"
           :words="content.techHeadingTitle.highlightWords.map((w) => w.word)"

@@ -4,7 +4,7 @@
     class="app-container container flex min-h-[60vh] flex-col bg-white py-[60px]"
     :id="content?.blogsId?.elementId"
   >
-    <div class="flex flex-col items-center gap-4 md:items-start">
+    <div class="flex flex-col items-start gap-4">
       <HeadingHighlightedTitle
         :title="props.content.blogHeaingTitle.title"
         :words="props.content.blogHeaingTitle.highlightWords.map((w) => w.word)"
@@ -16,18 +16,9 @@
           visibleOnce: { opacity: 1, x: 0 },
           leave: { opacity: 0, x: 250 },
         }"
-        class="max-md:app-container text-right text-5xl font-extrabold max-md:container"
+        class="max-w-full text-right text-5xl font-extrabold"
       />
-      <!-- <h2
-        class="max-md:app-container text-right text-5xl font-extrabold max-md:container"
-        v-html="highlightHeading"
-        :duration="MOTION_DURATION"
-        v-motion="{
-          initial: { opacity: 0, x: 250 },
-          visibleOnce: { opacity: 1, x: 0 },
-          leave: { opacity: 0, x: 250 },
-        }"
-      ></h2> -->
+
       <span class="flex w-full items-center justify-between gap-3">
         <p
           v-motion="{
@@ -36,7 +27,7 @@
             leave: { opacity: 0, x: 250 },
           }"
           :duration="MOTION_DURATION"
-          class="max-md:app-container w-fit text-center text-xl font-medium text-app-black-secondary max-md:container md:text-right"
+          class="w-fit max-w-full text-start text-xl font-medium text-app-black-secondary"
         >
           {{ content.blogDescription }}
         </p>

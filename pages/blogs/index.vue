@@ -8,10 +8,14 @@
       text-color-class="text-app-black-secondary"
       class="mb-5 mt-16 !border-[#C7C7CC]"
     />
-    <h3
-      v-html="headingTitle"
-      class="text-5xl font-extrabold capitalize leading-[70px] text-app-black-secondary"
-    ></h3>
+    <HeadingHighlightedTitle
+      v-if="content?.data"
+      :title="content?.data.headingTitle"
+      :words="[content?.data.highlightWord]"
+      main-text-color-class-name="text-app-black-secondary"
+      marked-text-color-class-name="text-secondary"
+      class="text-5xl font-extrabold capitalize leading-[70px]"
+    />
     <div class="mt-5 flex w-full items-center justify-start gap-12">
       <span
         class="relative flex w-[222px] items-center justify-center gap-2 rounded-full border border-[#C7C7CC] p-1.5 text-[#C7C7CC] focus-within:border-app-black-secondary"
@@ -300,16 +304,5 @@ const handleGetPrevPage = () => {
 useSeoMeta({
   title: content.value?.data.seoTitle,
   description: content.value?.data.seoDescription,
-});
-
-const headingTitle = computed(() => {
-  if (contentStatus.value !== "success" || !content.value?.data) {
-    return "NA-NA";
-  }
-  return highlightSpecificWord({
-    text: content.value?.data.headingTitle,
-    word: content.value?.data.highlightWord,
-    classNames: "text-secondary",
-  });
 });
 </script>

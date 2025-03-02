@@ -9,7 +9,13 @@
     :id="content?.cooperationId?.elementId"
     :duration="MOTION_DURATION + 200"
   >
-    <div class="mb-11 mt-20 flex flex-col items-center justify-center">
+    <div class="mb-11 mt-16 flex flex-col items-center justify-center">
+      <AdvancedSectionHeading
+        text-color-class="text-black"
+        icon-color-class="bg-[#007AFF]"
+        class="mt-0 flex border-[#C7C7CC] text-white lg:hidden"
+        title="لماذا نحن؟"
+      />
       <HeadingHighlightedTitle
         :title="content.cooperationHeadingTitle.title"
         :words="
@@ -22,10 +28,10 @@
           visibleOnce: { opacity: 1, scale: 1, y: 0 },
         }"
         :duration="MOTION_DURATION"
-        class="z-10 mb-3 max-w-[350px] text-center text-[40px] font-extrabold leading-normal md:max-w-fit md:font-bold lg:leading-[75px]"
+        class="z-10 max-w-[350px] text-center text-[40px] font-extrabold leading-normal md:max-w-fit md:font-bold lg:leading-[75px]"
       />
       <p
-        class="app-container container text-center font-medium text-app-black-secondary"
+        class="max-w-full text-center font-medium text-app-black-secondary"
         v-motion="{
           initial: { opacity: 0, y: 100 },
           visibleOnce: { opacity: 1, y: 0 },

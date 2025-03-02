@@ -1,5 +1,5 @@
 <template>
-  <span class="flex items-center justify-center gap-2">
+  <span class="flex flex-wrap items-center justify-center gap-2">
     <component v-for="(elem, idx) of titleHighlighter" :key="idx" :is="elem" />
   </span>
 </template>

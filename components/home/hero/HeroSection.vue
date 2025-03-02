@@ -63,16 +63,20 @@
           </p>
         </span>
       </span>
-      <h2
+      <HeadingHighlightedTitle
+        :title="props.content.heroHeadingTitle.title"
+        :words="
+          props.content.heroHeadingTitle.highlightWords.map((w) => w.word)
+        "
+        main-text-color-class-name="text-app-black-secondary "
+        marked-text-color-class-name="opacity-50"
         v-motion="{
           initial: { opacity: 0, y: -100 },
           visibleOnce: { opacity: 1, y: 0 },
         }"
         :duration="MOTION_DURATION"
-        class="item-center isolate mb-8 max-w-full text-center text-[44px] font-extrabold leading-[69px] text-app-black-secondary md:max-w-[700px] md:text-[56px] md:font-bold md:leading-[81px] lg:max-w-[766px]"
-        v-html="headingTitle"
-      ></h2>
-
+        class="isolate mb-8 max-w-full flex-wrap text-4xl font-extrabold leading-[69px] sm:text-[44px] md:text-[56px] md:font-bold md:leading-[81px] lg:!max-w-[766px]"
+      />
       <p
         v-motion="{
           initial: { opacity: 0, y: -60 },
