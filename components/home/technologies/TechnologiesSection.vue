@@ -15,13 +15,16 @@
       </div>
 
       <span>
-        <h2
+        <HeadingHighlightedTitle
+          :title="content.techHeadingTitle.title"
+          :words="content.techHeadingTitle.highlightWords.map((w) => w.word)"
+          main-text-color-class-name="text-app-black-secondary"
+          marked-text-color-class-name="opacity-50"
           v-motion="MOTION_FADE_DOWN_SIMPLE"
           :duration="MOTION_DURATION"
-          :delay="DELAY"
-          class="mb-4 max-w-[350px] text-[36px] font-extrabold text-black md:max-w-fit md:text-center md:text-5xl"
-          v-html="headingTitle"
-        ></h2>
+          class="mb-4 max-w-[350px] text-[36px] font-extrabold md:max-w-fit md:text-center md:text-5xl"
+        />
+
         <p
           v-motion="MOTION_FADE_DOWN"
           :delay="DELAY"
@@ -94,13 +97,4 @@ const MOTION_FADE_DOWN_TOP = {
   initial: { opacity: 0, y: 40 },
   visibleOnce: { opacity: 1, y: 0 },
 };
-const headingTitle = computed(() =>
-  !props.content.techHeadingTitle
-    ? ""
-    : highlightSpecificWord({
-        text: props.content.techHeadingTitle.title,
-        word: props.content.techHeadingTitle.highlightWords.map((w) => w.word),
-        classNames: "text-app-black-third",
-      }),
-);
 </script>
