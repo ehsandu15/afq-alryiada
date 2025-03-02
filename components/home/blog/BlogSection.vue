@@ -110,13 +110,4 @@ import { MOTION_DURATION } from "~/constants/motion-config";
 import type { BlogSectionType } from "~/types/home-page";
 
 const props = defineProps<{ content: BlogSectionType }>();
-const highlightHeading = computed(() =>
-  !props.content.blogHeaingTitle
-    ? ""
-    : highlightSpecificWord({
-        text: props.content.blogHeaingTitle.title,
-        word: props.content.blogHeaingTitle.highlightWords.map((w) => w.word),
-        classNames: "text-secondary",
-      }),
-);
 </script>

@@ -3,10 +3,15 @@
     data-section="true"
     class="flex min-h-fit w-full flex-col items-center justify-center bg-white pb-[20px] pt-[26px]"
   >
-    <h2
-      v-html="headingTitle"
+    <HeadingHighlightedTitle
+      :title="props.content.partnersHeaingtitle.title"
+      :words="
+        props.content.partnersHeaingtitle.highlightWords.map((w) => w.word)
+      "
+      main-text-color-class-name="text-app-black-secondary"
+      marked-text-color-class-name="opacity-50"
       class="app-container container mb-11 text-center text-2xl font-extrabold md:text-[36px]"
-    ></h2>
+    />
 
     <Carousel
       class="flex w-full max-lg:mb-10"
@@ -137,16 +142,4 @@ const breakpoints: any = {
     gap: 60,
   },
 };
-
-const headingTitle = computed(() =>
-  !props.content.partnersHeaingtitle
-    ? ""
-    : highlightSpecificWord({
-        text: props.content.partnersHeaingtitle.title,
-        word: props.content.partnersHeaingtitle.highlightWords.map(
-          (w) => w.word,
-        ),
-        classNames: "text-[#797979]",
-      }),
-);
 </script>
