@@ -10,15 +10,15 @@
     :duration="MOTION_DURATION + 200"
   >
     <div class="mb-11 mt-20 flex flex-col items-center justify-center">
-      <h3
-        v-html="headingTitle"
-        class="z-10 mb-3 max-w-[350px] text-center text-[40px] font-extrabold leading-normal text-app-black-secondary md:max-w-fit md:font-bold lg:leading-[75px]"
-        v-motion="{
-          initial: { opacity: 0, scale: 3.1, y: 65 },
-          visibleOnce: { opacity: 1, scale: 1, y: 0 },
-        }"
-        :duration="MOTION_DURATION"
-      ></h3>
+      <HeadingHighlightedTitle
+        :title="content.cooperationHeadingTitle.title"
+        :words="
+          content.cooperationHeadingTitle.highlightWords.map((w) => w.word)
+        "
+        main-text-color-class-name="text-app-black-secondary"
+        marked-text-color-class-name="opacity-50"
+        class="z-10 mb-3 max-w-[350px] text-center text-[40px] font-extrabold leading-normal md:max-w-fit md:font-bold lg:leading-[75px]"
+      />
 
       <p
         class="app-container container text-center font-medium text-app-black-secondary"
