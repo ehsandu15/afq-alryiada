@@ -10,10 +10,13 @@
       text-color-class="text-app-black-secondary"
       :class="clsx(`!border-[#C7C7CC]`, 'mt-8 md:mt-[60px]')"
     />
-    <h3
-      v-html="headingTitle"
+    <HeadingHighlightedTitle
+      :title="content.servicesHeadingTitle.title"
+      :words="content.servicesHeadingTitle.highlightWords?.map((w) => w.word)"
+      markedTextColorClassName="text-app-black-third"
+      mainTextColorClassName="text-app-black-secondary"
       class="my-4 text-center text-[36px] leading-[52px] md:text-5xl md:font-extrabold"
-    ></h3>
+    />
     <p
       class="app-container container mb-11 text-center text-[20px] font-medium leading-[32px] text-app-black-secondary md:text-lg"
     >
@@ -99,15 +102,20 @@
     <div
       class="app-container container mb-[80px] mt-[60px] flex flex-col items-center justify-center"
     >
-      <h2
-        v-html="joinToUsText"
+      <HeadingHighlightedTitle
+        :title="content.servicesSecondaryHeading.title"
+        :words="
+          content.servicesSecondaryHeading.highlightWords?.map((w) => w.word)
+        "
+        markedTextColorClassName="text-secondary"
+        mainTextColorClassName="text-app-black-secondary"
+        class="mb-4 text-center text-5xl font-extrabold leading-[61px] text-app-black-secondary lg:text-[56px]"
         v-motion="{
           initial: { opacity: 0, y: -150 },
           visibleOnce: { opacity: 1, y: 0 },
         }"
         :duration="MOTION_DURATION"
-        class="mb-4 text-center text-5xl font-extrabold leading-[61px] text-app-black-secondary lg:text-[56px]"
-      ></h2>
+      />
       <p
         class="mb-8 max-w-full px-4 text-center text-base font-medium leading-[29px] text-app-black-secondary md:text-lg lg:max-w-[925px]"
         v-motion="{
@@ -155,30 +163,6 @@ const { appDir } = useAppDir();
 
 const selectedService = ref<ServiceType | undefined>(
   props.content.services_lists.at(0),
-);
-
-const headingTitle = computed(() =>
-  !props.content.servicesHeadingTitle
-    ? ""
-    : highlightSpecificWord({
-        text: props.content.servicesHeadingTitle.title,
-        word: props.content.servicesHeadingTitle.highlightWords.map(
-          (w) => w.word,
-        ),
-        classNames: "text-app-black-third",
-      }),
-);
-
-const joinToUsText = computed(() =>
-  !props.content.servicesSecondaryHeading
-    ? ""
-    : highlightSpecificWord({
-        text: props.content.servicesSecondaryHeading.title,
-        word: props.content.servicesSecondaryHeading.highlightWords.map(
-          (w) => w.word,
-        ),
-        classNames: "!text-secondary",
-      }),
 );
 
 function handleSelectService(service: ServiceType) {

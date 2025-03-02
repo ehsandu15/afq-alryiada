@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["embla", "highlightjs", "nuxt", "Strapi", "vueuse"]
+  "cSpell.words": ["embla", "highlightjs", "nuxt", "Strapi", "vueuse"],
+  "nuxt.isNuxtApp": false
 }

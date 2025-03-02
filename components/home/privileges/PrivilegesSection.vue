@@ -29,16 +29,18 @@
       class="isolate mt-8 md:mt-[60px]"
     />
     <div class="mb-20 flex w-fit flex-col items-center justify-center gap-4">
-      <h3
-        class="isolate max-w-[350px] text-center text-5xl font-extrabold leading-[69.6px] text-white md:max-w-fit md:leading-[52.8px]"
-        v-html="headingTitle"
+      <HeadingHighlightedTitle
+        :title="content.privilegeHeadingTitle.title"
+        :words="content.privilegeHeadingTitle.highlightWords.map((w) => w.word)"
+        marked-text-color-class-name="text-white !opacity-60"
+        main-text-color-class-name="text-white"
+        class="isolate mt-3 max-w-[350px] text-center text-5xl font-extrabold leading-[69.6px] md:max-w-fit md:leading-[52.8px]"
         v-motion="{
           initial: { opacity: 0, y: 20 },
           visibleOnce: { opacity: 1, y: 0 },
         }"
         :duration="GLOBAL_MOTION_DURATION"
-      ></h3>
-
+      />
       <p
         class="app-container container text-center text-xl font-medium text-white text-opacity-60"
         v-motion="{
@@ -66,32 +68,14 @@
   </section>
 </template>
 <script setup lang="ts">
-// import menPrivileges from "~/assets/images/privileges/man-and-privileges-img.svg";
-// import backgroundPatterns from "~/assets/images/privileges/bg-patterns.svg";
 import { MOTION_DURATION as GLOBAL_MOTION_DURATION } from "~/constants/motion-config";
 import type { PrivilegeSectionType } from "~/types/home-page";
 import clsx from "clsx";
 import { useEventListener } from "@vueuse/core";
-
 const props = defineProps<{ content: PrivilegeSectionType }>();
-const DELAY = 350;
 const imgWidth = ref(190);
-const columns = ref<number[]>([]);
 const MOTION_DURATION = GLOBAL_MOTION_DURATION + 250;
-const SCROLL_FADING_TOP = {
-  initial: { opacity: 0, y: -220 },
-  visibleOnce: { opacity: 1, y: 0 },
-};
-const SCROLL_FADING_BOTTOM = {
-  initial: { opacity: 0, y: 265 },
-  visibleOnce: { opacity: 1, y: 0 },
-};
-
 const canvasRef = ref<HTMLCanvasElement | null>(null);
-let animationFrameId: any = {
-  drawId: null,
-  animationId: null,
-};
 
 const canvasImageLoadHandler = ({
   canvas,
@@ -102,101 +86,63 @@ const canvasImageLoadHandler = ({
   canvas: HTMLCanvasElement;
   image: HTMLImageElement;
 }) => {
-  // Get viewport size
-  const { innerWidth: width, innerHeight: height } = window;
-  canvas.width = width;
-  canvas.height = height;
+  const parent = canvas.parentElement;
+  if (!parent) {
+    console.warn("Canvas parent element is not available");
+    return;
+  }
 
-  const columns = Math.ceil(width / image.width);
-  const rows = Math.ceil(height / image.height);
+  // ✅ Set canvas size to match parent section
+  canvas.width = parent.clientWidth;
+  canvas.height = parent.clientHeight;
 
-  // Store initial offsets for each column
-  const columnOffsets = new Array(columns)
-    .fill(0)
-    // .map((_, i) => (i % 2 === 0 ? 265 : -220));
-    .map((_, i) => (i % 2 === 0 ? 0 : 0));
+  const columns = Math.ceil(canvas.width / image.width);
+  const rows = Math.ceil(canvas.height / image.height);
+
+  const columnOffsets = new Array(columns).fill(0); // No animation, static offset
 
   function draw() {
-    ctx.clearRect(0, 0, width, height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (let x = 0; x < columns; x++) {
       const offsetY = columnOffsets[x];
 
       for (let y = 0; y < rows; y++) {
-        ctx.globalAlpha = 0.03;
+        ctx.globalAlpha = 0.1; // Image opacity
         ctx.drawImage(image, x * image.width, y * image.height + offsetY);
       }
     }
-
-    return requestAnimationFrame(draw);
   }
 
-  function animate() {
-    for (let x = 0; x < columns; x++) {
-      const targetOffset = 0; // All columns animate to 0
-      const speed = 0.07; // Adjust speed for smooth animation
-
-      columnOffsets[x] += (targetOffset - columnOffsets[x]) * speed;
-    }
-
-    return requestAnimationFrame(animate);
-  }
-
-  const drawAnimationId = draw();
-  // const animationId = animate();
-  return {
-    drawAnimationId,
-    animationId: null,
-  };
+  draw(); // ✅ Draw once without animation
 };
 
-const handlePaintCanvasColumnOfImgs = (
-  privilegePatternImage: string | undefined,
-) => {
+const handlePaintCanvasColumnOfImgs = (privilegePatternImage?: string) => {
   const canvas = canvasRef.value;
-  if (!canvas) {
-    console.warn("WARN!!, Canvas element is not available");
-    return;
-  }
-  if (!privilegePatternImage) {
-    console.warn("WARN !!, the privilege image in not provided");
-    return;
-  }
+  if (!canvas) return console.warn("Canvas element is not available");
+  if (!privilegePatternImage) return console.warn("Image not provided");
 
   const ctx = canvas.getContext("2d");
-  if (!ctx) {
-    console.warn("WARN!!, Canvas context is not available");
-    return;
-  }
+  if (!ctx) return console.warn("Canvas context is not available");
+
   const img = new Image();
   img.src = privilegePatternImage;
 
   img.addEventListener("load", () => {
-    const { animationId, drawAnimationId } = canvasImageLoadHandler({
-      canvas,
-      ctx,
-      image: img,
-    });
-    animationFrameId.drawId = drawAnimationId;
-    animationFrameId.animationId = animationId;
+    canvasImageLoadHandler({ canvas, ctx, image: img });
   });
 };
 
-const handleCancelAnimations = (animationFrameId: {
-  drawId: number;
-  animationId: number;
-}) => {
-  if (animationFrameId.drawId) cancelAnimationFrame(animationFrameId.drawId);
-  if (animationFrameId.animationId)
-    cancelAnimationFrame(animationFrameId.animationId);
-};
+useEventListener("resize", () => {
+  handlePaintCanvasColumnOfImgs(props.content?.privilegePatternImage?.url);
+});
 
 onMounted(() => {
   handlePaintCanvasColumnOfImgs(props.content?.privilegePatternImage?.url);
 });
 
 useEventListener("resize", (_ev) => {
-  handleCancelAnimations(animationFrameId);
+  // handleCancelAnimations(animationFrameId);
   const windowWidth = window.innerWidth;
   if (windowWidth >= 768) {
     imgWidth.value = 190;
@@ -205,49 +151,14 @@ useEventListener("resize", (_ev) => {
   }
   handlePaintCanvasColumnOfImgs(props.content?.privilegePatternImage?.url);
 });
-
-onBeforeUnmount(() => {
-  handleCancelAnimations(animationFrameId);
-});
-
-// const generateColumns = () => {
-//   const screenWidth = window.innerWidth;
-//   const columnsCount = Math.ceil(screenWidth / imgWidth.value);
-//   return Array.from({ length: columnsCount }, (_, index) => index);
-// };
-
-// useEventListener("resize", (_ev) => {
-//   const windowWidth = window.innerWidth;
-//   if (windowWidth >= 768) {
-//     imgWidth.value = 190;
-//   } else {
-//     imgWidth.value = 150;
-//   }
-//   columns.value = generateColumns();
-// });
-
-// onMounted(() => {
-//   columns.value = generateColumns();
-// });
-
-const headingTitle = computed(() =>
-  !props.content.privilegeHeadingTitle
-    ? ""
-    : highlightSpecificWord({
-        text: props.content.privilegeHeadingTitle.title,
-        word: props.content.privilegeHeadingTitle.highlightWords.map(
-          (w) => w.word,
-        ),
-        classNames: "opacity-60",
-      }),
-);
 </script>
 <style scoped>
 canvas {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  display: block; /* Avoid extra space below canvas */
 }
 </style>
