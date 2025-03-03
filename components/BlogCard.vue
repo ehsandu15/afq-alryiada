@@ -39,15 +39,15 @@
       class="mb-2 mt-2 flex w-full max-w-full items-center gap-2 overflow-hidden"
     >
       <NuxtLink
-        v-for="keyword of article.keywords"
-        :key="keyword.id"
+        v-for="tag of article.tags"
+        :key="tag.id"
         class="w-fit text-xs font-semibold text-secondary md:text-base"
-        :href="{ query: { ...route.query, keyword: keyword.title } }"
-        :style="{ maxWidth: `calc(100% / ${article.keywords.length})` }"
-        :title="keyword"
+        :href="`/blogs?tag=${tag.normalizedTagName}`"
+        :style="{ maxWidth: `calc(100% / ${article.tags.length})` }"
+        :title="tag"
       >
         <h3 class="w-full truncate">
-          {{ keyword.title }}
+          {{ tag.tagName }}
         </h3>
       </NuxtLink>
     </nav>

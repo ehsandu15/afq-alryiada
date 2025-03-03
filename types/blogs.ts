@@ -1,4 +1,3 @@
-import type { BlocksContent } from "vue-strapi-blocks-renderer";
 import type { ImageType, SectionTitle, StrapiType } from "./shared";
 
 export type BlogContentType = StrapiType & {
@@ -11,19 +10,17 @@ export type BlogContentType = StrapiType & {
   noArticlesFound: string;
 };
 
-export type KeywordType = {
-  elementId: string | null;
-  href: string;
+export type TagsType = {
   id: number;
-  title: string;
-  __component: "shared.basic-link";
+  tagName: string;
+  normalizedTagName: string;
 };
 
 export type ArticleType = StrapiType & {
   title: string;
   description: string;
   id: number;
-  keywords: KeywordType[];
+  tags: TagsType[];
   slug: string;
   cover: ImageType | undefined;
   content: string;

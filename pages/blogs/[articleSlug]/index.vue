@@ -13,19 +13,30 @@
       {{ articleDetails?.data.at(0)?.title }}
     </h2>
     <ul
-      class="mt-4 flex flex-wrap items-center justify-center gap-5 divide-x-0 divide-secondary max-md:gap-6 lg:divide-x-2"
+      v-if="articleDetails?.data?.[0]?.tags?.length"
+      class="mt-4 flex flex-wrap items-center justify-center divide-x-0 divide-secondary lg:divide-x-2"
+      :class="
+        clsx({
+          'gap-5 max-md:gap-6':
+            articleDetails?.data?.[0]?.tags &&
+            articleDetails?.data?.[0]?.tags.length >= 3,
+        })
+      "
     >
       <li
-        v-if="articleDetails?.data.at(0)?.keywords"
-        v-for="keyword of articleDetails?.data.at(0)?.keywords"
+        v-for="tag of articleDetails?.data.at(0)?.tags"
+        :key="tag.id"
         class="border-e-0 border-secondary last:!border-e-0 lg:border-e-2 lg:px-4"
       >
-        <p class="text-xl font-semibold leading-[28px] text-secondary">
-          {{ keyword.title }}
-        </p>
+        <NuxtLink
+          class="text-xl font-semibold leading-[28px] text-secondary"
+          :href="`/blogs/?tag=${tag.normalizedTagName}`"
+        >
+          {{ tag.tagName }}
+        </NuxtLink>
       </li>
     </ul>
-    <ul class="mt-7 flex items-center justify-center gap-6">
+    <ul class="mt-9 flex items-center justify-center gap-6">
       <SocialShare
         v-for="item of SHARE_SOCIAL_LIST"
         :network="item.network"
@@ -37,7 +48,7 @@
       class="flex w-full flex-col items-center justify-center sm:w-[95%] md:w-[80%] lg:w-[65] 2xl:w-[50%]"
     >
       <figure
-        class="mb-[22px] mt-11 flex w-full items-center justify-center overflow-hidden rounded-app-radius"
+        class="mb-[22px] mt-9 flex w-full items-center justify-center overflow-hidden rounded-app-radius"
       >
         <img
           :src="
@@ -49,7 +60,7 @@
           class="aspect-video w-full rounded-app-radius object-cover"
         />
       </figure>
-      <CodeBlockFC
+      <RichTextRenderer
         v-if="articleDetails?.data.at(0)?.content"
         :data="articleDetails?.data.at(0)?.content"
       />
@@ -61,14 +72,9 @@ import { useDateFormat } from "@vueuse/core";
 import { STRAPI_ENDPOINT } from "~/constants/strapi-endpoints";
 import type { ArticleType } from "~/types/blogs";
 import articleCoverPlaceholder from "~/assets/images/article-cover-placeholder.webp";
+import { clsx } from "clsx";
 
 const route = useRoute();
-const shareFacebook = useSocialShare({
-  network: "facebook", // Required!
-  title: "My Custom Title", // Optional, available on networks supporting it
-  user: "twitter_user", // Optional, available on networks supporting it
-  hashtags: "list,of,hashtags", // Optional, available on networks supporting it
-});
 const { find } = useStrapi<ArticleType>();
 
 const { data: articleDetails, status } = useAsyncData(
@@ -82,7 +88,7 @@ const { data: articleDetails, status } = useAsyncData(
       },
       populate: {
         cover: true,
-        keywords: true,
+        tags: true,
       },
     }),
 );

@@ -14,9 +14,12 @@
       :words="[content?.data.highlightWord]"
       main-text-color-class-name="text-app-black-secondary"
       marked-text-color-class-name="text-secondary"
-      class="text-5xl font-extrabold capitalize leading-[70px]"
+      class="text-4xl font-extrabold capitalize leading-[70px] lg:text-5xl"
     />
-    <div class="mt-5 flex w-full items-center justify-start gap-12">
+    <div
+      v-if="!route.query.tag"
+      class="mt-5 flex w-full items-center justify-start gap-12"
+    >
       <span
         class="relative flex w-[222px] items-center justify-center gap-2 rounded-full border border-[#C7C7CC] p-1.5 text-[#C7C7CC] focus-within:border-app-black-secondary"
       >
@@ -179,6 +182,15 @@ const { data: categories, status: categoriesStatus } = useAsyncData(
 );
 
 const filterWith = computed(() => {
+  if (route.query.tag) {
+    return {
+      tags: {
+        normalizedTagName: {
+          $eqi: route.query.tag,
+        },
+      },
+    };
+  }
   if (!route.query.category && !searchQuery.value) {
     return undefined;
   }
@@ -232,7 +244,7 @@ const { data: articles, status: articleStatus } = useAsyncData(
     find<ArticleType>(STRAPI_ENDPOINT.ARTICLES, {
       populate: {
         cover: true,
-        keywords: true,
+        tags: true,
       },
       filters: filterWith.value,
       pagination: {
@@ -245,9 +257,10 @@ const { data: articles, status: articleStatus } = useAsyncData(
     }),
   {
     watch: [
-      () => route.query.page,
       () => debouncedSearchQuery.value,
+      () => route.query.page,
       () => route.query.category,
+      () => route.query.tag,
     ],
     transform: function (res) {
       return nuxtConf.runWithContext(() => {
@@ -263,7 +276,7 @@ const { data: articles, status: articleStatus } = useAsyncData(
     },
   },
 );
-
+console.log("articles: ", articles.value?.data);
 const handleGetNextPage = () => {
   if (!route.query.page) {
     console.log("Error get next page, Cannot find current page number");

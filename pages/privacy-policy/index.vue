@@ -1,14 +1,22 @@
 <template>
   <section class="app-container container">
-    <h3
-      v-html="headingTitle"
-      class="mb-16 mt-12 text-center text-[40px] font-extrabold leading-[61px] text-app-black-secondary md:text-[56px]"
-    ></h3>
-    <ArticleContent :content="privacyPolicy?.data.terms" />
+    <HeadingHighlightedTitle
+      v-if="privacyPolicy?.data.headingTitle"
+      :title="privacyPolicy?.data.headingTitle.title"
+      :words="
+        privacyPolicy?.data.headingTitle.highlightWords.map((w) => w.word)
+      "
+      main-text-color-class-name="text-app-black-secondary"
+      marked-text-color-class-name="text-secondary"
+      class="mb-16 mt-12 text-center text-[40px] font-extrabold leading-[61px] md:text-[56px]"
+    />
+    <RichTextRenderer
+      v-if="privacyPolicy?.data.terms"
+      :data="privacyPolicy?.data.terms"
+    />
   </section>
 </template>
 <script setup lang="ts">
-import ArticleContent from "~/components/blogs/ArticleContent.vue";
 import { STRAPI_ENDPOINT } from "~/constants/strapi-endpoints";
 import type { PrivacyPolicyContentType } from "~/types/privacy-policy";
 
@@ -44,16 +52,4 @@ useSeoMeta({
   keywords: privacyPolicy.value?.data.seo.keywords,
   ogUrl: privacyPolicy.value?.data.seo.canonicalUrl,
 });
-
-const headingTitle = computed(() =>
-  !privacyPolicy.value?.data.headingTitle
-    ? ""
-    : highlightSpecificWord({
-        text: privacyPolicy.value?.data.headingTitle.title,
-        word: privacyPolicy.value?.data.headingTitle.highlightWords.map(
-          (w) => w.word,
-        ),
-        classNames: "text-secondary",
-      }),
-);
 </script>

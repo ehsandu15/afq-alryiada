@@ -100,7 +100,8 @@ const renderNode = (node: ChildNode): any => {
         dir: "ltr",
         theme: HIGHLIGHT_JS_THEMES.VS2015,
         browserWindow: true,
-        maxHeight: "70vh",
+        maxHeight: "80vh",
+        style: "padding:0px",
         runTab: true,
       });
     }
@@ -116,7 +117,14 @@ onMounted(parseHtml);
 
 <template>
   <div class="prose w-full max-w-full">
-    <template v-for="(node, index) in parsedNodes" :key="index">
+    <h5 v-if="data && typeof data !== 'string'">
+      Oops ,Sorry the data is not a string
+    </h5>
+    <template
+      v-if="data && typeof data === 'string'"
+      v-for="(node, index) in parsedNodes"
+      :key="index"
+    >
       <component :is="renderNode(node)" />
     </template>
   </div>

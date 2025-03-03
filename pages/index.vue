@@ -100,7 +100,7 @@ const { data: homeData, status } = await useAsyncData(
         articles: {
           populate: {
             cover: true,
-            keywords: true,
+            tags: true,
           },
         },
         whatsapp: {

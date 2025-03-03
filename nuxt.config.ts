@@ -80,4 +80,16 @@ export default defineNuxtConfig({
       "/privacy-policy": { isr: 86400 }, // 24 hour
     },
   },
+  vite: {
+    esbuild: {
+      drop: ["debugger"],
+      pure: [
+        "console.log",
+        "console.error",
+        "console.warn",
+        "console.debug",
+        "console.trace",
+      ],
+    },
+  },
 });
