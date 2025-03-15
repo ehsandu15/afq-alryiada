@@ -10,7 +10,7 @@
     <h2
       class="mt-3 w-full text-center text-2xl font-extrabold leading-[44px] text-app-black-secondary md:text-4xl lg:text-[40px] lg:leading-[58px]"
     >
-      {{ articleDetails?.data.at(0)?.title }}
+      {{ `Afq Alryiada | ${articleDetails?.data.at(0)?.title}` }}
     </h2>
     <ul
       v-if="articleDetails?.data?.[0]?.tags?.length"
@@ -41,6 +41,7 @@
         v-for="item of SHARE_SOCIAL_LIST"
         :network="item.network"
         :label="false"
+        :image="imagePathPrefix(articleDetails?.data.at(0)?.cover?.url)"
         class="rounded-full bg-secondary p-2 text-white transition-transform hover:-translate-y-1 hover:scale-110"
       />
     </ul>
@@ -60,11 +61,11 @@
           class="aspect-video w-full rounded-app-radius object-cover"
         />
       </figure>
-      <RichTextRenderer
-        v-if="articleDetails?.data.at(0)?.content"
-        :data="articleDetails?.data.at(0)?.content"
-      />
     </div>
+    <RichTextRenderer
+      v-if="articleDetails?.data.at(0)?.content"
+      :data="articleDetails?.data.at(0)?.content"
+    />
   </section>
 </template>
 <script setup lang="ts">
@@ -98,15 +99,36 @@ const SHARE_SOCIAL_LIST = computed(() =>
     ? [
         {
           network: "facebook",
+          hashtags: articleDetails?.value?.data
+            .at(0)
+            ?.tags.map((t) => t.tagName)
+            .join(","),
+
+          // image: imagePathPrefix(articleDetails?.value?.data.at(0)?.cover?.url),
         },
         {
           network: "twitter",
+          hashtags: articleDetails?.value?.data
+            .at(0)
+            ?.tags.map((t) => t.tagName)
+            .join(","),
+          // title: articleDetails?.value?.data.at(0)?.title,
         },
         {
           network: "linkedin",
+          hashtags: articleDetails?.value?.data
+            .at(0)
+            ?.tags.map((t) => t.tagName)
+            .join(","),
+          // image: imagePathPrefix(articleDetails?.value?.data.at(0)?.cover?.url),
         },
         {
           network: "whatsapp",
+          hashtags: articleDetails?.value?.data
+            .at(0)
+            ?.tags.map((t) => t.tagName)
+            .join(","),
+          // image: imagePathPrefix(articleDetails?.value?.data.at(0)?.cover?.url),
         },
       ]
     : [],

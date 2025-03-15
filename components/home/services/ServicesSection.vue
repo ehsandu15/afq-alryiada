@@ -38,28 +38,40 @@
       :dir="appDir"
       :breakpoints="{
         300: {
-          itemsToShow: 2.2,
+          itemsToShow: 1.4,
           itemsToScroll: 1,
           snapAlign: 'start',
           gap: 15,
         },
         768: {
-          itemsToShow: 3.4,
+          itemsToShow: 2.4,
           itemsToScroll: 1,
           snapAlign: 'start',
           gap: 27,
         },
         922: {
-          itemsToShow: 4.5,
+          itemsToShow: 3.4,
           itemsToScroll: 1,
           snapAlign: 'start',
           gap: 30,
         },
         1024: {
-          itemsToShow: 6.5,
+          itemsToShow: 4.4,
           itemsToScroll: 1,
           snapAlign: 'start',
-          gap: 32,
+          gap: 30,
+        },
+        1280: {
+          itemsToShow: 4.4,
+          itemsToScroll: 1,
+          snapAlign: 'start',
+          gap: 20,
+        },
+        1440: {
+          itemsToShow: 4.4,
+          itemsToScroll: 1,
+          snapAlign: 'start',
+          gap: 12,
         },
       }"
     >

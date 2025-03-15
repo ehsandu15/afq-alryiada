@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     "@nuxt/fonts",
     "@nuxtjs/strapi",
     "@stefanobartoletti/nuxt-social-share",
+    "@nuxtjs/turnstile",
   ],
 
   css: ["~/assets/css/tailwind.css"],
@@ -38,14 +39,20 @@ export default defineNuxtConfig({
     cookie: {},
     cookieName: "strapi_jwt",
   },
+  turnstile: {
+    siteKey: process.env.CLOUDFLARE_TURNSITE_SITE_KEY,
+    addValidateEndpoint: true,
+  },
   runtimeConfig: {
     strapi: {
       url: process.env.STRAPI_URL,
     },
+    turnstile: {
+      // This can be overridden at runtime via the NUXT_TURNSTILE_SECRET_KEY
+      // environment variable.
+      secretKey: process.env.CLOUDFLARE_TURNSITE_SECRET_KEY,
+    },
     public: {
-      ckeditor: {
-        ckeditorLicenseKey: process.env.CK_EDITOR_LICENSE_KEY,
-      },
       motion: {
         directives: {
           "pop-down": {
@@ -75,8 +82,8 @@ export default defineNuxtConfig({
       "/": { isr: 86400 }, // 24 hour
       "/about": { isr: 86400 }, // 24 hour
       "/contact-us": { isr: 86400 }, // 24 hour
-      "/blogs": { isr: 3600 }, // 1 hour
-      "/blogs/:articleSlug": { isr: 3600 }, // 1 hour
+      "/blogs": { isr: 86400 }, // 1 hour
+      "/blogs/:articleSlug": { isr: 86400 }, // 1 hour
       "/privacy-policy": { isr: 86400 }, // 24 hour
     },
   },

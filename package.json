@@ -12,8 +12,10 @@
   },
   "dependencies": {
     "@nuxt/fonts": "^0.10.3",
+    "@nuxt/scripts": "^0.11.0",
     "@nuxtjs/strapi": "^2.0.0",
     "@nuxtjs/tailwindcss": "^6.13.1",
+    "@nuxtjs/turnstile": "0.9.15",
     "@stefanobartoletti/nuxt-social-share": "^1.2.1",
     "@tailwindcss/typography": "^0.5.16",
     "@vueuse/core": "^12.5.0",
@@ -35,5 +37,6 @@
     "cpx": "^1.5.0",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.10"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

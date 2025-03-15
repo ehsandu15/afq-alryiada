@@ -13,9 +13,7 @@
         class="object-contain"
       />
     </span>
-    <p
-      class="px-[17px] pb-7 text-center text-xl font-semibold leading-9 text-app-black-secondary md:px-5"
-    >
+    <p class="text-app-black-secondary">
       {{ service.title }}
     </p>
   </li>
@@ -77,10 +75,22 @@ const CAROUSEL_MOTION = {
 }
 .service-card p {
   color: #aeaeb2;
-  overflow: hidden;
+  font-size: 1.25rem; /* 20px */
+  line-height: 1.75rem; /* 28px */
+  padding-bottom: 1.75rem;
+  padding-inline: 17px;
+  text-align: center;
+  /* overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 100%;
+  max-width: 100%; */
+}
+
+@media (min-width: 768px) {
+  .service-card p {
+    padding-bottom: 2rem;
+    padding-inline: 15px;
+  }
 }
 .service-card.active p {
   display: block;
