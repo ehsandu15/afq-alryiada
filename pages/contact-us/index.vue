@@ -38,7 +38,7 @@
         class="grid w-full grid-cols-1 gap-[50px] px-3 md:grid-cols-2 lg:ps-[50px]"
       >
         <span
-          class="xs:col-span-1 col-span-2 flex flex-col gap-1.5"
+          class="col-span-2 flex flex-col gap-1.5 xs:col-span-1"
           v-for="elem of content?.data.contactForm.filter(
             (item) =>
               item.__component === 'shared.form-field' &&
@@ -78,80 +78,90 @@
           />
         </span>
         <div
-          class="relative col-span-2 flex flex-col justify-start gap-5 md:flex-row md:items-center"
+          class="relative col-span-2 -mt-8 flex flex-col justify-start gap-4"
         >
-          <button
-            v-for="action of content?.data.formActions"
-            type="submit"
-            class="btn btn-primary max-md:!px-8"
-          >
-            <template v-if="!isSending">
-              <p>{{ action.title }}</p>
-              <img
-                width="24"
-                height="24"
-                :src="action.icon.url"
-                :alt="action.icon.alternativeText"
-              />
-            </template>
-            <template v-if="isSending">
-              <span
-                class="size-4 animate-spin rounded-full border-4 border-white border-l-secondary"
-              ></span>
-            </template>
-          </button>
+          <!-- subbmit button with turnsite wrapper -->
+          <NuxtTurnstile v-model="turnstileToken" />
           <div
-            class="ems-center pointer-events-none flex w-full translate-x-6 gap-4 p-3 opacity-0 shadow-md transition-transform duration-500 md:w-fit"
-            :class="
-              clsx(
-                { 'bg-red-200': isError },
-                { 'bg-emerald-200': isSentMessage },
-                {
-                  'pointer-events-auto !translate-x-0 !opacity-100':
-                    isSentMessage || isError,
-                },
-              )
-            "
+            class="flex flex-col flex-wrap gap-3 md:flex-row md:items-center"
           >
-            <span class="flex size-8 -rotate-6 items-center justify-center">
-              <svg
-                width="24px"
-                height="24px"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M15.0002 19C15.0002 20.6569 13.6571 22 12.0002 22C10.3434 22 9.00025 20.6569 9.00025 19M13.7968 6.23856C14.2322 5.78864 14.5002 5.17562 14.5002 4.5C14.5002 3.11929 13.381 2 12.0002 2C10.6195 2 9.50025 3.11929 9.50025 4.5C9.50025 5.17562 9.76825 5.78864 10.2037 6.23856M2.54707 8.32296C2.53272 6.87161 3.3152 5.51631 4.57928 4.80306M21.4534 8.32296C21.4678 6.87161 20.6853 5.51631 19.4212 4.80306M18.0002 11.2C18.0002 9.82087 17.3681 8.49823 16.2429 7.52304C15.1177 6.54786 13.5915 6 12.0002 6C10.4089 6 8.88283 6.54786 7.75761 7.52304C6.63239 8.49823 6.00025 9.82087 6.00025 11.2C6.00025 13.4818 5.43438 15.1506 4.72831 16.3447C3.92359 17.7056 3.52122 18.3861 3.53711 18.5486C3.55529 18.7346 3.58876 18.7933 3.73959 18.9036C3.87142 19 4.53376 19 5.85844 19H18.1421C19.4667 19 20.1291 19 20.2609 18.9036C20.4117 18.7933 20.4452 18.7346 20.4634 18.5486C20.4793 18.3861 20.0769 17.7056 19.2722 16.3447C18.5661 15.1506 18.0002 13.4818 18.0002 11.2Z"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+            <button
+              v-for="action of content?.data.formActions"
+              type="submit"
+              class="btn btn-primary disabled:bg-neutral-400 max-md:!px-8"
+              :disabled="isValidatedTurnsite === false"
+            >
+              <template v-if="!isSending">
+                <p>{{ action.title }}</p>
+                <img
+                  width="24"
+                  height="24"
+                  :src="action.icon.url"
+                  :alt="action.icon.alternativeText"
                 />
-              </svg>
-            </span>
-            <span class="w-full font-semibold capitalize" v-if="isError">
-              <p
-                class="text-red-900"
-                v-if="isError && errorMsg === SEND_MESSAGE_RESPONSE.SOMETHING"
+              </template>
+              <template v-if="isSending">
+                <span
+                  class="size-4 animate-spin rounded-full border-4 border-white border-l-secondary"
+                ></span>
+              </template>
+            </button>
+            <div
+              class="ems-center pointer-events-none flex w-full translate-x-6 gap-4 p-3 opacity-0 shadow-md transition-transform duration-500 md:w-fit"
+              :class="
+                clsx(
+                  { 'bg-red-200': isError },
+                  { 'bg-emerald-200': isSentMessage },
+                  {
+                    'pointer-events-auto !translate-x-0 !opacity-100':
+                      isSentMessage || isError,
+                  },
+                )
+              "
+            >
+              <span class="flex size-8 -rotate-6 items-center justify-center">
+                <svg
+                  width="24px"
+                  height="24px"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15.0002 19C15.0002 20.6569 13.6571 22 12.0002 22C10.3434 22 9.00025 20.6569 9.00025 19M13.7968 6.23856C14.2322 5.78864 14.5002 5.17562 14.5002 4.5C14.5002 3.11929 13.381 2 12.0002 2C10.6195 2 9.50025 3.11929 9.50025 4.5C9.50025 5.17562 9.76825 5.78864 10.2037 6.23856M2.54707 8.32296C2.53272 6.87161 3.3152 5.51631 4.57928 4.80306M21.4534 8.32296C21.4678 6.87161 20.6853 5.51631 19.4212 4.80306M18.0002 11.2C18.0002 9.82087 17.3681 8.49823 16.2429 7.52304C15.1177 6.54786 13.5915 6 12.0002 6C10.4089 6 8.88283 6.54786 7.75761 7.52304C6.63239 8.49823 6.00025 9.82087 6.00025 11.2C6.00025 13.4818 5.43438 15.1506 4.72831 16.3447C3.92359 17.7056 3.52122 18.3861 3.53711 18.5486C3.55529 18.7346 3.58876 18.7933 3.73959 18.9036C3.87142 19 4.53376 19 5.85844 19H18.1421C19.4667 19 20.1291 19 20.2609 18.9036C20.4117 18.7933 20.4452 18.7346 20.4634 18.5486C20.4793 18.3861 20.0769 17.7056 19.2722 16.3447C18.5661 15.1506 18.0002 13.4818 18.0002 11.2Z"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <span class="w-full font-semibold capitalize" v-if="isError">
+                <p
+                  class="text-red-900"
+                  v-if="isError && errorMsg === SEND_MESSAGE_RESPONSE.SOMETHING"
+                >
+                  {{ content?.data.formSomethingWentWrongMessage }}
+                </p>
+                <p
+                  class="text-red-900"
+                  v-if="
+                    isError &&
+                    errorMsg === SEND_MESSAGE_RESPONSE.DUPLICATED_USER_EMAIL
+                  "
+                >
+                  {{ content?.data.formDuplicatedUseMessage }}
+                </p>
+              </span>
+              <span
+                class="w-full font-semibold capitalize"
+                v-if="isSentMessage"
               >
-                {{ content?.data.formSomethingWentWrongMessage }}
-              </p>
-              <p
-                class="text-red-900"
-                v-if="
-                  isError &&
-                  errorMsg === SEND_MESSAGE_RESPONSE.DUPLICATED_USER_EMAIL
-                "
-              >
-                {{ content?.data.formDuplicatedUseMessage }}
-              </p>
-            </span>
-            <span class="w-full font-semibold capitalize" v-if="isSentMessage">
-              <p v-if="isSentMessage" class="text-emerald-900">
-                {{ content?.data.formSendSuccessMessage }}
-              </p>
-            </span>
+                <p v-if="isSentMessage" class="text-emerald-900">
+                  {{ content?.data.formSendSuccessMessage }}
+                </p>
+              </span>
+            </div>
           </div>
         </div>
       </form>
@@ -170,10 +180,31 @@ const isSentMessage = ref(false);
 const isSending = ref(false);
 const isError = ref(false);
 const errorMsg = ref(null);
+const turnstileToken = ref<string>("");
+const isValidatedTurnsite = ref<boolean>(false);
 
+watchEffect(async () => {
+  if (!Boolean(turnstileToken.value)) {
+    console.warn(
+      "WARNING ,No token provided please make sure to solve the captcha",
+    );
+    return;
+  }
+  const validToken = await $fetch("/api/validateTurnstile", {
+    method: "POST",
+    body: { token: JSON.stringify(turnstileToken.value) },
+  });
+
+  isValidatedTurnsite.value = validToken.success;
+});
 const handleSubmit = async (ev: Event) => {
   const target = ev.target as HTMLFormElement;
   const fd = new FormData(ev.currentTarget as any);
+
+  if (!isValidatedTurnsite.value) {
+    console.warn("WARNING , Please solve the captcha first !!");
+    return;
+  }
 
   const data = {
     firstName: fd.get("firstName"),

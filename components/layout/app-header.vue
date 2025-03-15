@@ -117,7 +117,7 @@ defineProps<{
   }
 }
 .app-header {
-  @apply sticky top-0 z-30 flex w-full items-center justify-center border-b border-[#E5E5EA] bg-white py-2;
+  @apply sticky top-0 z-30 flex w-full items-center justify-center bg-white py-2;
   height: v-bind(`${appHeaderHeight.DESKTOP}px`);
 }
 .nav-link {
