@@ -24,7 +24,15 @@
     </p>
     <Carousel
       ref="carouselRef"
-      class="app-container container mx-0 mb-4 w-full max-lg:pb-9 md:px-0"
+      class="app-container container relative mx-0 mb-4 w-full before:absolute before:right-0 before:top-0 before:z-20 before:h-full before:w-9 before:bg-opacity-25 before:bg-gradient-to-l before:from-neutral-400/60 before:transition-colors before:content-[''] after:absolute after:left-0 after:top-0 after:z-20 after:h-full after:w-9 after:bg-opacity-25 after:bg-gradient-to-r after:from-neutral-400/60 after:transition-colors after:content-[''] max-lg:pb-9 md:px-0 before:md:w-8 before:md:from-neutral-400/25 after:md:w-8 after:md:from-neutral-400/25"
+      :class="
+        clsx({
+          'before:!pointer-events-none before:!from-transparent':
+            isShownFirstSlide,
+          'after:!pointer-events-none after:!from-transparent':
+            isShownLastSlide,
+        })
+      "
       snap-align="start"
       items-to-show="6.3"
       :items-to-scroll="1"
@@ -78,6 +86,13 @@
       <Slide
         v-for="(service, index) of content.services_lists"
         :key="service.id"
+        :data-first-slide="index === 0"
+        :data-last-slide="index === content.services_lists?.length - 1"
+        v-intersect="{
+          callback: (entry: IntersectionObserverEntry) =>
+            intersectHandler(entry, index),
+          options: { threshold: 1.0 },
+        }"
       >
         <HomeServicesServiceCard
           :class="clsx({ active: service.id === selectedService?.id })"
@@ -157,7 +172,6 @@
 <script setup lang="ts">
 import clsx from "clsx";
 import type { ServiceType } from "~/types/services";
-import { SECTIONS_IDS } from "~/constants/sections-ids";
 import { MOTION_DURATION } from "~/constants/motion-config";
 // import { PATHS } from "~/constants/paths";
 const carouselRef = ref<HTMLDivElement | null>(null);
@@ -168,8 +182,23 @@ import {
   Pagination as CarouselPagination,
 } from "vue3-carousel";
 import "vue3-carousel/carousel.css";
-import { theme } from "#tailwind-config";
 
+const isShownFirstSlide = ref<boolean>(true);
+const isShownLastSlide = ref<boolean>(false);
+const intersectHandler = (entry: IntersectionObserverEntry, idx: number) => {
+  // First Slide
+  if (entry.isIntersecting && idx === 0) {
+    isShownFirstSlide.value = true;
+  } else {
+    isShownFirstSlide.value = false;
+  }
+  // Last Slide
+  if (entry.isIntersecting && idx === props.content.services_lists.length - 1) {
+    isShownLastSlide.value = true;
+  } else {
+    isShownLastSlide.value = false;
+  }
+};
 const props = defineProps<{ content: ServicesSectionType }>();
 const { appDir } = useAppDir();
 
