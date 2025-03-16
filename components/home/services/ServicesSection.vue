@@ -27,9 +27,10 @@
       class="app-container container relative mx-0 mb-4 w-full before:absolute before:right-0 before:top-0 before:z-20 before:h-full before:w-9 before:bg-opacity-25 before:bg-gradient-to-l before:from-neutral-400/60 before:transition-colors before:content-[''] after:absolute after:left-0 after:top-0 after:z-20 after:h-full after:w-9 after:bg-opacity-25 after:bg-gradient-to-r after:from-neutral-400/60 after:transition-colors after:content-[''] max-lg:pb-9 md:px-0 before:md:w-8 before:md:from-neutral-400/25 after:md:w-8 after:md:from-neutral-400/25"
       :class="
         clsx({
-          'before:pointer-events-none before:from-transparent':
+          'before:!pointer-events-none before:!from-transparent':
             isShownFirstSlide,
-          'after:pointer-events-none after:from-transparent': isShownLastSlide,
+          'after:!pointer-events-none after:!from-transparent':
+            isShownLastSlide,
         })
       "
       snap-align="start"
@@ -90,7 +91,7 @@
         v-intersect="{
           callback: (entry: IntersectionObserverEntry) =>
             intersectHandler(entry, index),
-          options: { threshold: 0.2, rootMargin: '0px 15px' },
+          options: { threshold: 1.0 },
         }"
       >
         <HomeServicesServiceCard
