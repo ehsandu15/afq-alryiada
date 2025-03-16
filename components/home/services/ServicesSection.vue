@@ -188,14 +188,12 @@ const intersectHandler = (entry: IntersectionObserverEntry, idx: number) => {
   // First Slide
   if (entry.isIntersecting && idx === 0) {
     isShownFirstSlide.value = true;
-    console.log("first is shown");
   } else {
     isShownFirstSlide.value = false;
   }
   // Last Slide
   if (entry.isIntersecting && idx === props.content.services_lists.length - 1) {
     isShownLastSlide.value = true;
-    console.log("last is shown");
   } else {
     isShownLastSlide.value = false;
   }
