@@ -16,10 +16,7 @@
     v-if="status === 'success'"
     :content="technologies as TechSectionType"
   />
-  <HomeBlogSection
-    v-if="status === 'success'"
-    :content="blogs as BlogSectionType"
-  />
+  <HomeBlogSection v-if="status === 'success'" :content="blogs" />
   <HomePartnersSection
     v-if="status === 'success'"
     :content="partners as PartnersSectionType"
@@ -27,6 +24,7 @@
 </template>
 <script setup lang="ts">
 import { STRAPI_ENDPOINT } from "~/constants/strapi-endpoints";
+import type { ArticleType } from "~/types/blogs";
 import type {
   BlogSectionType,
   CooperationSectionType,
@@ -160,6 +158,24 @@ const { data: homeData, status } = await useAsyncData(
             highlightWords: true,
           },
         },
+      },
+    }),
+);
+
+const { data: lastArticles, status: lastArticlesStatus } = await useAsyncData(
+  STRAPI_ENDPOINT.LAST_ARTICLES,
+  () =>
+    find<ArticleType>(STRAPI_ENDPOINT.ARTICLES, {
+      locale: "ar-SA",
+      populate: {
+        cover: true,
+        tags: true,
+      },
+      sort: {
+        createdAt: "desc",
+      },
+      pagination: {
+        limit: 3,
       },
     }),
 );
@@ -305,7 +321,7 @@ const blogs: BlogSectionType | object =
           },
         },
         articles:
-          homeData.value?.data?.articles?.map((item) => ({
+          lastArticles.value?.data?.map((item) => ({
             ...item,
             cover: { ...item.cover, url: imagePathPrefix(item.cover?.url) },
           })) ?? [],

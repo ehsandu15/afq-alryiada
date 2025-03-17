@@ -5,7 +5,7 @@
     class="relative flex min-h-screen w-full flex-col items-center justify-center overflow-x-hidden bg-app-white-main"
   >
     <div
-      class="relative mt-20 flex min-h-screen w-full flex-col items-center justify-start overflow-hidden md:mt-0 md:justify-center"
+      class="relative mt-44 flex min-h-screen w-full flex-col items-center justify-start overflow-hidden md:mt-0 md:justify-center"
     >
       <!-- Circle Waves animations -->
       <div class="wave delay-1"></div>
@@ -75,7 +75,7 @@
           visibleOnce: { opacity: 1, y: 0 },
         }"
         :duration="MOTION_DURATION"
-        class="isolate mb-8 max-w-full flex-wrap text-4xl font-extrabold leading-[69px] sm:text-[44px] md:text-[56px] md:font-bold md:leading-[81px] lg:!max-w-[766px]"
+        class="max-lg:app-container isolate mb-8 flex-wrap text-4xl font-extrabold leading-normal sm:text-[44px] md:text-[56px] md:font-bold md:leading-[81px] lg:!max-w-[766px] lg:leading-[69px]"
       />
       <p
         v-motion="{
@@ -83,7 +83,7 @@
           visibleOnce: { opacity: 1, y: 0 },
         }"
         :duration="MOTION_DURATION"
-        class="text-black-secondary z-[5] mb-5 max-w-full text-center text-[16px] font-semibold md:max-w-[692px] md:text-xl"
+        class="text-black-secondary z-[5] mb-5 mt-8 max-w-[calc(100%-2rem)] text-center text-[16px] font-semibold md:max-w-[692px] md:text-xl"
       >
         {{ content.heroDescription }}
       </p>

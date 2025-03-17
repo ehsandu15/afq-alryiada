@@ -91,7 +91,7 @@
         v-intersect="{
           callback: (entry: IntersectionObserverEntry) =>
             intersectHandler(entry, index),
-          options: { threshold: 1.0 },
+          options: { threshold: 0.7, root: carouselRef },
         }"
       >
         <HomeServicesServiceCard
@@ -103,9 +103,6 @@
         >
         </HomeServicesServiceCard>
       </Slide>
-      <template #addons>
-        <CarouselPagination class="lg:!hidden" />
-      </template>
     </Carousel>
 
     <div

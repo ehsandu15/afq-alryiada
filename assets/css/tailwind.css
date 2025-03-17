@@ -14,9 +14,13 @@
 @layer components {
   .app-container {
     width: 100%;
-    max-width: clamp(395px, 85%, 1080px);
-    padding: 0 clamp(8px, 3vw, 32px); /* Responsive padding */
+    max-width: clamp(390px, 85%, 1080px);
+    padding: 0 clamp(10px, 3vw, 32px); /* Responsive padding */
     margin: 0 auto;
+    transition:
+      max-width 0.3s ease-out,
+      width 0.3s ease-out,
+      padding 0.3s ease-out;
     /* iPhones & Small Devices (≤375px) */
   }
 

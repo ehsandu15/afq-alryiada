@@ -12,11 +12,11 @@
   },
   "dependencies": {
     "@nuxt/fonts": "^0.10.3",
+    "@nuxt/icon": "1.11.0",
     "@nuxt/scripts": "^0.11.0",
     "@nuxtjs/strapi": "^2.0.0",
     "@nuxtjs/tailwindcss": "^6.13.1",
     "@nuxtjs/turnstile": "0.9.15",
-    "@stefanobartoletti/nuxt-social-share": "^1.2.1",
     "@tailwindcss/typography": "^0.5.16",
     "@vueuse/core": "^12.5.0",
     "@vueuse/motion": "^2.2.6",

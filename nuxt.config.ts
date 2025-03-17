@@ -7,8 +7,8 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "@nuxt/fonts",
     "@nuxtjs/strapi",
-    "@stefanobartoletti/nuxt-social-share",
     "@nuxtjs/turnstile",
+    "@nuxt/icon",
   ],
 
   css: ["~/assets/css/tailwind.css"],
@@ -88,6 +88,9 @@ export default defineNuxtConfig({
     },
   },
   vite: {
+    server: {
+      allowedHosts: ["f748-41-199-148-60.ngrok-free.app"],
+    },
     esbuild: {
       drop: ["debugger"],
       pure: [

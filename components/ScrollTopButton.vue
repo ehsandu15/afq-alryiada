@@ -1,9 +1,10 @@
 <template>
   <button
     type="button"
-    v-if="scrollY >= buttonVisiblePosition"
-    v-motion-roll-visible-right
-    class="flex size-11 items-center justify-center rounded-full bg-[#244453] p-4 lg:size-14"
+    v-show="scrollY >= buttonVisiblePosition"
+    :initial="{ opacity: 0, x: -50 }"
+    :enter="{ opacity: 1, x: 0, transition: { duration: 0.5 } }"
+    class="relative flex h-14 w-14 items-center justify-center rounded-full bg-[#244453] p-4 lg:h-16 lg:w-16"
     @click="handleScrollToTop"
   >
     <img
