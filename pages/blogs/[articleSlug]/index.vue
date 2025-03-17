@@ -84,7 +84,7 @@ import { NuxtLink } from "#components";
 const route = useRoute();
 const { find } = useStrapi<ArticleType>();
 const runtimeConfig = useRuntimeConfig();
-const { data: articleDetails, status } = useAsyncData(
+const { data: articleDetails, status } = await useAsyncData(
   `${STRAPI_ENDPOINT.ARTICLES}/${route.params.articleSlug}`,
   () =>
     find(STRAPI_ENDPOINT.ARTICLES, {
@@ -99,8 +99,6 @@ const { data: articleDetails, status } = useAsyncData(
       },
     }),
 );
-
-const SHARE_SOCIAL_LIST = computed(() => {
   const pageTitle = `Afq Alryiada | ${articleDetails?.value?.data.at(0)?.title}`;
   const pageDescription = articleDetails?.value?.data.at(0)?.description;
   const baseUrl = runtimeConfig.public.socialShare.baseUrl;
@@ -116,88 +114,75 @@ const SHARE_SOCIAL_LIST = computed(() => {
   const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
   const linkedinShareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(pageUrl)}&title=${encodeURIComponent(pageTitle)}&summary=${encodeURIComponent(pageDescription)}`;
 
-  if (status.value !== "pending") {
-    return [
-      {
-        network: "facebook",
-        url: facebookShareUrl,
-        hashtags: articleDetails?.value?.data
-          .at(0)
-          ?.tags.map((t) => t.tagName)
-          .join(","),
-        icon: "mdi:facebook",
-      },
-      {
-        network: "twitter",
-        url: twitterShareUrl,
-
-        hashtags: articleDetails?.value?.data
-          .at(0)
-          ?.tags.map((t) => t.tagName)
-          .join(","),
-        icon: "ri:twitter-x-line",
-      },
-      {
-        network: "linkedin",
-        hashtags: articleDetails?.value?.data
-          .at(0)
-          ?.tags.map((t) => t.tagName)
-          .join(","),
-        icon: "mdi:linkedin",
-        url: linkedinShareUrl,
-      },
-      {
-        network: "whatsapp",
-        url: whatsappShareUrl,
-        icon: "tabler:brand-whatsapp-filled",
-      },
-    ];
-  } else {
-    return [];
-  }
-});
-
-watchEffect(() => {
-  if (status.value !== "success" && !articleDetails.value?.data?.length) return;
-
   const title = articleDetails.value?.data.at(0)?.title;
   const description = articleDetails.value?.data.at(0)?.description;
   const coverImage = imagePathPrefix(
     articleDetails.value?.data.at(0)?.cover?.url,
   );
-  const baseUrl = runtimeConfig.public.socialShare.baseUrl;
-  const pageUrl = `${baseUrl}/${PATHS.BLOG}/${route.params.articleSlug}`;
+
   const hashtags =
     articleDetails.value?.data
       .at(0)
       ?.tags?.map((t) => t.tagName)
       .join(",") || "";
 
-  useHead({
+  useServerSeoMeta({
     title: title,
-    meta: [
-      { name: "title", content: description },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "article" },
-      { property: "og:image", content: coverImage },
-      { property: "og:url", content: pageUrl },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: title },
-      { name: "twitter:description", content: description },
-      { name: "twitter:image", content: coverImage },
-      { name: "twitter:url", content: pageUrl },
-      { name: "twitter:hashtags", content: hashtags },
-    ],
-    link: [
-      {
-        rel: "canonical",
-        href: baseUrl,
-      },
-    ],
+    ogTitle: title,
+    description: description,
+    ogDescription: description,
+    ogType: "article",
+    ogImage: coverImage,
+    ogUrl: pageUrl,
+    twitterCard: "summary_large_image",
+    twitterTitle: title,
+    twitterDescription: description,
+    twitterImage: coverImage,
   });
+
+  const SHARE_SOCIAL_LIST = computed(() => {
+    if (status.value !== "pending") {
+      return [
+        {
+          network: "facebook",
+          url: facebookShareUrl,
+          hashtags: articleDetails?.value?.data
+            .at(0)
+            ?.tags.map((t) => t.tagName)
+            .join(","),
+          icon: "mdi:facebook",
+        },
+        {
+          network: "twitter",
+          url: twitterShareUrl,
+
+          hashtags: articleDetails?.value?.data
+            .at(0)
+            ?.tags.map((t) => t.tagName)
+            .join(","),
+          icon: "ri:twitter-x-line",
+        },
+        {
+          network: "linkedin",
+          hashtags: articleDetails?.value?.data
+            .at(0)
+            ?.tags.map((t) => t.tagName)
+            .join(","),
+          icon: "mdi:linkedin",
+          url: linkedinShareUrl,
+        },
+        {
+          network: "whatsapp",
+          url: whatsappShareUrl,
+          icon: "tabler:brand-whatsapp-filled",
+        },
+      ];
+    } else {
+      return [];
+    }
 });
+
+
 
 const dateFormatted = useDateFormat(
   articleDetails.value?.data.at(0)?.createdAt,
