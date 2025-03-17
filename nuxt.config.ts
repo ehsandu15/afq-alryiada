@@ -40,7 +40,6 @@ export default defineNuxtConfig({
     cookieName: "strapi_jwt",
   },
   turnstile: {
-    siteKey: process.env.CLOUDFLARE_TURNSITE_SITE_KEY,
     addValidateEndpoint: true,
   },
   runtimeConfig: {
@@ -48,11 +47,12 @@ export default defineNuxtConfig({
       url: process.env.STRAPI_URL,
     },
     turnstile: {
-      // This can be overridden at runtime via the NUXT_TURNSTILE_SECRET_KEY
-      // environment variable.
       secretKey: process.env.CLOUDFLARE_TURNSITE_SECRET_KEY,
     },
     public: {
+      turnstile: {
+        siteKey: process.env.CLOUDFLARE_TURNSITE_SITE_KEY
+      },
       motion: {
         directives: {
           "pop-down": {
