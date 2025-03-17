@@ -237,7 +237,7 @@ const handleSubmit = async (ev: Event) => {
     isSending.value = false;
   }
 };
-const { data: content } = useAsyncData(
+const { data: content, status: contentStatus } = useAsyncData(
   STRAPI_ENDPOINT.CONTACT_US,
   () =>
     findOne(STRAPI_ENDPOINT.CONTACT_US, {
@@ -306,9 +306,15 @@ watch(
     });
   },
 );
-useSeoMeta({
-  title: content.value?.data.seoTitle,
-  description: content.value?.data.seoDescription,
+
+watchEffect(() => {
+  if (!content.value || contentStatus.value !== "success") return;
+  useServerSeoMeta({
+    title: content.value?.data.seoTitle,
+    description: content.value?.data.seoDescription,
+    ogTitle: content.value?.data.seoTitle,
+    ogDescription: content.value?.data.seoDescription,
+  });
 });
 </script>
 <style>

@@ -99,90 +99,85 @@ const { data: articleDetails, status } = await useAsyncData(
       },
     }),
 );
-  const pageTitle = `Afq Alryiada | ${articleDetails?.value?.data.at(0)?.title}`;
-  const pageDescription = articleDetails?.value?.data.at(0)?.description;
-  const baseUrl = runtimeConfig.public.socialShare.baseUrl;
-  const pageUrl = `${baseUrl}/${PATHS.BLOG}/${route.params.articleSlug}`;
+const pageTitle = `Afq Alryiada | ${articleDetails?.value?.data.at(0)?.title}`;
+const pageDescription = articleDetails?.value?.data.at(0)?.description;
+const baseUrl = runtimeConfig.public.socialShare.baseUrl;
+const pageUrl = `${baseUrl}/${PATHS.BLOG}/${route.params.articleSlug}`;
 
-  // Encode the text for WhatsApp sharing
-  const shareText = `${pageTitle} \n\n\n ${pageDescription} \n\n ${pageUrl}`;
+// Encode the text for WhatsApp sharing
+const shareText = `${pageTitle} \n\n\n ${pageDescription} \n\n ${pageUrl}`;
 
-  const whatsappShareUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
-  const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${runtimeConfig.public.socialShare.baseUrl}/${PATHS.BLOG}/${route.params.articleSlug}&text=${
-    pageTitle
-  }`;
-  const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
-  const linkedinShareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(pageUrl)}&title=${encodeURIComponent(pageTitle)}&summary=${encodeURIComponent(pageDescription)}`;
+const whatsappShareUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${runtimeConfig.public.socialShare.baseUrl}/${PATHS.BLOG}/${route.params.articleSlug}&text=${
+  pageTitle
+}`;
+const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
+const linkedinShareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(pageUrl)}&title=${encodeURIComponent(pageTitle)}&summary=${encodeURIComponent(pageDescription)}`;
 
-  const title = articleDetails.value?.data.at(0)?.title;
-  const description = articleDetails.value?.data.at(0)?.description;
-  const coverImage = imagePathPrefix(
-    articleDetails.value?.data.at(0)?.cover?.url,
-  );
+const title = articleDetails.value?.data.at(0)?.title;
+const description = articleDetails.value?.data.at(0)?.description;
+const coverImage = imagePathPrefix(
+  articleDetails.value?.data.at(0)?.cover?.url,
+);
 
-  const hashtags =
-    articleDetails.value?.data
-      .at(0)
-      ?.tags?.map((t) => t.tagName)
-      .join(",") || "";
+const hashtags = articleDetails.value?.data.at(0)?.tags?.map((t) => t.tagName);
 
-  useServerSeoMeta({
-    title: title,
-    ogTitle: title,
-    description: description,
-    ogDescription: description,
-    ogType: "article",
-    ogImage: coverImage,
-    ogUrl: pageUrl,
-    twitterCard: "summary_large_image",
-    twitterTitle: title,
-    twitterDescription: description,
-    twitterImage: coverImage,
-  });
-
-  const SHARE_SOCIAL_LIST = computed(() => {
-    if (status.value !== "pending") {
-      return [
-        {
-          network: "facebook",
-          url: facebookShareUrl,
-          hashtags: articleDetails?.value?.data
-            .at(0)
-            ?.tags.map((t) => t.tagName)
-            .join(","),
-          icon: "mdi:facebook",
-        },
-        {
-          network: "twitter",
-          url: twitterShareUrl,
-
-          hashtags: articleDetails?.value?.data
-            .at(0)
-            ?.tags.map((t) => t.tagName)
-            .join(","),
-          icon: "ri:twitter-x-line",
-        },
-        {
-          network: "linkedin",
-          hashtags: articleDetails?.value?.data
-            .at(0)
-            ?.tags.map((t) => t.tagName)
-            .join(","),
-          icon: "mdi:linkedin",
-          url: linkedinShareUrl,
-        },
-        {
-          network: "whatsapp",
-          url: whatsappShareUrl,
-          icon: "tabler:brand-whatsapp-filled",
-        },
-      ];
-    } else {
-      return [];
-    }
+useServerSeoMeta({
+  title: title,
+  ogTitle: title,
+  description: description,
+  ogDescription: description,
+  ogType: "article",
+  ogImage: coverImage,
+  ogUrl: pageUrl,
+  twitterCard: "summary_large_image",
+  twitterTitle: title,
+  twitterDescription: description,
+  twitterImage: coverImage,
+  articleTag: hashtags,
 });
 
+const SHARE_SOCIAL_LIST = computed(() => {
+  if (status.value !== "pending") {
+    return [
+      {
+        network: "facebook",
+        url: facebookShareUrl,
+        hashtags: articleDetails?.value?.data
+          .at(0)
+          ?.tags.map((t) => t.tagName)
+          .join(","),
+        icon: "mdi:facebook",
+      },
+      {
+        network: "twitter",
+        url: twitterShareUrl,
 
+        hashtags: articleDetails?.value?.data
+          .at(0)
+          ?.tags.map((t) => t.tagName)
+          .join(","),
+        icon: "ri:twitter-x-line",
+      },
+      {
+        network: "linkedin",
+        hashtags: articleDetails?.value?.data
+          .at(0)
+          ?.tags.map((t) => t.tagName)
+          .join(","),
+        icon: "mdi:linkedin",
+        url: linkedinShareUrl,
+      },
+      {
+        network: "whatsapp",
+        url: whatsappShareUrl,
+        icon: "tabler:brand-whatsapp-filled",
+      },
+    ];
+  } else {
+    return [];
+  }
+});
 
 const dateFormatted = useDateFormat(
   articleDetails.value?.data.at(0)?.createdAt,

@@ -110,73 +110,83 @@ const { data: shared } = useAsyncData(
   },
 );
 
-const { data: seoData } = useAsyncData(STRAPI_ENDPOINT.GLOBAL_SEO, () =>
-  findOne<SiteData>(STRAPI_ENDPOINT.GLOBAL_SEO, {
-    locale: "ar-SA",
-    populate: {
-      defaultSeo: {
-        populate: {
-          shareImage: true,
+const { data: seoData, status: seoStatus } = useAsyncData(
+  STRAPI_ENDPOINT.GLOBAL_SEO,
+  () =>
+    findOne<SiteData>(STRAPI_ENDPOINT.GLOBAL_SEO, {
+      locale: "ar-SA",
+      populate: {
+        defaultSeo: {
+          populate: {
+            shareImage: true,
+          },
+        },
+        twitter: {
+          populate: {
+            twitterImage: true,
+          },
         },
       },
-      twitter: {
-        populate: {
-          twitterImage: true,
-        },
-      },
-    },
-  }),
+    }),
 );
+const {
+  public: { strapi },
+} = useRuntimeConfig();
 
-useSeoMeta({
-  title: seoData.value?.data.siteName,
-  description: seoData.value?.data.siteDescription,
-  twitterCard: seoData.value?.data.twitter.twitterCard,
-  twitterTitle: seoData.value?.data.twitter.twitterTitle,
-  twitterDescription: seoData.value?.data.twitter.twitterDescription,
-  twitterImage: {
-    url: imagePathPrefix(seoData.value?.data.twitter.twitterImage.url),
-    alt: seoData.value?.data.twitter.twitterImage.alternativeText,
-    width: seoData.value?.data.twitter.twitterImage.width,
-    height: seoData.value?.data.twitter.twitterImage.height,
-    type: seoData.value?.data.twitter.twitterImage.mime,
-  },
-  twitterImageAlt: seoData.value?.data.twitter.twitterImageAlt,
-  twitterSite: seoData.value?.data.twitter.twitterSite,
-  twitterCreator: seoData.value?.data.twitter.twitterCreator,
-  ogImage: {
-    url: imagePathPrefix(seoData.value?.data.defaultSeo.shareImage.url),
-    alt: seoData.value?.data.defaultSeo.shareImage.alternativeText,
-    width: seoData.value?.data.defaultSeo.shareImage.width,
-    height: seoData.value?.data.defaultSeo.shareImage.height,
-    type: seoData.value?.data.defaultSeo.shareImage.mime,
-  },
-  colorScheme: seoData.value?.data.colorScheme,
-  themeColor: seoData.value?.data.themeColor,
-  ogUrl: seoData.value?.data.defaultSeo.canonicalUrl,
-  ogTitle: seoData.value?.data.siteName,
-  ogSiteName: seoData.value?.data.siteName,
-  ogDescription: seoData.value?.data.siteDescription,
-  ogType: "website",
-  ogLocale: "ar-SA",
-  robots: seoData.value?.data.defaultSeo.robots,
-  keywords: seoData.value?.data.defaultSeo.keywords,
-});
+watchEffect(() => {
+  if (!seoData.value || seoStatus.value !== "success") return;
+  const pageImage = `${strapi}/${seoData.value?.data.defaultSeo.shareImage.url}`;
 
-useHead({
-  link: [
-    {
-      rel: "canonical",
-      href: seoData.value?.data.defaultSeo.canonicalUrl,
+  useServerSeoMeta({
+    title: seoData.value?.data.siteName,
+    description: seoData.value?.data.siteDescription,
+    twitterCard: "summary_large_image",
+    twitterTitle: seoData.value?.data.twitter.twitterTitle,
+    twitterDescription: seoData.value?.data.twitter.twitterDescription,
+    twitterImage: {
+      url: pageImage,
+      alt: seoData.value?.data.twitter.twitterImage.alternativeText,
+      width: seoData.value?.data.twitter.twitterImage.width,
+      height: seoData.value?.data.twitter.twitterImage.height,
+      type: seoData.value?.data.twitter.twitterImage.mime,
     },
-  ],
-  script: [
-    {
-      async: true,
-      type: "application/ld+json",
-      children: seoData.value?.data.structuredData || {},
+    twitterImageAlt: seoData.value?.data.twitter.twitterImageAlt,
+    twitterSite: seoData.value?.data.twitter.twitterSite,
+    twitterCreator: seoData.value?.data.twitter.twitterCreator,
+    ogImage: {
+      url: pageImage,
+      alt: seoData.value?.data.defaultSeo.shareImage.alternativeText,
+      width: seoData.value?.data.defaultSeo.shareImage.width,
+      height: seoData.value?.data.defaultSeo.shareImage.height,
+      type: seoData.value?.data.defaultSeo.shareImage.mime,
     },
-  ],
+    colorScheme: seoData.value?.data.colorScheme,
+    themeColor: seoData.value?.data.themeColor,
+    ogUrl: seoData.value?.data.defaultSeo.canonicalUrl,
+    ogTitle: seoData.value?.data.siteName,
+    ogSiteName: seoData.value?.data.siteName,
+    ogDescription: seoData.value?.data.siteDescription,
+    ogType: "website",
+    ogLocale: "ar-SA",
+    robots: seoData.value?.data.defaultSeo.robots,
+    keywords: seoData.value?.data.defaultSeo.keywords,
+  });
+
+  useServerHead({
+    link: [
+      {
+        rel: "canonical",
+        href: seoData.value?.data.defaultSeo.canonicalUrl,
+      },
+    ],
+    script: [
+      {
+        async: true,
+        type: "application/ld+json",
+        children: seoData.value?.data.structuredData || {},
+      },
+    ],
+  });
 });
 
 useEventListener(window, "scroll", function (ev) {

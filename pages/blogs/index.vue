@@ -314,8 +314,13 @@ const handleGetPrevPage = () => {
   });
 };
 
-useSeoMeta({
+watchEffect(() => {
+  if (!content.value || contentStatus.value !== "success") return;
+});
+useServerSeoMeta({
   title: content.value?.data.seoTitle,
   description: content.value?.data.seoDescription,
+  ogTitle: content.value?.data.seoTitle,
+  ogDescription: content.value?.data.seoDescription,
 });
 </script>
