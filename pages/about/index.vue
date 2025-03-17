@@ -134,19 +134,13 @@ const { data: content, status } = useAsyncData(
   },
 );
 
-useSeoMeta({
-  title: content.value?.data.seoTitle,
-  description: content.value?.data.seoDescription,
-});
-
-const headingTitle = computed(() => {
-  if (content.value && status.value === "success") {
-    return highlightSpecificWord({
-      text: content.value?.data.headingTitle.title,
-      word: content.value?.data.headingTitle.highlightWords.map((w) => w.word),
-      classNames: "text-secondary",
-    });
-  }
-  return "";
+watchEffect(() => {
+  if (status.value !== "success" || !content.value) return;
+  useServerSeoMeta({
+    title: content.value?.data.seoTitle,
+    description: content.value?.data.seoDescription,
+    ogTitle: content.value?.data.seoTitle,
+    ogDescription: content.value?.data.seoDescription,
+  });
 });
 </script>
