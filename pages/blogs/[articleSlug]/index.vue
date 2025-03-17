@@ -173,24 +173,6 @@ watchEffect(() => {
       ?.tags?.map((t) => t.tagName)
       .join(",") || "";
 
-  // useSeoMeta({
-  //   title: articleDetails.value?.data.at(0)?.title,
-  //   description: articleDetails.value?.data.at(0)?.description,
-  //   ogType: "article",
-  //   ogTitle: articleDetails.value?.data.at(0)?.title,
-  //   ogDescription: articleDetails.value?.data.at(0)?.description,
-  //   ogImage: imagePathPrefix(articleDetails.value?.data.at(0)?.cover?.url),
-  //   twitterTitle:articleDetails.value?.data.at(0)?.title,
-  //   twitterDescription: articleDetails.value?.data.at(0)?.description,
-  //   twitterImage: imagePathPrefix(articleDetails.value?.data.at(0)?.cover?.url),
-  //   twitterCard: "summary_large_image",
-  //   twitterSite: "@your_twitter_username",
-  //   twitterCreator: "@your_twitter_username",
-  //   twitterHashtags: articleDetails.value?.data.at(0)?.tags.map((t) => t.tagName).join(","),
-  //   locale: "ar-EG",
-  //   fallbackLocale: "en-US",
-
-  // });
   useHead({
     title: title,
     meta: [
@@ -211,7 +193,7 @@ watchEffect(() => {
     link: [
       {
         rel: "canonical",
-        href: pageUrl,
+        href: baseUrl,
       },
     ],
   });
