@@ -10,7 +10,7 @@
   >
     <slot />
     <div
-      class="fixed bottom-5 left-0 isolate z-30 flex w-full max-w-[100vw] items-center justify-between px-4 lg:px-20"
+      class="fixed bottom-5 right-0 isolate z-30 flex w-full max-w-[100vw] items-center justify-between px-4 lg:px-20"
     >
       <ScrollTopButton :button-visible-position="1000" />
       <FlutingWhatsappButton
@@ -35,7 +35,6 @@ import type { SiteData } from "~/types/seo";
 import { useEventListener } from "@vueuse/core";
 import { APP_HEADER_HEIGHT } from "~/constants/app-data";
 
-const router = useRouter();
 const { findOne, find } = useStrapi<AppFooterType>();
 const nuxtApp = useNuxtApp();
 const { data: footerContent } = await useAsyncData(
@@ -129,22 +128,6 @@ const { data: seoData } = useAsyncData(STRAPI_ENDPOINT.GLOBAL_SEO, () =>
   }),
 );
 
-// onMounted(() => {
-//   // Prevent auto scroll behavior on change hash
-
-//   const originalScrollBehavior = router.options.scrollBehavior;
-
-//   // Modify scroll behavior for the home page
-//   router.options.scrollBehavior = (to, from, savedPosition) => {
-//     if (to.path === "/" && to.hash) {
-//       return false; // Prevents scrolling to the "/"
-//     }
-//     // Use the default scroll behavior for other routes
-//     return originalScrollBehavior
-//       ? originalScrollBehavior(to, from, savedPosition)
-//       : savedPosition || { top: 0, behavior: "smooth" };
-//   };
-// });
 useSeoMeta({
   title: seoData.value?.data.siteName,
   description: seoData.value?.data.siteDescription,

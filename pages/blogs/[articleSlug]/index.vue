@@ -134,13 +134,17 @@ const SHARE_SOCIAL_LIST = computed(() =>
     : [],
 );
 
-useSeoMeta({
-  title: articleDetails.value?.data.at(0)?.title,
-  description: articleDetails.value?.data.at(0)?.description,
-  ogType: "article",
-  ogTitle: articleDetails.value?.data.at(0)?.title,
-  ogDescription: articleDetails.value?.data.at(0)?.description,
-  ogImage: imagePathPrefix(articleDetails.value?.data.at(0)?.cover?.url),
+watchEffect(() => {
+  if (status.value !== "success" && !articleDetails.value?.data?.length) return;
+
+  useSeoMeta({
+    title: articleDetails.value?.data.at(0)?.title,
+    description: articleDetails.value?.data.at(0)?.description,
+    ogType: "article",
+    ogTitle: articleDetails.value?.data.at(0)?.title,
+    ogDescription: articleDetails.value?.data.at(0)?.description,
+    ogImage: imagePathPrefix(articleDetails.value?.data.at(0)?.cover?.url),
+  });
 });
 
 const dateFormatted = useDateFormat(
