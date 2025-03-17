@@ -62,7 +62,7 @@
               : articleCoverPlaceholder
           "
           :alt="articleDetails?.data.at(0)?.cover?.alternativeText"
-          class="aspect-video w-full rounded-app-radius object-cover"
+          class="aspect-video w-full rounded-app-radius object-contain"
         />
       </figure>
     </div>
