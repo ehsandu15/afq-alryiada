@@ -18,11 +18,9 @@
     />
     <div
       v-if="!route.query.tag"
-      class="mt-5 flex w-full flex-col items-center justify-start gap-12 md:flex-row"
+      class="mt-5 flex w-full flex-col items-center justify-start gap-3 md:flex-row tablet:gap-6 lg:gap-12"
     >
-      <span
-        class="tablet:w-[222px] relative flex w-full items-center justify-center gap-2 rounded-full border border-[#C7C7CC] p-1.5 text-[#C7C7CC] focus-within:border-app-black-secondary md:w-2/5"
-      >
+      <span class="search-wrapper">
         <svg
           class="h-6 w-6 text-inherit dark:text-inherit"
           aria-hidden="true"
@@ -44,7 +42,7 @@
           name="searchQuery"
           id="searchQuery"
           :placeholder="content?.data.searchPlaceholder"
-          class="w-full flex-1 border-x-4 border-y-2 border-transparent text-app-black-secondary focus:outline-none"
+          class="w-full flex-1 border-transparent text-app-black-secondary focus:border-none focus:outline-none"
           v-model="searchQuery"
         />
       </span>
@@ -276,7 +274,7 @@ const { data: articles, status: articleStatus } = useAsyncData(
     },
   },
 );
-console.log("articles: ", articles.value?.data);
+
 const handleGetNextPage = () => {
   if (!route.query.page) {
     console.log("Error get next page, Cannot find current page number");
@@ -324,3 +322,11 @@ useServerSeoMeta({
   ogDescription: content.value?.data.seoDescription,
 });
 </script>
+<style lang="css" scoped>
+.search-wrapper {
+  @apply relative me-5 flex w-full items-center justify-center gap-2 rounded-full border border-[#C7C7CC] p-1.5 px-2 text-[#C7C7CC] focus-within:border-app-black-secondary md:w-2/5 tablet:w-[222px];
+}
+.search-wrapper > input {
+  @apply w-full flex-1 border-transparent text-app-black-secondary focus:border-none focus:outline-none;
+}
+</style>
