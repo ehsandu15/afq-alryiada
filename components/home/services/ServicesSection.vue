@@ -35,7 +35,7 @@
               isShownLastSlide,
           })
         "
-        snap-align="start"
+        snap-align="center-odd"
         items-to-show="6.3"
         :items-to-scroll="1"
         :gap="32"
@@ -51,8 +51,6 @@
         <Slide
           v-for="(service, index) of content.services_lists"
           :key="service.id"
-          :data-first-slide="index === 0"
-          :data-last-slide="index === content.services_lists?.length - 1"
           v-intersect="{
             callback: (entry: IntersectionObserverEntry) =>
               intersectHandler(entry, index),
@@ -180,24 +178,30 @@ const breakpoints = {
 const isShownFirstSlide = ref<boolean>(true);
 const isShownLastSlide = ref<boolean>(false);
 const intersectHandler = (entry: IntersectionObserverEntry, idx: number) => {
+  let timeoutRef;
+  if (timeoutRef) clearTimeout(timeoutRef);
   if (idx === props.content.services_lists.length - 1) {
-    // Last Slide
-    if (entry.isIntersecting) {
-      // visible
-      isShownLastSlide.value = true;
-    } else {
-      // invisible
-      isShownLastSlide.value = false;
-    }
+    timeoutRef = setTimeout(() => {
+      // Last Slide
+      if (entry.isIntersecting) {
+        // visible
+        isShownLastSlide.value = true;
+      } else {
+        // invisible
+        isShownLastSlide.value = false;
+      }
+    }, 100);
   } else {
-    // First Slide
-    if (entry.isIntersecting) {
-      // visible
-      isShownFirstSlide.value = true;
-    } else {
-      // invisible
-      isShownFirstSlide.value = false;
-    }
+    timeoutRef = setTimeout(() => {
+      // First Slide
+      if (entry.isIntersecting) {
+        // visible
+        isShownFirstSlide.value = true;
+      } else {
+        // invisible
+        isShownFirstSlide.value = false;
+      }
+    }, 100);
   }
 };
 const props = defineProps<{ content: ServicesSectionType }>();
@@ -219,6 +223,6 @@ function handleSelectService(service: ServiceType) {
 }
 
 .carousel-overflow-indicators {
-  @apply before:absolute before:right-0 before:top-0 before:z-20 before:h-full before:w-9 before:bg-opacity-25 before:bg-gradient-to-l before:from-neutral-400/20 before:transition-colors before:content-[''] after:absolute after:left-0 after:top-0 after:z-20 after:h-full after:w-9 after:bg-opacity-25 after:bg-gradient-to-r after:from-neutral-400/20 after:transition-colors after:content-[''] md:px-0 before:md:w-8 before:md:from-neutral-400/95 after:md:w-8 after:md:from-neutral-400/95;
+  @apply before:absolute before:right-0 before:top-0 before:z-20 before:h-full before:w-9 before:bg-opacity-25 before:bg-gradient-to-l before:from-neutral-400/20 before:transition-all before:content-[''] after:absolute after:left-0 after:top-0 after:z-20 after:h-full after:w-9 after:bg-opacity-25 after:bg-gradient-to-r after:from-neutral-400/20 after:transition-all after:content-[''] md:px-0 before:md:w-8 before:md:from-neutral-400/95 after:md:w-8 after:md:from-neutral-400/95;
 }
 </style>
