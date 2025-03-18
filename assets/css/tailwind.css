@@ -10,12 +10,16 @@
     @apply scroll-smooth;
   }
 }
+:root {
+  --container-max-width: clamp(390px, 85%, 1080px);
+  --container-padding: 0 clamp(10px, 3vw, 32px);
+}
 
 @layer components {
   .app-container {
     width: 100%;
-    max-width: clamp(390px, 85%, 1080px);
-    padding: 0 clamp(10px, 3vw, 32px); /* Responsive padding */
+    max-width: var(--container-max-width);
+    padding: var(--container-padding); /* Responsive padding */
     margin: 0 auto;
     transition:
       max-width 0.3s ease-out,

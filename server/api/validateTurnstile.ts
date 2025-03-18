@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
   const { token } = await readBody(event);
 
-  console.log(token);
+  console.count(token);
   if (!token) {
     throw createError({
       statusCode: 422,
@@ -9,5 +9,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  return await verifyTurnstileToken(token);
+  const response = await verifyTurnstileToken(token);
+  console.log(response);
+  return response;
 });

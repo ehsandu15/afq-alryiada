@@ -22,106 +22,69 @@
     >
       {{ content.servicesDescription }}
     </p>
-    <Carousel
-      ref="carouselRef"
-      class="app-container container relative mx-0 mb-4 w-full before:absolute before:right-0 before:top-0 before:z-20 before:h-full before:w-9 before:bg-opacity-25 before:bg-gradient-to-l before:from-neutral-400/60 before:transition-colors before:content-[''] after:absolute after:left-0 after:top-0 after:z-20 after:h-full after:w-9 after:bg-opacity-25 after:bg-gradient-to-r after:from-neutral-400/60 after:transition-colors after:content-[''] max-lg:pb-9 md:px-0 before:md:w-8 before:md:from-neutral-400/25 after:md:w-8 after:md:from-neutral-400/25"
-      :class="
-        clsx({
-          'before:!pointer-events-none before:!from-transparent':
-            isShownFirstSlide,
-          'after:!pointer-events-none after:!from-transparent':
-            isShownLastSlide,
-        })
-      "
-      snap-align="start"
-      items-to-show="6.3"
-      :items-to-scroll="1"
-      :gap="32"
-      breakpoint-mode="viewport"
-      :pause-autoplay-on-hover="true"
-      :mouse-drag="true"
-      :transition="600"
-      :touch-drag="true"
-      slide-effect="slide"
-      :dir="appDir"
-      :breakpoints="{
-        300: {
-          itemsToShow: 1.4,
-          itemsToScroll: 1,
-          snapAlign: 'start',
-          gap: 15,
-        },
-        768: {
-          itemsToShow: 2.4,
-          itemsToScroll: 1,
-          snapAlign: 'start',
-          gap: 27,
-        },
-        922: {
-          itemsToShow: 3.4,
-          itemsToScroll: 1,
-          snapAlign: 'start',
-          gap: 30,
-        },
-        1024: {
-          itemsToShow: 4.4,
-          itemsToScroll: 1,
-          snapAlign: 'start',
-          gap: 30,
-        },
-        1280: {
-          itemsToShow: 4.4,
-          itemsToScroll: 1,
-          snapAlign: 'start',
-          gap: 20,
-        },
-        1440: {
-          itemsToShow: 4.4,
-          itemsToScroll: 1,
-          snapAlign: 'start',
-          gap: 12,
-        },
-      }"
-    >
-      <Slide
-        v-for="(service, index) of content.services_lists"
-        :key="service.id"
-        :data-first-slide="index === 0"
-        :data-last-slide="index === content.services_lists?.length - 1"
-        v-intersect="{
-          callback: (entry: IntersectionObserverEntry) =>
-            intersectHandler(entry, index),
-          options: { threshold: 0.7, root: carouselRef },
-        }"
+    <div class="app-container container">
+      <Carousel
+        ref="carouselRef"
+        is="ol"
+        class="carousel-overflow-indicators"
+        :class="
+          clsx({
+            'before:!pointer-events-none before:!from-transparent':
+              isShownFirstSlide,
+            'after:!pointer-events-none after:!from-transparent':
+              isShownLastSlide,
+          })
+        "
+        snap-align="start"
+        items-to-show="6.3"
+        :items-to-scroll="1"
+        :gap="32"
+        breakpoint-mode="viewport"
+        :pause-autoplay-on-hover="true"
+        :mouse-drag="true"
+        :transition="600"
+        :touch-drag="true"
+        slide-effect="slide"
+        :dir="appDir"
+        :breakpoints="breakpoints"
       >
-        <HomeServicesServiceCard
-          :class="clsx({ active: service.id === selectedService?.id })"
-          @click="handleSelectService(service)"
-          :service="service"
-          :index="index"
-          :is-slide-mounted="Boolean(carouselRef)"
+        <Slide
+          v-for="(service, index) of content.services_lists"
+          :key="service.id"
+          :data-first-slide="index === 0"
+          :data-last-slide="index === content.services_lists?.length - 1"
+          v-intersect="{
+            callback: (entry: IntersectionObserverEntry) =>
+              intersectHandler(entry, index),
+            options: { threshold: 0.7, root: carouselRef?.parentElement },
+          }"
         >
-        </HomeServicesServiceCard>
-      </Slide>
-    </Carousel>
-
+          <HomeServicesServiceCard
+            :class="clsx({ active: service.id === selectedService?.id })"
+            @click="handleSelectService(service)"
+            :service="service"
+            :index="index"
+            :is-slide-mounted="Boolean(carouselRef)"
+          >
+          </HomeServicesServiceCard>
+        </Slide>
+      </Carousel>
+    </div>
     <div
-      class="app-container container mb-12 grid grid-cols-1 items-start justify-between gap-5 px-0 lg:grid-cols-2"
+      class="app-container tablet:grid-cols-2 tablet:grid-rows-1 mt-5 grid grid-rows-2 gap-5"
     >
-      <h4
-        class="order-2 h-full max-h-full w-full max-w-full overflow-x-auto text-xl font-semibold leading-[37.48px] lg:order-2"
-      >
-        {{ selectedService?.content }}
-      </h4>
-      <figure
-        class="order-1 flex h-[323px] w-full max-w-full items-center justify-center overflow-hidden rounded-app-radius lg:order-2"
-      >
+      <figure class="overflow-hidden rounded-app-radius">
         <img
           :src="selectedService?.cover?.url"
           :alt="selectedService?.cover?.url"
-          class="h-full w-full rounded-app-radius object-cover md:max-w-full"
+          class="tablet:aspect-video aspect-square h-full w-full rounded-app-radius object-cover md:max-w-full"
         />
       </figure>
+      <h4
+        class="text-justify text-lg font-semibold leading-[37.48px] lg:text-xl"
+      >
+        {{ selectedService?.content }}
+      </h4>
     </div>
     <div
       class="app-container container mb-[80px] mt-[60px] flex flex-col items-center justify-center"
@@ -170,16 +133,49 @@
 import clsx from "clsx";
 import type { ServiceType } from "~/types/services";
 import { MOTION_DURATION } from "~/constants/motion-config";
-// import { PATHS } from "~/constants/paths";
 const carouselRef = ref<HTMLDivElement | null>(null);
 import type { ServicesSectionType } from "~/types/home-page";
-import {
-  Carousel,
-  Slide,
-  Pagination as CarouselPagination,
-} from "vue3-carousel";
+import { Carousel, Slide } from "vue3-carousel";
 import "vue3-carousel/carousel.css";
 
+const breakpoints = {
+  300: {
+    itemsToShow: 1.4,
+    itemsToScroll: 1,
+    snapAlign: "start",
+    gap: 15,
+  },
+  768: {
+    itemsToShow: 2.4,
+    itemsToScroll: 1,
+    snapAlign: "start",
+    gap: 27,
+  },
+  922: {
+    itemsToShow: 3.4,
+    itemsToScroll: 1,
+    snapAlign: "start",
+    gap: 30,
+  },
+  1024: {
+    itemsToShow: 4.4,
+    itemsToScroll: 1,
+    snapAlign: "start",
+    gap: 30,
+  },
+  1280: {
+    itemsToShow: 4.4,
+    itemsToScroll: 1,
+    snapAlign: "start",
+    gap: 20,
+  },
+  1440: {
+    itemsToShow: 4.4,
+    itemsToScroll: 1,
+    snapAlign: "start",
+    gap: 12,
+  },
+};
 const isShownFirstSlide = ref<boolean>(true);
 const isShownLastSlide = ref<boolean>(false);
 const intersectHandler = (entry: IntersectionObserverEntry, idx: number) => {
@@ -212,5 +208,9 @@ function handleSelectService(service: ServiceType) {
 .carousel {
   --vc-pgn-background-color: #b8b8b8a0;
   --vc-pgn-active-color: v-bind(theme?.colors?.secondary || "#162F3B");
+}
+
+.carousel-overflow-indicators {
+  @apply before:absolute before:right-0 before:top-0 before:z-20 before:h-full before:w-9 before:bg-opacity-25 before:bg-gradient-to-l before:from-neutral-400/50 before:transition-colors before:content-[''] after:absolute after:left-0 after:top-0 after:z-20 after:h-full after:w-9 after:bg-opacity-25 after:bg-gradient-to-r after:from-neutral-400/50 after:transition-colors after:content-[''] md:px-0 before:md:w-8 before:md:from-neutral-400/25 after:md:w-8 after:md:from-neutral-400/25;
 }
 </style>

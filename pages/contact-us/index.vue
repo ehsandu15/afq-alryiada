@@ -35,7 +35,7 @@
       </figure>
       <form
         @submit.prevent="handleSubmit"
-        class="grid w-full grid-cols-1 gap-[50px] px-3 md:grid-cols-2 lg:ps-[50px]"
+        class="grid w-full grid-cols-1 gap-7 px-3 md:grid-cols-2 md:gap-[50px] lg:ps-[50px]"
       >
         <span
           class="col-span-2 flex flex-col gap-1.5 xs:col-span-1"
@@ -89,7 +89,7 @@
               v-for="action of content?.data.formActions"
               type="submit"
               class="btn btn-primary disabled:bg-neutral-400 max-md:!px-8"
-              :disabled="isValidatedTurnsite === false"
+              :disabled="isValidatedTurnstile === false"
             >
               <template v-if="!isSending">
                 <p>{{ action.title }}</p>
@@ -181,7 +181,15 @@ const isSending = ref(false);
 const isError = ref(false);
 const errorMsg = ref(null);
 const turnstileToken = ref<string>("");
-const isValidatedTurnsite = ref<boolean>(false);
+const isValidatedTurnstile = ref<boolean>(false);
+
+const verifyTurnstile = async () => {
+  return await $fetch("/_turnstile/validate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: { token: turnstileToken.value },
+  });
+};
 
 watchEffect(async () => {
   if (!Boolean(turnstileToken.value)) {
@@ -190,18 +198,16 @@ watchEffect(async () => {
     );
     return;
   }
-  const validToken = await $fetch("/api/validateTurnstile", {
-    method: "POST",
-    body: { token: JSON.stringify(turnstileToken.value) },
-  });
+  const validToken = await verifyTurnstile();
 
-  isValidatedTurnsite.value = validToken.success;
+  isValidatedTurnstile.value = validToken.success;
 });
+
 const handleSubmit = async (ev: Event) => {
   const target = ev.target as HTMLFormElement;
   const fd = new FormData(ev.currentTarget as any);
 
-  if (!isValidatedTurnsite.value) {
+  if (!isValidatedTurnstile.value) {
     console.warn("WARNING , Please solve the captcha first !!");
     return;
   }

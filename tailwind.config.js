@@ -18,6 +18,7 @@ export default {
         xs: "375px",
         sm: "640px",
         md: "768px",
+        tablet: "992px",
         lg: "1026px",
         xl: "1280px",
         "2xl": "1536px",

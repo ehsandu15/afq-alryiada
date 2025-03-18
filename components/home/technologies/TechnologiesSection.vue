@@ -48,30 +48,9 @@
         <img
           :src="image?.image.at(0)?.url"
           :alt="image.image.at(0)?.alternativeText"
+          class="max-h-full object-cover"
         />
       </li>
-      <!-- <li
-        v-motion="MOTION_FADE_DOWN_TOP"
-        :duration="MOTION_DURATION"
-        :delay="DELAY"
-        class="flex h-[84px] items-center justify-center rounded-app-radius border border-[#C7C7CC] lg:w-[192px]"
-      >
-        <img :src="wordpressIcon" alt="wordpress.svg" />
-      </li>
-      <li
-        v-motion="MOTION_FADE_TOP_SIMPLE"
-        :duration="MOTION_DURATION"
-        class="flex h-[84px] items-center justify-center rounded-app-radius border border-[#C7C7CC] lg:w-[192px]"
-      >
-        <img :src="flutterIcon" alt="flutter.svg" />
-      </li>
-      <li
-        v-motion="MOTION_FADE_TOP_SIMPLE"
-        :duration="MOTION_DURATION"
-        class="flex h-[84px] items-center justify-center rounded-app-radius border border-[#C7C7CC] lg:w-[192px]"
-      >
-        <img :src="odooIcon" alt="odoo.svg" />
-      </li> -->
     </ul>
   </section>
 </template>

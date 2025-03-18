@@ -75,10 +75,10 @@ const CAROUSEL_MOTION = {
 }
 .service-card p {
   color: #aeaeb2;
-  font-size: 1.25rem; /* 20px */
-  line-height: 1.75rem; /* 28px */
+  font-size: 1.15rem;
+  line-height: 1.75rem;
   padding-bottom: 1.75rem;
-  padding-inline: 17px;
+  padding-inline: 8px;
   text-align: center;
   /* overflow: hidden;
   text-overflow: ellipsis;
