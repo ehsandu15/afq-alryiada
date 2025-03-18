@@ -124,8 +124,8 @@ export default defineNuxtConfig({
       "/": { isr: 86400 }, // 24 hour
       "/about": { isr: 86400 }, // 24 hour
       "/contact-us": { isr: 86400 }, // 24 hour
-      "/blogs": { isr: 86400 }, // 1 hour
-      "/blogs/:articleSlug": { isr: 86400 }, // 1 hour
+      "/blogs": { isr: 86400 }, // 24 hour
+      "/blogs/:articleSlug": { isr: 86400 }, // 24 hour
       "/privacy-policy": { isr: 86400 }, // 24 hour
     },
   },
