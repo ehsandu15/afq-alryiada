@@ -42,11 +42,11 @@
         breakpoint-mode="viewport"
         :pause-autoplay-on-hover="true"
         :mouse-drag="true"
-        :transition="600"
+        :transition="400"
         :touch-drag="true"
         slide-effect="slide"
         :dir="appDir"
-        :breakpoints="breakpoints"
+        :breakpoints="breakpoints as Breakpoints"
       >
         <Slide
           v-for="(service, index) of content.services_lists"
@@ -56,7 +56,7 @@
           v-intersect="{
             callback: (entry: IntersectionObserverEntry) =>
               intersectHandler(entry, index),
-            options: { threshold: 0.7, root: carouselRef?.parentElement },
+            options: { threshold: 1, root: carouselRef?.parentElement },
           }"
         >
           <HomeServicesServiceCard
@@ -71,13 +71,14 @@
       </Carousel>
     </div>
     <div
-      class="app-container tablet:grid-cols-2 tablet:grid-rows-1 mt-5 grid grid-rows-2 gap-5"
+      class="app-container tablet:grid-cols-2 mt-7 grid gap-5"
+      style="grid-template-rows: repeat(2, minmax(0, auto))"
     >
       <figure class="overflow-hidden rounded-app-radius">
         <img
           :src="selectedService?.cover?.url"
           :alt="selectedService?.cover?.url"
-          class="tablet:aspect-video aspect-square h-full w-full rounded-app-radius object-cover md:max-w-full"
+          class="aspect-video h-full w-full rounded-app-radius object-cover max-md:h-[275px] md:max-w-full"
         />
       </figure>
       <h4
@@ -135,7 +136,7 @@ import type { ServiceType } from "~/types/services";
 import { MOTION_DURATION } from "~/constants/motion-config";
 const carouselRef = ref<HTMLDivElement | null>(null);
 import type { ServicesSectionType } from "~/types/home-page";
-import { Carousel, Slide } from "vue3-carousel";
+import { Carousel, Slide, type Breakpoints } from "vue3-carousel";
 import "vue3-carousel/carousel.css";
 
 const breakpoints = {
@@ -179,17 +180,24 @@ const breakpoints = {
 const isShownFirstSlide = ref<boolean>(true);
 const isShownLastSlide = ref<boolean>(false);
 const intersectHandler = (entry: IntersectionObserverEntry, idx: number) => {
-  // First Slide
-  if (entry.isIntersecting && idx === 0) {
-    isShownFirstSlide.value = true;
+  if (idx === props.content.services_lists.length - 1) {
+    // Last Slide
+    if (entry.isIntersecting) {
+      // visible
+      isShownLastSlide.value = true;
+    } else {
+      // invisible
+      isShownLastSlide.value = false;
+    }
   } else {
-    isShownFirstSlide.value = false;
-  }
-  // Last Slide
-  if (entry.isIntersecting && idx === props.content.services_lists.length - 1) {
-    isShownLastSlide.value = true;
-  } else {
-    isShownLastSlide.value = false;
+    // First Slide
+    if (entry.isIntersecting) {
+      // visible
+      isShownFirstSlide.value = true;
+    } else {
+      // invisible
+      isShownFirstSlide.value = false;
+    }
   }
 };
 const props = defineProps<{ content: ServicesSectionType }>();
@@ -211,6 +219,6 @@ function handleSelectService(service: ServiceType) {
 }
 
 .carousel-overflow-indicators {
-  @apply before:absolute before:right-0 before:top-0 before:z-20 before:h-full before:w-9 before:bg-opacity-25 before:bg-gradient-to-l before:from-neutral-400/50 before:transition-colors before:content-[''] after:absolute after:left-0 after:top-0 after:z-20 after:h-full after:w-9 after:bg-opacity-25 after:bg-gradient-to-r after:from-neutral-400/50 after:transition-colors after:content-[''] md:px-0 before:md:w-8 before:md:from-neutral-400/25 after:md:w-8 after:md:from-neutral-400/25;
+  @apply before:absolute before:right-0 before:top-0 before:z-20 before:h-full before:w-9 before:bg-opacity-25 before:bg-gradient-to-l before:from-neutral-400/90 before:transition-colors before:content-[''] after:absolute after:left-0 after:top-0 after:z-20 after:h-full after:w-9 after:bg-opacity-25 after:bg-gradient-to-r after:from-neutral-400/50 after:transition-colors after:content-[''] md:px-0 before:md:w-8 before:md:from-neutral-400/95 after:md:w-8 after:md:from-neutral-400/95;
 }
 </style>

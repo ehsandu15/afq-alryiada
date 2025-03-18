@@ -196,19 +196,25 @@ useEventListener(window, "scroll", function (ev) {
     );
 
     if (sectionsWrapper) {
-      const sections = sectionsWrapper.querySelectorAll("[data-section=true]");
+      const sections = Array.from(
+        sectionsWrapper.querySelectorAll("[data-section=true]"),
+      ) as HTMLDivElement[];
+
       const currentScroll = window.pageYOffset || window.scrollY;
 
-      const currentSection = Array.from(sections as NodeListOf<HTMLDivElement>)
-        // .reverse()
-        .find((section) => {
-          const top = section.offsetTop - APP_HEADER_HEIGHT.DESKTOP;
-          const bottom = top + section.offsetHeight;
-          return currentScroll >= top && currentScroll <= bottom;
-        });
+      let lastReachedSectionId = "#"; // Default
 
-      currentActiveSectionId.value =
-        currentSection?.id.replaceAll("#", "") || "#"; // Default to "#"
+      sections.forEach((section) => {
+        const top = section.offsetTop - APP_HEADER_HEIGHT.DESKTOP;
+        // const bottom = top + section.offsetHeight;
+
+        if (currentScroll >= top) {
+          if (!section.id) return;
+          lastReachedSectionId = section.id;
+        }
+      });
+
+      currentActiveSectionId.value = lastReachedSectionId;
     }
   }
 });

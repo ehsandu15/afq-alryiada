@@ -131,7 +131,7 @@ export default defineNuxtConfig({
   },
   vite: {
     server: {
-      allowedHosts: ["d101-41-199-148-60.ngrok-free.app"],
+      allowedHosts: ["3b45-62-114-111-226.ngrok-free.app"],
     },
     esbuild: {
       drop: ["debugger"],

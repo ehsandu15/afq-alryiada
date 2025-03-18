@@ -73,7 +73,7 @@
           class="nav-link"
           :class="{
             'nav-link__active':
-              currentActiveSectionId && router.hash
+              currentActiveSectionId || router.hash
                 ? currentActiveSectionId.endsWith(link.elementId)
                 : router.fullPath.endsWith(link.elementId),
           }"
@@ -124,6 +124,6 @@ defineProps<{
   @apply text-center font-bold text-app-gray-main;
 }
 .nav-link__active {
-  @apply text-app-black-secondary;
+  @apply text-secondary;
 }
 </style>

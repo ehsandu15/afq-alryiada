@@ -4,7 +4,7 @@
     class="app-container container flex flex-wrap items-center justify-between gap-6 py-5 md:py-[26px] lg:py-[30px]"
     :id="content?.technologiesId?.elementId"
   >
-    <div class="flex w-full flex-col lg:w-[calc(60%-1.5rem)] lg:py-6">
+    <div class="flex w-full flex-col lg:py-6 xl:w-[calc(60%-1.5rem)]">
       <div v-motion="MOTION_FADE_DOWN_TOP" :duration="MOTION_DURATION">
         <AdvancedSectionHeading
           :title="content.techSectionTitle.title"
@@ -22,28 +22,28 @@
           marked-text-color-class-name="opacity-50"
           v-motion="MOTION_FADE_DOWN_SIMPLE"
           :duration="MOTION_DURATION"
-          class="mb-4 max-w-[350px] text-[36px] font-extrabold md:max-w-fit md:text-center md:text-5xl"
+          class="mb-4 max-w-[350px] text-[36px] font-extrabold md:max-w-fit md:text-center xl:text-5xl"
         />
 
         <p
           v-motion="MOTION_FADE_DOWN"
           :delay="DELAY"
           :duration="MOTION_DURATION"
-          class="text-sm font-medium text-black md:text-xl"
+          class="text-sm font-medium text-black xl:text-xl"
         >
           {{ content.techDescription }}
         </p>
       </span>
     </div>
     <ul
-      class="grid w-full grid-cols-2 gap-[17px] md:mt-[60px] md:gap-2 lg:w-[calc(40%-1.5rem)]"
+      class="grid w-full grid-cols-2 gap-[17px] md:mt-[60px] md:gap-5 xl:w-[calc(40%-1.5rem)] xl:gap-3.5"
     >
       <li
         v-for="(image, index) of content.technologies_lists"
         v-motion="index <= 1 ? MOTION_FADE_DOWN_TOP : MOTION_FADE_TOP_SIMPLE"
         :duration="MOTION_DURATION"
         :delay="index <= 1 ? DELAY : undefined"
-        class="flex h-[84px] items-center justify-center rounded-app-radius border border-[#C7C7CC] lg:w-[192px]"
+        class="flex h-28 items-center justify-center rounded-app-radius border border-[#C7C7CC] lg:h-[84px] xl:w-[192px]"
       >
         <img
           :src="image?.image.at(0)?.url"
