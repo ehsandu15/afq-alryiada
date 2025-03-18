@@ -18,10 +18,10 @@
     />
     <div
       v-if="!route.query.tag"
-      class="mt-5 flex w-full items-center justify-start gap-12"
+      class="mt-5 flex w-full flex-col items-center justify-start gap-12 md:flex-row"
     >
       <span
-        class="relative flex w-[222px] items-center justify-center gap-2 rounded-full border border-[#C7C7CC] p-1.5 text-[#C7C7CC] focus-within:border-app-black-secondary"
+        class="tablet:w-[222px] relative flex w-full items-center justify-center gap-2 rounded-full border border-[#C7C7CC] p-1.5 text-[#C7C7CC] focus-within:border-app-black-secondary md:w-2/5"
       >
         <svg
           class="h-6 w-6 text-inherit dark:text-inherit"
@@ -104,16 +104,16 @@
     </div>
     <div class="mt-7 flex w-full flex-col gap-7">
       <ul
-        class="mb-11 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
+        class="mb-11 grid grid-cols-1 gap-8 overflow-x-hidden md:grid-cols-2 lg:grid-cols-3"
         v-if="articles && articleStatus === 'success'"
       >
         <BlogCard
           v-for="(article, index) of articles.data"
           :key="article.id"
           v-motion="{
-            initial: { opacity: 0, x: -23, scale: 1.05 },
+            initial: { opacity: 0, x: -23, scale: 1.02 },
             visibleOnce: { opacity: 1, x: 0, scale: 1.0 },
-            leave: { opacity: 0, x: 23, scale: 1.05 },
+            leave: { opacity: 0, x: 23, scale: 1.02 },
           }"
           :duration="MOTION_DURATION - 550"
           :delay="index * 120"

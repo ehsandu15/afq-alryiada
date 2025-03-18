@@ -9,6 +9,9 @@
   html {
     @apply scroll-smooth;
   }
+  mark {
+    background-color: transparent;
+  }
 }
 :root {
   --container-max-width: clamp(390px, 85%, 1080px);

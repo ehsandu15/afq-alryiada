@@ -68,7 +68,11 @@ const { data: headerContent } = await useAsyncData(
     class="app-container container flex flex-col items-center justify-center gap-3 self-center justify-self-center pt-16"
   >
     <img
-      :src="error?.statusCode === 404 ? '/404-image.webp' : ''"
+      :src="
+        error?.statusCode === 404
+          ? '/error-404-image.webp'
+          : '/error-500-image.webp'
+      "
       alt="Error image"
       class="tablet:h-full tablet:w-fit w-full rounded-md object-cover lg:w-3/5"
     />

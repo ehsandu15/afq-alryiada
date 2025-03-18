@@ -32,7 +32,7 @@
       <img
         :src="article?.cover?.url || articleCoverPlaceholder"
         :alt="article?.cover?.alternativeText || article.title"
-        class="mb-2 w-full self-center justify-self-center object-contain"
+        class="mb-2 h-full w-full self-center justify-self-center object-contain"
       />
     </div>
     <nav
