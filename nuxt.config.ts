@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "@nuxtjs/strapi",
     "@nuxtjs/turnstile",
     "@nuxt/icon",
+    "nuxt-swiper",
   ],
 
   css: ["~/assets/css/tailwind.css"],
@@ -114,6 +115,7 @@ export default defineNuxtConfig({
       socialShare: {
         baseUrl: process.env.FRONTEND_URL,
       },
+      env: process.env.NODE_ENV,
     },
     findIp: {
       apiKey: process.env.FIND_IP_API_KEI,

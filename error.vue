@@ -14,7 +14,9 @@ const handleError = () => clearError({ redirect: "/" });
 console.log("error :", props.error);
 
 const { findOne, find } = useStrapi<AppFooterType>();
-const nuxtApp = useNuxtApp();
+
+const config = useRuntimeConfig();
+
 const { data: footerContent } = await useAsyncData(
   STRAPI_ENDPOINT.APP_FOOTER,
   () =>
@@ -74,10 +76,10 @@ const { data: headerContent } = await useAsyncData(
           : '/error-500-image.webp'
       "
       alt="Error image"
-      class="tablet:h-full tablet:w-fit w-full rounded-md object-cover lg:w-3/5"
+      class="w-full rounded-md object-cover tablet:h-full tablet:w-fit lg:w-3/5"
     />
     <span
-      class="tablet:gap-16 mt-14 flex flex-col items-center justify-center gap-5"
+      class="mt-14 flex flex-col items-center justify-center gap-5 tablet:gap-16"
     >
       <h2
         class="text-center text-3xl font-medium text-app-black-secondary md:text-4xl lg:text-[60px]"
@@ -89,7 +91,7 @@ const { data: headerContent } = await useAsyncData(
         }}
       </h2>
       <P
-        class="tablet:text-base text-center text-sm font-normal leading-6 text-app-black-secondary text-opacity-60"
+        class="text-center text-sm font-normal leading-6 text-app-black-secondary text-opacity-60 tablet:text-base"
       >
         {{
           error?.statusCode === 404
@@ -97,6 +99,17 @@ const { data: headerContent } = await useAsyncData(
             : "حدث عطل فني في الموقع او انه يوجد خطأ ما اثناء عمل التطبيق"
         }}
       </P>
+      <div
+        v-if="config.public.env === 'development'"
+        class="flex flex-col gap-3 bg-gray-200 px-4 py-6"
+      >
+        <b>{{ error?.message }}</b>
+        <pre>
+          <code>
+            {{error?.stack}}
+          </code>
+        </pre>
+      </div>
     </span>
     <button @click="handleError" class="btn btn-primary mt-8">
       الرجوع للرئيسية

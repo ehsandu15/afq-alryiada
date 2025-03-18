@@ -23,7 +23,41 @@
       {{ content.servicesDescription }}
     </p>
     <div class="app-container container">
-      <Carousel
+      <ClientOnly>
+        <swiper-container
+          ref="carouselRef"
+          class="carousel-overflow-indicators"
+          :class="
+            clsx({
+              'before:!pointer-events-none before:!from-transparent':
+                isShownFirstSlide,
+              'after:!pointer-events-none after:!from-transparent':
+                isShownLastSlide,
+            })
+          "
+        >
+          <swiper-slide
+            v-for="(service, index) of content.services_lists"
+            :key="service.id || index"
+          >
+            <HomeServicesServiceCard
+              :class="clsx({ active: service.id === selectedService?.id })"
+              @click="handleSelectService(service)"
+              :service="service"
+              :index="index"
+              :is-slide-mounted="Boolean(carouselRef)"
+              v-intersect="{
+                callback: (entry: IntersectionObserverEntry) =>
+                  intersectHandler(entry, index),
+                options: { threshold: 0.8 },
+              }"
+            >
+            </HomeServicesServiceCard>
+          </swiper-slide>
+        </swiper-container>
+      </ClientOnly>
+
+      <!-- <Carousel
         ref="carouselRef"
         is="ol"
         class="carousel-overflow-indicators"
@@ -66,10 +100,10 @@
           >
           </HomeServicesServiceCard>
         </Slide>
-      </Carousel>
+      </Carousel> -->
     </div>
     <div
-      class="app-container tablet:grid-cols-2 mt-7 grid gap-5"
+      class="app-container mt-7 grid gap-5 tablet:grid-cols-2"
       style="grid-template-rows: repeat(2, minmax(0, auto))"
     >
       <figure class="overflow-hidden rounded-app-radius">
@@ -80,7 +114,7 @@
         />
       </figure>
       <h4
-        class="tablet:self-center text-justify text-lg font-semibold leading-[37.48px] lg:text-xl"
+        class="text-justify text-lg font-semibold leading-[37.48px] tablet:self-center lg:text-xl"
       >
         {{ selectedService?.content }}
       </h4>
@@ -132,81 +166,77 @@
 import clsx from "clsx";
 import type { ServiceType } from "~/types/services";
 import { MOTION_DURATION } from "~/constants/motion-config";
-const carouselRef = ref<HTMLDivElement | null>(null);
 import type { ServicesSectionType } from "~/types/home-page";
-import { Carousel, Slide, type Breakpoints } from "vue3-carousel";
+import { Carousel, Slide } from "vue3-carousel";
+
 import "vue3-carousel/carousel.css";
 
-const breakpoints = {
-  300: {
-    itemsToShow: 1.4,
-    itemsToScroll: 1,
-    snapAlign: "start",
-    gap: 15,
-  },
-  768: {
-    itemsToShow: 2.4,
-    itemsToScroll: 1,
-    snapAlign: "start",
-    gap: 27,
-  },
-  922: {
-    itemsToShow: 3.4,
-    itemsToScroll: 1,
-    snapAlign: "start",
-    gap: 30,
-  },
-  1024: {
-    itemsToShow: 4.4,
-    itemsToScroll: 1,
-    snapAlign: "start",
-    gap: 30,
-  },
-  1280: {
-    itemsToShow: 4.4,
-    itemsToScroll: 1,
-    snapAlign: "start",
-    gap: 20,
-  },
-  1440: {
-    itemsToShow: 4.4,
-    itemsToScroll: 1,
-    snapAlign: "start",
-    gap: 12,
-  },
-};
+const carouselRef = ref(null);
 const isShownFirstSlide = ref<boolean>(true);
 const isShownLastSlide = ref<boolean>(false);
 const intersectHandler = (entry: IntersectionObserverEntry, idx: number) => {
   let timeoutRef;
   if (timeoutRef) clearTimeout(timeoutRef);
   if (idx === props.content.services_lists.length - 1) {
-    timeoutRef = setTimeout(() => {
-      // Last Slide
-      if (entry.isIntersecting) {
-        // visible
-        isShownLastSlide.value = true;
-      } else {
-        // invisible
-        isShownLastSlide.value = false;
-      }
-    }, 100);
+    // timeoutRef = setTimeout(() => {
+    // }, 100);
+    // Last Slide
+    if (entry.isIntersecting) {
+      // visible
+      isShownLastSlide.value = true;
+    } else {
+      // invisible
+      isShownLastSlide.value = false;
+    }
   } else {
-    timeoutRef = setTimeout(() => {
-      // First Slide
-      if (entry.isIntersecting) {
-        // visible
-        isShownFirstSlide.value = true;
-      } else {
-        // invisible
-        isShownFirstSlide.value = false;
-      }
-    }, 100);
+    // timeoutRef = setTimeout(() => {
+    // }, 100);
+    // First Slide
+    if (entry.isIntersecting) {
+      // visible
+      isShownFirstSlide.value = true;
+    } else {
+      // invisible
+      isShownFirstSlide.value = false;
+    }
   }
 };
 const props = defineProps<{ content: ServicesSectionType }>();
 const { appDir } = useAppDir();
-
+useSwiper(carouselRef, {
+  mousewheel: {
+    enabled: true,
+    sensitivity: 50,
+  },
+  direction: appDir.value,
+  initialSlide: 0,
+  breakpoints: {
+    300: {
+      slidesPerView: 1.4,
+      spaceBetween: 15,
+    },
+    768: {
+      slidesPerView: 2.4,
+      spaceBetween: 27,
+    },
+    922: {
+      slidesPerView: 3.4,
+      spaceBetween: 30,
+    },
+    1024: {
+      slidesPerView: 4.4,
+      spaceBetween: 30,
+    },
+    1280: {
+      slidesPerView: 4.4,
+      spaceBetween: 20,
+    },
+    1440: {
+      slidesPerView: 4.4,
+      spaceBetween: 12,
+    },
+  },
+});
 const selectedService = ref<ServiceType | undefined>(
   props.content.services_lists.at(0),
 );
@@ -223,6 +253,6 @@ function handleSelectService(service: ServiceType) {
 }
 
 .carousel-overflow-indicators {
-  @apply before:absolute before:right-0 before:top-0 before:z-20 before:h-full before:w-9 before:bg-opacity-25 before:bg-gradient-to-l before:from-neutral-400/20 before:transition-all before:content-[''] after:absolute after:left-0 after:top-0 after:z-20 after:h-full after:w-9 after:bg-opacity-25 after:bg-gradient-to-r after:from-neutral-400/20 after:transition-all after:content-[''] md:px-0 before:md:w-8 before:md:from-neutral-400/95 after:md:w-8 after:md:from-neutral-400/95;
+  @apply before:absolute before:right-0 before:top-0 before:z-20 before:h-full before:w-9 before:bg-opacity-25 before:bg-gradient-to-l before:from-neutral-400/20 before:transition-all before:content-[''] after:absolute after:left-0 after:top-0 after:z-20 after:h-full after:w-9 after:bg-opacity-25 after:bg-gradient-to-r after:from-neutral-400/20 after:transition-all after:content-[''] md:px-0 before:md:w-8 before:md:from-neutral-500/35 after:md:w-8 after:md:from-neutral-500/35;
 }
 </style>
