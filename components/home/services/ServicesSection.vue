@@ -82,7 +82,7 @@
         />
       </figure>
       <h4
-        class="text-justify text-lg font-semibold leading-[37.48px] lg:text-xl"
+        class="tablet:self-center text-justify text-lg font-semibold leading-[37.48px] lg:text-xl"
       >
         {{ selectedService?.content }}
       </h4>
@@ -219,6 +219,6 @@ function handleSelectService(service: ServiceType) {
 }
 
 .carousel-overflow-indicators {
-  @apply before:absolute before:right-0 before:top-0 before:z-20 before:h-full before:w-9 before:bg-opacity-25 before:bg-gradient-to-l before:from-neutral-400/90 before:transition-colors before:content-[''] after:absolute after:left-0 after:top-0 after:z-20 after:h-full after:w-9 after:bg-opacity-25 after:bg-gradient-to-r after:from-neutral-400/50 after:transition-colors after:content-[''] md:px-0 before:md:w-8 before:md:from-neutral-400/95 after:md:w-8 after:md:from-neutral-400/95;
+  @apply before:absolute before:right-0 before:top-0 before:z-20 before:h-full before:w-9 before:bg-opacity-25 before:bg-gradient-to-l before:from-neutral-400/20 before:transition-colors before:content-[''] after:absolute after:left-0 after:top-0 after:z-20 after:h-full after:w-9 after:bg-opacity-25 after:bg-gradient-to-r after:from-neutral-400/20 after:transition-colors after:content-[''] md:px-0 before:md:w-8 before:md:from-neutral-400/95 after:md:w-8 after:md:from-neutral-400/95;
 }
 </style>
