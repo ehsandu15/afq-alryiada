@@ -27,6 +27,10 @@
         <swiper-container
           ref="carouselRef"
           class="carousel-overflow-indicators"
+          :mousewheel="{
+            enabled: true,
+            sensitivity: 50,
+          }"
           :class="
             clsx({
               'before:!pointer-events-none before:!from-transparent':
@@ -204,10 +208,6 @@ const intersectHandler = (entry: IntersectionObserverEntry, idx: number) => {
 const props = defineProps<{ content: ServicesSectionType }>();
 const { appDir } = useAppDir();
 useSwiper(carouselRef, {
-  mousewheel: {
-    enabled: true,
-    sensitivity: 50,
-  },
   direction: appDir.value,
   initialSlide: 0,
   breakpoints: {
