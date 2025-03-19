@@ -5,7 +5,7 @@
     class="relative flex min-h-screen w-full flex-col items-center justify-center overflow-x-hidden bg-app-white-main"
   >
     <div
-      class="relative flex min-h-screen w-full flex-col items-center justify-start overflow-hidden pt-44 md:mt-0 md:justify-center"
+      class="relative flex min-h-screen w-full flex-col items-center justify-start overflow-hidden pt-44 md:justify-center md:pt-0"
     >
       <!-- Circle Waves animations -->
       <div class="wave delay-1"></div>

@@ -2,7 +2,6 @@
   <LayoutAppHeader
     :content="headerContent?.data"
     :navigation-links="navigationLinks?.data"
-    :current-active-section-id="currentActiveSectionId"
   />
   <main
     class="relative flex min-h-fit w-full max-w-full flex-col items-center justify-start"
@@ -32,8 +31,6 @@ import { STRAPI_ENDPOINT } from "~/constants/strapi-endpoints";
 import type { AppSharedContent, NavigationLinkType } from "~/types/shared";
 import type { AppHeaderType } from "~/types/header";
 import type { SiteData } from "~/types/seo";
-import { useEventListener } from "@vueuse/core";
-import { APP_HEADER_HEIGHT } from "~/constants/app-data";
 
 const { findOne, find } = useStrapi<AppFooterType>();
 const nuxtApp = useNuxtApp();
@@ -53,7 +50,6 @@ const { data: footerContent } = await useAsyncData(
     }),
 );
 
-const currentActiveSectionId = ref("#");
 const { data: navigationLinks } = await useAsyncData(
   STRAPI_ENDPOINT.NAVIGATION_LINKS,
   () =>
@@ -189,33 +185,33 @@ watchEffect(() => {
   });
 });
 
-useEventListener(window, "scroll", function (ev) {
-  if (typeof window !== "undefined") {
-    const sectionsWrapper = document.body.querySelector(
-      "#home-sections-wrapper",
-    );
+// useEventListener(window, "scroll", function (ev) {
+//   if (typeof window !== "undefined") {
+//     const sectionsWrapper = document.body.querySelector(
+//       "#home-sections-wrapper",
+//     );
 
-    if (sectionsWrapper) {
-      const sections = Array.from(
-        sectionsWrapper.querySelectorAll("[data-section=true]"),
-      ) as HTMLDivElement[];
+//     if (sectionsWrapper) {
+//       const sections = Array.from(
+//         sectionsWrapper.querySelectorAll("[data-section=true]"),
+//       ) as HTMLDivElement[];
 
-      const currentScroll = window.pageYOffset || window.scrollY;
+//       const currentScroll = window.pageYOffset || window.scrollY;
 
-      let lastReachedSectionId = "#"; // Default
+//       let lastReachedSectionId = "#"; // Default
 
-      sections.forEach((section) => {
-        const top = section.offsetTop - APP_HEADER_HEIGHT.DESKTOP;
-        // const bottom = top + section.offsetHeight;
+//       sections.forEach((section) => {
+//         const top = section.offsetTop - APP_HEADER_HEIGHT.DESKTOP;
+//         // const bottom = top + section.offsetHeight;
 
-        if (currentScroll >= top) {
-          if (!section.id) return;
-          lastReachedSectionId = section.id;
-        }
-      });
+//         if (currentScroll >= top) {
+//           if (!section.id) return;
+//           lastReachedSectionId = section.id;
+//         }
+//       });
 
-      currentActiveSectionId.value = lastReachedSectionId;
-    }
-  }
-});
+//       currentActiveSectionId.value = lastReachedSectionId;
+//     }
+//   }
+// });
 </script>

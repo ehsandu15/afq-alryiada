@@ -71,12 +71,11 @@
           v-for="link of navigationLinks"
           :href="link.href"
           class="nav-link"
-          :class="{
-            'nav-link__active':
-              currentActiveSectionId || router.hash
-                ? currentActiveSectionId.endsWith(link.elementId)
-                : router.fullPath.endsWith(link.elementId),
-          }"
+          :class="
+            clsx({
+              'router-app-link-active': isActive(link.href),
+            })
+          "
         >
           <p>{{ link.title }}</p>
         </NuxtLink>
@@ -96,18 +95,21 @@
   </header>
 </template>
 <script setup lang="ts">
+import { useMediaQuery } from "@vueuse/core";
+import clsx from "clsx";
 import { APP_HEADER_HEIGHT } from "~/constants/app-data";
 import type { AppHeaderType } from "~/types/header";
 import type { NavigationLinkType } from "~/types/shared";
 
 // USED IN CSS !!
 const appHeaderHeight = ref(APP_HEADER_HEIGHT);
+//
 const isOpenNavLinks = ref(false);
-const router = useRoute();
+const { isActive } = useActiveSection();
+
 defineProps<{
   content: AppHeaderType | undefined;
   navigationLinks: NavigationLinkType[] | undefined;
-  currentActiveSectionId: string;
 }>();
 </script>
 <style scoped>
@@ -123,7 +125,8 @@ defineProps<{
 .nav-link {
   @apply text-center font-bold text-app-gray-main;
 }
-.nav-link__active {
-  @apply text-secondary;
+
+.router-app-link-active {
+  @apply font-bold text-secondary;
 }
 </style>

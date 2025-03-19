@@ -102,7 +102,7 @@
     </div>
     <div class="mt-7 flex w-full flex-col gap-7">
       <ul
-        class="mb-11 grid grid-cols-1 gap-8 overflow-x-hidden md:grid-cols-2 lg:grid-cols-3"
+        class="mb-11 grid grid-cols-1 gap-8 overflow-hidden md:grid-cols-2 lg:grid-cols-3"
         v-if="articles && articleStatus === 'success'"
       >
         <BlogCard
