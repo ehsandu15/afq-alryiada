@@ -23,7 +23,6 @@ export default defineEventHandler(async (event) => {
       const isOldMsg = isOldRecord(message.data[0].createdAt, messageDelay);
 
       if (!isOldMsg) {
-        console.log("is old");
         return createError({
           statusCode: 400,
           message: SEND_MESSAGE_RESPONSE.DUPLICATED_USER_EMAIL,
@@ -46,8 +45,6 @@ export default defineEventHandler(async (event) => {
     });
 
     if (!createdMessage.success) {
-      console.log("create message");
-
       return createError({
         statusCode: createdMessage.statusCode,
         message: createdMessage.message,
