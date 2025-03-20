@@ -115,6 +115,9 @@ export default defineNuxtConfig({
       socialShare: {
         baseUrl: process.env.FRONTEND_URL,
       },
+      messageSend: {
+        duplicatedMessageDelayDays: process.env.DUPLICATED_MESSAGE_DELAY_DAYS,
+      },
       env: process.env.NODE_ENV,
     },
     findIp: {

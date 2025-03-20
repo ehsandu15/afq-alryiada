@@ -6,20 +6,14 @@ import { SEND_MESSAGE_RESPONSE } from "~/constants/send-message-response";
 
 const findIpInfoBaseUrl = "https://api.findip.net";
 
-const passedDays = (
-  days: number,
-  receivedDate: string | undefined,
-): boolean | null => {
-  if (!days || !receivedDate) return false;
-  const dateNow = new Date();
-  const passedDate = new Date(receivedDate);
+function isOldRecord(createdAt: string, expiredInDays?: number): boolean {
+  const createdDate: Date = new Date(createdAt);
+  const now: Date = new Date();
+  const diffInMs: number = now.getTime() - createdDate.getTime();
+  const diffInDays: number = diffInMs / (1000 * 60 * 60 * 24);
 
-  const convertDayToMilliseconds = (days: number) => days * 24 * 60 * 60 * 1000;
-
-  return (
-    dateNow.getTime() - passedDate.getTime() >= convertDayToMilliseconds(days)
-  );
-};
+  return diffInDays > (expiredInDays || 3);
+}
 
 const getIpInfo = async () => {
   const runtimeConf = useRuntimeConfig();
@@ -46,23 +40,22 @@ const getIpInfo = async () => {
 
 const sendMessage = async (body: MessageBody) => {
   const runtimeConf = useRuntimeConfig();
-  const res = await fetch(
-    `${runtimeConf.strapi.url}/api/${STRAPI_ENDPOINT.SEND_MESSAGE}`,
-    {
-      method: "POST",
-      body: JSON.stringify({
-        data: {
-          ...body,
-          location: `${body?.location.city} ,${body?.location.country}`,
-          ipV4: body.ipV4,
-        },
-      }),
-      headers: {
-        Authorization: `Bearer ${runtimeConf.public.strapi.strapiRoleApiKey}`,
-        "Content-Type": "application/json",
+  const url = `${runtimeConf.strapi.url}/api/${STRAPI_ENDPOINT.SEND_MESSAGE}`;
+
+  const res = await fetch(url, {
+    method: "POST",
+    body: JSON.stringify({
+      data: {
+        ...body,
+        location: `${body?.location.city} ,${body?.location.country}`,
+        ipV4: body.ipV4,
       },
+    }),
+    headers: {
+      Authorization: `Bearer ${runtimeConf.public.strapi.strapiRoleApiKey}`,
+      "Content-Type": "application/json",
     },
-  );
+  });
 
   if (!res.ok) {
     throw new Error(SEND_MESSAGE_RESPONSE.SEND_MESSAGE_ERROR);
@@ -87,26 +80,37 @@ const getMessageByEmail = async (email: string) => {
 };
 
 export default defineEventHandler(async (event) => {
+  const runtimeConf = useRuntimeConfig();
   try {
     const body = await readBody<MessageBody>(event);
     const ipInfo = await getIpInfo();
+    const messageDelay =
+      parseInt(runtimeConf.public.messageSend.duplicatedMessageDelayDays) || 1;
+
+    // check is exist message with same email and not passed 3 days
     const message = await getMessageByEmail(body.email);
     const hasPreviousMessage =
       Array.isArray(message?.data) && message?.data?.length > 0;
-    const isPassedDuration = hasPreviousMessage
-      ? passedDays(1, message?.data[0]?.createdAt)
-      : true;
 
-    // If the required duration hasn't passed, return a duplicated email error
-    if (hasPreviousMessage && !isPassedDuration) {
-      throw new Error(SEND_MESSAGE_RESPONSE.DUPLICATED_USER_EMAIL);
+    if (hasPreviousMessage) {
+      const isOldMsg = isOldRecord(message?.data[0]?.createdAt, messageDelay);
+      if (isOldMsg) {
+        return createError({
+          statusCode: 400,
+          data: null,
+          message: SEND_MESSAGE_RESPONSE.DUPLICATED_USER_EMAIL,
+          statusMessage: SEND_MESSAGE_RESPONSE.DUPLICATED_USER_EMAIL,
+          name: SEND_MESSAGE_RESPONSE.DUPLICATED_USER_EMAIL,
+        });
+      }
     }
+    // end check
 
     if (!ipInfo) {
       console.error("No IP address found");
     }
 
-    const createMessage = await sendMessage({
+    await sendMessage({
       ...body,
       ipV4: ipInfo?.ipAddress,
       location: {
@@ -123,7 +127,7 @@ export default defineEventHandler(async (event) => {
   } catch (error: any) {
     console.error("Error:", error.message);
     return createError({
-      statusCode: error.statusCode || 400,
+      statusCode: error.statusCode || 500,
       data: null,
       message: error.message || SEND_MESSAGE_RESPONSE.SOMETHING,
       statusMessage: error.message || SEND_MESSAGE_RESPONSE.SOMETHING,

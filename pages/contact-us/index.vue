@@ -38,7 +38,7 @@
         class="grid w-full grid-cols-1 gap-7 px-3 md:grid-cols-2 md:gap-[50px] lg:ps-[50px]"
       >
         <span
-          class="col-span-2 flex flex-col gap-1.5 xs:col-span-1"
+          class="col-span-2 flex flex-col gap-1.5 sm:xs:col-span-1"
           v-for="elem of content?.data.contactForm.filter(
             (item) =>
               item.__component === 'shared.form-field' &&
@@ -78,7 +78,7 @@
           />
         </span>
         <div
-          class="relative col-span-2 -mt-8 flex flex-col justify-start gap-4"
+          class="relative col-span-2 flex flex-col justify-start gap-4 tablet:-mt-8"
         >
           <!-- subbmit button with turnsite wrapper -->
           <NuxtTurnstile v-model="turnstileToken" />
@@ -107,7 +107,7 @@
               </template>
             </button>
             <div
-              class="ems-center pointer-events-none flex w-full translate-x-6 gap-4 p-3 opacity-0 shadow-md transition-transform duration-500 md:w-fit"
+              class="ems-center pointer-events-none flex w-full translate-x-6 gap-4 px-3 py-2 opacity-0 shadow-md transition-transform duration-500 md:w-fit"
               :class="
                 clsx(
                   { 'bg-red-200': isError },
@@ -173,7 +173,11 @@ import type { ContactData } from "~/types/contact-us";
 import { STRAPI_ENDPOINT } from "~/constants/strapi-endpoints";
 import { SEND_MESSAGE_RESPONSE } from "~/constants/send-message-response";
 import clsx from "clsx";
-import type { MessageResponseType } from "~/types/send-message-api";
+import type {
+  MessageBody,
+  MessageResponseError,
+  MessageResponseType,
+} from "~/types/send-message-api";
 const { findOne } = useStrapi<ContactData>();
 const nuxtApp = useNuxtApp();
 const isSentMessage = ref(false);
@@ -212,16 +216,15 @@ const handleSubmit = async (ev: Event) => {
     return;
   }
 
-  const data = {
-    firstName: fd.get("firstName"),
-    lastName: fd.get("lastName"),
-    phoneNumber: fd.get("phoneNumber"),
-    email: fd.get("email"),
-    message: fd.get("message"),
+  const data: Omit<MessageBody, "ipV4" | "location"> = {
+    firstName: fd.get("firstName") as string,
+    lastName: fd.get("lastName") as string,
+    phoneNumber: fd.get("phoneNumber") as string,
+    email: fd.get("email") as string,
+    message: fd.get("message") as string,
   };
-  isSending.value = true;
-
   try {
+    isSending.value = true;
     const res = await $fetch<MessageResponseType>(
       `/api/contact-us/send-message`,
       {
@@ -231,14 +234,15 @@ const handleSubmit = async (ev: Event) => {
     );
     if (res?.success) {
       isSentMessage.value = true;
-      target?.reset();
       isError.value = false;
+      target?.reset();
     }
-  } catch (err: any) {
-    isError.value = true;
+  } catch (error: any) {
+    isError.value = error.error || true;
+    errorMsg.value = error.statusMessage;
     isSentMessage.value = false;
-    errorMsg.value = err.statusMessage || err.message;
-    console.error("ERROR !! ", err);
+
+    console.error("ERROR !! ", error);
   } finally {
     isSending.value = false;
   }
