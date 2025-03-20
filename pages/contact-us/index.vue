@@ -137,29 +137,25 @@
                 </svg>
               </span>
               <span class="w-full font-semibold capitalize" v-if="isError">
-                <p
-                  class="text-red-900"
-                  v-if="isError && errorMsg === SEND_MESSAGE_RESPONSE.SOMETHING"
-                >
-                  {{ content?.data.formSomethingWentWrongMessage }}
-                </p>
-                <p
+                <small
                   class="text-red-900"
                   v-if="
-                    isError &&
                     errorMsg === SEND_MESSAGE_RESPONSE.DUPLICATED_USER_EMAIL
                   "
                 >
                   {{ content?.data.formDuplicatedUseMessage }}
-                </p>
+                </small>
+                <small class="text-red-900" v-else>
+                  {{ content?.data.formSomethingWentWrongMessage }}
+                </small>
               </span>
               <span
                 class="w-full font-semibold capitalize"
                 v-if="isSentMessage"
               >
-                <p v-if="isSentMessage" class="text-emerald-900">
+                <small v-if="isSentMessage" class="text-emerald-900">
                   {{ content?.data.formSendSuccessMessage }}
-                </p>
+                </small>
               </span>
             </div>
           </div>
@@ -238,6 +234,7 @@ const handleSubmit = async (ev: Event) => {
       target?.reset();
     }
   } catch (error: any) {
+    console.log(error.statusMessage);
     isError.value = error.error || true;
     errorMsg.value = error.statusMessage;
     isSentMessage.value = false;
