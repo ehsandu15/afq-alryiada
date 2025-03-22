@@ -2,15 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
-  modules: [
-    "@vueuse/motion/nuxt",
-    "@nuxtjs/tailwindcss",
-    "@nuxt/fonts",
-    "@nuxtjs/strapi",
-    "@nuxtjs/turnstile",
-    "@nuxt/icon",
-    "nuxt-swiper",
-  ],
+  modules: ["@vueuse/motion/nuxt", "@nuxtjs/tailwindcss", "@nuxt/fonts", "@nuxtjs/strapi", "@nuxtjs/turnstile", "@nuxt/icon", "nuxt-swiper", "@nuxt/image"],
 
   css: ["~/assets/css/tailwind.css"],
   app: {

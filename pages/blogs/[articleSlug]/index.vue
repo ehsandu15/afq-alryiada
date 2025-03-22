@@ -55,13 +55,15 @@
       <figure
         class="mb-[22px] mt-9 flex w-full items-center justify-center overflow-hidden rounded-app-radius"
       >
-        <img
+        <NuxtImg
           :src="
             articleDetails?.data.at(0)?.cover
               ? imagePathPrefix(articleDetails?.data.at(0)?.cover?.url)
               : articleCoverPlaceholder
           "
           :alt="articleDetails?.data.at(0)?.cover?.alternativeText"
+          width="512"
+          height="525"
           class="aspect-video w-full rounded-app-radius object-contain"
         />
       </figure>

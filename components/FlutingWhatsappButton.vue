@@ -3,7 +3,7 @@
     :href="phoneNumber"
     class="flex size-14 items-center justify-center md:size-16"
   >
-    <img
+    <NuxtImg
       :src="iconUrl"
       alt="whatsapp-btn"
       width="64"

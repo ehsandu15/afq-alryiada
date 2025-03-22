@@ -111,9 +111,11 @@
       style="grid-template-rows: repeat(2, minmax(0, auto))"
     >
       <figure class="overflow-hidden rounded-app-radius">
-        <img
+        <NuxtImg
           :src="selectedService?.cover?.url"
           :alt="selectedService?.cover?.url"
+          width="323"
+          height="275"
           class="aspect-video h-full w-full rounded-app-radius object-cover max-md:h-[275px] md:max-w-full"
         />
       </figure>

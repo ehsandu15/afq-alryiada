@@ -7,7 +7,7 @@
     class="relative flex h-14 w-14 items-center justify-center rounded-full bg-[#244453] p-4 lg:h-16 lg:w-16"
     @click="handleScrollToTop"
   >
-    <img
+    <NuxtImg
       :src="arrowUpIcon"
       alt="go-top-img"
       width="64"

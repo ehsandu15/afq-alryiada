@@ -29,10 +29,12 @@
           </svg>
         </button>
       </NuxtLink>
-      <img
+      <NuxtImg
         :src="article?.cover?.url || articleCoverPlaceholder"
         :alt="article?.cover?.alternativeText || article.title"
-        class="mb-2 h-full w-full self-center justify-self-center object-cover"
+        width="300"
+        height="265"
+        class="mb-2 h-full w-full self-center justify-self-center rounded-app-radius object-cover"
       />
     </div>
     <nav

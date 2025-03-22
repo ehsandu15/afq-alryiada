@@ -7,13 +7,13 @@
     <div
       class="absolute left-0 top-0 grid w-full grid-cols-3 items-center justify-between overflow-x-hidden py-[60px]"
     >
-      <img
+      <NuxtImg
         :src="content.testimonialsPeoplesPatternImg?.url"
         :alt="content.testimonialsPeoplesPatternImg?.alternativeText"
         class="translate-x-[25%]"
       />
       <span></span>
-      <img
+      <NuxtImg
         :src="content.testimonialsPeoplesPatternImg?.url"
         :alt="content.testimonialsPeoplesPatternImg?.alternativeText"
         class="-translate-x-[25%]"

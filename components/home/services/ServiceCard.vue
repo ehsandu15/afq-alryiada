@@ -7,10 +7,12 @@
     :duration="MOTION_DURATION"
   >
     <span class="icon-wrapper bg-secondary p-2">
-      <img
+      <NuxtImg
         :src="service.icon?.url"
         :alt="service.icon?.alternativeText"
         class="object-contain"
+        width="48"
+        height="48"
       />
     </span>
     <p class="text-app-black-secondary">

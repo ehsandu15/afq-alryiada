@@ -6,7 +6,7 @@
       class="z-[4] flex size-11 items-center justify-center rounded-full p-1"
       :class="clsx(iconColorClass)"
     >
-      <img :src="flagIcon" alt="flag-icon.svg" />
+      <NuxtImg :src="flagIcon" alt="flag-icon.svg" width="24" height="24" />
     </span>
     <p
       v-motion="{

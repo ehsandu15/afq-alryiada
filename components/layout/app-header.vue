@@ -4,9 +4,11 @@
       class="app-container container top-0 flex flex-row-reverse items-center justify-between lg:flex-row"
     >
       <NuxtLink href="/">
-        <img
+        <NuxtImg
           :src="imagePathPrefix(content?.logo?.icon?.url as string)"
           :alt="content?.logo?.icon?.alternativeText"
+          width="44"
+          height="32"
         />
       </NuxtLink>
       <button

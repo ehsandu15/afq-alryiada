@@ -8,10 +8,12 @@
       <figure
         class="flex items-center justify-start max-lg:order-1 lg:justify-start"
       >
-        <img
+        <NuxtImg
           v-if="content"
           :src="imagePathPrefix(content.logo.url)"
           alt="full-logo.svg"
+          width="157"
+          height="72"
           class="max-w-[calc(100%-2.5rem)] md:w-fit"
         />
       </figure>
@@ -33,10 +35,12 @@
           >
             {{ content?.ctaBtn.title }}
           </p>
-          <img
+          <NuxtImg
             v-if="content?.ctaBtn.media"
             :src="imagePathPrefix(content?.ctaBtn.media?.url)"
             :alt="content?.ctaBtn.media?.alternativeText"
+            width="24"
+            height="24"
           />
         </NuxtLink>
       </div>
@@ -65,10 +69,12 @@
           class="size-[32px] rounded-full bg-white"
         >
           <NuxtLink :href="item.href" rel="noreferrer" target="_blank">
-            <img
+            <NuxtImg
               v-if="item.icon?.url"
               :src="imagePathPrefix(item.icon.url)"
               :alt="item.icon?.alternativeText"
+              width="32"
+              height="32"
             />
           </NuxtLink>
         </li>

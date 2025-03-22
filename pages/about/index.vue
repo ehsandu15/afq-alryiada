@@ -18,9 +18,11 @@
     <div
       class="app-container container mt-[64px] flex w-full flex-col items-center justify-center"
     >
-      <img
+      <NuxtImg
         :src="content?.data.logo?.url"
         :alt="content?.data.logo?.alternativeText"
+        width="300"
+        height="128"
         class="mb-12 h-[120px] w-full md:w-[295px]"
       />
       <p
@@ -37,9 +39,11 @@
           class="size-[32px] rounded-full bg-secondary"
         >
           <a target="_blank" referrerpolicy="no-referrer" :href="item.href">
-            <img
+            <NuxtImg
               :src="item.icon?.url"
               :alt="item.icon?.alternativeText || item.title"
+              width="44"
+              height="44"
             />
           </a>
         </li>

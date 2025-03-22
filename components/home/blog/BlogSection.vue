@@ -46,9 +46,11 @@
           >
             {{ content.blogShowMoreBtn.title }}
           </p>
-          <img
+          <NuxtImg
             :src="content.blogShowMoreBtn.media?.url"
             :alt="content.blogShowMoreBtn.media?.alternativeText"
+            width="36"
+            height="36"
           />
         </NuxtLink>
       </span>
@@ -87,9 +89,11 @@
         <p class="px-[10px] py-[7.5px] font-semibold text-app-black-secondary">
           {{ content.blogShowMoreBtn.title }}
         </p>
-        <img
+        <NuxtImg
           :src="content.blogShowMoreBtn.media?.url"
           :alt="content.blogShowMoreBtn.media?.alternativeText"
+          width="36"
+          height="36"
         />
       </NuxtLink>
     </div>

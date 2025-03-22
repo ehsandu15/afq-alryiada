@@ -42,10 +42,12 @@
         v-for="partner of partnersList.data"
         :key="partner.documentId"
       >
-        <img
+        <NuxtImg
           v-if="partner.logo.url"
           :src="imagePathPrefix(partner.logo.url)"
           :alt="partner.logo.alternativeText"
+          width="128"
+          height="128"
           class="h-full object-contain grayscale transition-[filter] duration-500 hover:grayscale-0"
         />
       </Slide>
@@ -68,7 +70,7 @@
         :duration="MOTION_DURATION"
         class="flex items-center justify-center"
       >
-        <img
+        <NuxtImg
           v-if="partner.logo.url"
           :src="imagePathPrefix(partner.logo.url)"
           :alt="partner.logo.alternativeText"
@@ -79,7 +81,6 @@
   </section>
 </template>
 <script setup lang="ts">
-// import { PARTNERS } from "~/constants/app-data";
 import { MOTION_DURATION } from "~/constants/motion-config";
 import { STRAPI_ENDPOINT } from "~/constants/strapi-endpoints";
 import type { PartnersType } from "~/types/partners";

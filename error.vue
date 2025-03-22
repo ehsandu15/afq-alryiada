@@ -69,13 +69,15 @@ const { data: headerContent } = await useAsyncData(
   <div
     class="app-container container flex flex-col items-center justify-center gap-3 self-center justify-self-center pt-16"
   >
-    <img
+    <NuxtImg
       :src="
         error?.statusCode === 404
           ? '/error-404-image.webp'
           : '/error-500-image.webp'
       "
       alt="Error image"
+      width="300"
+      height="200"
       class="w-full rounded-md object-cover tablet:h-full tablet:w-fit lg:w-3/5"
     />
     <span

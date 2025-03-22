@@ -2,9 +2,11 @@
   <li class="testimonials-card">
     <span class="comment-author">
       <figure class="size-[43px] md:size-[60px]">
-        <img
+        <NuxtImg
           :src="testimonial.authorCover.url"
           :alt="testimonial.authorCover.alternativeText"
+          width="44"
+          height="44"
           class="w-full rounded-full"
         />
       </figure>

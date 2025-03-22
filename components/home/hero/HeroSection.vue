@@ -20,9 +20,11 @@
         <span
           class="item-center ms-5 flex size-10 shrink-0 rounded-[8px] bg-secondary p-2.5"
         >
-          <img
+          <NuxtImg
             :src="content.heroAdvancedTitle.icon?.url"
             :alt="content.heroAdvancedTitle.icon?.alternativeText"
+            width="44"
+            height="44"
           />
         </span>
         <p class="font-semi-bold shrink-0 text-[22px] text-secondary">
@@ -102,9 +104,11 @@
         >
           {{ content.contactBtn.title }}
         </p>
-        <img
+        <NuxtImg
           :src="content.contactBtn.media?.url"
           :alt="content.contactBtn.media?.alternativeText"
+          width="24"
+          height="24"
         />
       </NuxtLink>
       <MouseWaves />

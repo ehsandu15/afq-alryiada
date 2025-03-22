@@ -69,10 +69,12 @@
         :duration="MOTION_DURATION"
         :delay="HEADING_MOTION_DELAY"
       >
-        <img
+        <NuxtImg
           v-if="item.cover"
           :src="item.cover.url"
           :alt="item.cover.alternativeText"
+          width="275"
+          height="360"
           class="absolute rounded-app-radius object-cover"
           :class="
             clsx(index === 1 ? 'bottom-0 left-0' : 'inset-0 h-full w-full')
@@ -101,9 +103,12 @@
             <p class="text-center text-lg font-semibold text-white">
               {{ item.primaryAction?.title }}
             </p>
-            <img
+            <NuxtImg
               :src="item.primaryAction?.media?.url"
               :alt="item.primaryAction?.media?.alternativeText"
+              width="32"
+              height="32"
+              class="object-cover"
             />
           </NuxtLink>
           <NuxtLink

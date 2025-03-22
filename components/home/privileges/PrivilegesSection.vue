@@ -60,9 +60,12 @@
       }"
       :duration="MOTION_DURATION"
     >
-      <img
+      <NuxtImg
         :src="content?.privilegePersonImage?.url"
         :alt="content?.privilegePersonImage?.alternativeText"
+        width="639"
+        height="639"
+        class="object-cover"
       />
     </div>
   </section>

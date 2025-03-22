@@ -15,7 +15,7 @@
             v-for="(info, index) in content?.data.contacts_infos"
             :key="info.id"
           >
-            <img
+            <NuxtImg
               :src="info.icon.url"
               :alt="info.icon.alternativeText"
               width="32"
@@ -93,7 +93,7 @@
             >
               <template v-if="!isSending">
                 <p>{{ action.title }}</p>
-                <img
+                <NuxtImg
                   width="24"
                   height="24"
                   :src="action.icon.url"

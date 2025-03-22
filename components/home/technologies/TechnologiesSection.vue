@@ -43,11 +43,13 @@
         v-motion="index <= 1 ? MOTION_FADE_DOWN_TOP : MOTION_FADE_TOP_SIMPLE"
         :duration="MOTION_DURATION"
         :delay="index <= 1 ? DELAY : undefined"
-        class="flex h-28 items-center justify-center rounded-app-radius border border-[#C7C7CC] lg:h-[84px] xl:w-[192px]"
+        class="flex h-24 items-center justify-center rounded-app-radius border border-[#C7C7CC] lg:h-[84px] xl:w-[192px]"
       >
-        <img
+        <NuxtImg
           :src="image?.image.at(0)?.url"
           :alt="image.image.at(0)?.alternativeText"
+          width="64"
+          height="84"
           class="max-h-full object-cover"
         />
       </li>
