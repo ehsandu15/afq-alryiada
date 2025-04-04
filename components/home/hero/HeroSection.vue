@@ -154,7 +154,7 @@ const headingTitle = computed(() =>
   --waves-duration: 3s;
   --waves-fill-mode: both;
   --wave-direction: alternate-reverse;
-  --wave-timing-function: cubic-bezier(0.4, 0, 1, 1);
+  --wave-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
   position: absolute;
   width: 750px;
   height: 750px;

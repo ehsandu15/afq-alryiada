@@ -1,26 +1,28 @@
 <template>
-  <HomeHeroSection
-    v-if="status === 'success'"
-    :content="hero as HeroSectionType"
-  />
-  <HomeServicesSection
-    v-if="status === 'success'"
-    :content="services as ServicesSectionType"
-  />
-  <HomePrivilegesSection
-    v-if="status === 'success'"
-    :content="privilege as PrivilegeSectionType"
-  />
-  <HomeCooperationWithUs :content="cooperation as CooperationSectionType" />
-  <HomeTechnologiesSection
-    v-if="status === 'success'"
-    :content="technologies as TechSectionType"
-  />
-  <HomeBlogSection v-if="status === 'success'" :content="blogs" />
-  <HomePartnersSection
-    v-if="status === 'success'"
-    :content="partners as PartnersSectionType"
-  />
+  <div class="w-full">
+    <HomeHeroSection
+      v-if="status === 'success'"
+      :content="hero as HeroSectionType"
+    />
+    <HomeServicesSection
+      v-if="status === 'success'"
+      :content="services as ServicesSectionType"
+    />
+    <HomePrivilegesSection
+      v-if="status === 'success'"
+      :content="privilege as PrivilegeSectionType"
+    />
+    <HomeCooperationWithUs :content="cooperation as CooperationSectionType" />
+    <HomeTechnologiesSection
+      v-if="status === 'success'"
+      :content="technologies as TechSectionType"
+    />
+    <HomeBlogSection v-if="status === 'success'" :content="blogs" />
+    <HomePartnersSection
+      v-if="status === 'success'"
+      :content="partners as PartnersSectionType"
+    />
+  </div>
 </template>
 <script setup lang="ts">
 import { STRAPI_ENDPOINT } from "~/constants/strapi-endpoints";
